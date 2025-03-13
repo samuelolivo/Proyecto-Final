@@ -1,5 +1,5 @@
 package logico;
 
-public class lession {
+public class Lesion {
 
 }
