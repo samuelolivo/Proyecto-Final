@@ -1,7 +1,7 @@
 package logico;
 
 public abstract class Estadistica {
-
+//
 	protected String id;
 	protected int cantJuegos;
 	protected int triples;

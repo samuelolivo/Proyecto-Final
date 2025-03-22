@@ -1,7 +1,7 @@
 package logico;
 
 public class EstEquipo extends Estadistica {
-
+//
 	private Equipo equipo;
 	private int ganados;
 	private int perdidos;
