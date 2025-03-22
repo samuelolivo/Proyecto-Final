@@ -1,7 +1,7 @@
 package logico;
 
 public class EstJugador extends Estadistica {
-//
+
 	private Jugador jugador;
 	
 	public EstJugador(String id, int cantJuegos, int triples, int dobles, int normales, int puntosTot,
