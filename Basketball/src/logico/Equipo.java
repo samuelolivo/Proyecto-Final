@@ -15,7 +15,7 @@ public class Equipo {
 	        this.nombre = nombre;
 	        this.juegos = new ArrayList<>();
 	        this.jugadores = new ArrayList<>();
-	        this.estadistica = new EstEquipo( nombre, 0, 0, 0, 0, 0, null, 0, 0);
+	        this.estadistica = new EstEquipo(nombre, 0, 0, 0, 0, 0, null, 0, 0);
 	    }
 
 	    public String getId() {
