@@ -1,5 +1,7 @@
 package logico;
 
+import java.time.LocalDate;
+
 public class Lesion {
 	private String id;
 	private Jugador jugador;
