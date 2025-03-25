@@ -12,6 +12,8 @@ public class SerieNacional {
 
 	private ArrayList<Juego> misJuegos;
 	private static int generadorJuego;
+	
+	private static int generadorLesion;
 
 	private static SerieNacional serie = null;
 	
@@ -25,6 +27,8 @@ public class SerieNacional {
 		
 		misJuegos = new ArrayList<Juego>();
 		generadorJuego = 1;
+		
+		generadorLesion = 1;
 	}
 	
 	public SerieNacional getInstance() {
@@ -68,5 +72,9 @@ public class SerieNacional {
 
 	public static int getGeneradorJuego() {
 		return generadorJuego;
+	}
+
+	public static int getGeneradorLesion() {
+		return generadorLesion;
 	}
 }
