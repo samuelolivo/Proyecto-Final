@@ -64,4 +64,12 @@ public class Lesion {
 	public void setEstadoRec(boolean estadoRec) {
 		this.estadoRec = estadoRec;
 	}
+	
+	public void actualizarDatos(Lesion aux) {
+	    this.jugador = aux.getJugador();
+	    this.fechaLes = aux.getFechaLes();
+	    this.fechaRecPrevista = aux.getFechaRecPrevista();
+	    this.descripcionCorta = aux.getDescripcionCorta();
+	    this.estadoRec = aux.isEstadoRec();
+	}
 }

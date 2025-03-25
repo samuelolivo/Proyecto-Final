@@ -94,4 +94,14 @@ public class Jugador {
 	public void setEstadoSalud(boolean estadoSalud) {
 		this.estadoSalud = estadoSalud;
 	}
+	
+	public void actualizarDatos(Jugador aux) {
+	    this.nombre = aux.getNombre();
+	    this.pesoKg = aux.getPesoKg();
+	    this.alturaCm = aux.getAlturaCm();
+	    this.equipo = aux.getEquipo();
+	    this.misLesiones = aux.getMisLesiones();
+	    this.juegos = aux.getJuegos();
+	    this.estadoSalud = aux.isEstadoSalud();
+	}
 }

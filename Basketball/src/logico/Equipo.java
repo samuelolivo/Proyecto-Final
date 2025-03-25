@@ -53,4 +53,10 @@ public class Equipo {
 	    public void setEstadistica(EstEquipo estadistica) {
 	        this.estadistica = estadistica;
 	    }
+	    
+	    public void actualizarDatos(Equipo aux) {
+	        this.nombre = aux.getNombre();
+	        this.juegos = aux.getJuegos();
+	        this.jugadores = aux.getJugadores();
+	    }
 	}

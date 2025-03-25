@@ -73,4 +73,13 @@ public class Juego {
 	    public void setGanador(String ganador) {
 	        this.ganador = ganador;
 	    }
+	    
+	    public void actualizarDatos(Juego aux) {
+	        this.home = aux.getHome();
+	        this.away = aux.getAway();
+	        this.estadisticas = aux.getEstadisticas();
+	        this.marcadorCasa = aux.getMarcadorCasa();
+	        this.marcadorAway = aux.getMarcadorAway();
+	        this.ganador = aux.getGanador();
+	    }
 	}
