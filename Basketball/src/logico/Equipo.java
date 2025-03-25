@@ -59,4 +59,9 @@ public class Equipo {
 	        this.juegos = aux.getJuegos();
 	        this.jugadores = aux.getJugadores();
 	    }
+
+		public void setId(String string) {
+			// TODO Auto-generated method stub
+			
+		}
 	}

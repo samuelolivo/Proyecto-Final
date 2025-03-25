@@ -104,4 +104,9 @@ public class Jugador {
 	    this.juegos = aux.getJuegos();
 	    this.estadoSalud = aux.isEstadoSalud();
 	}
+
+	public void setId(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

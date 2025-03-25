@@ -72,4 +72,9 @@ public class Lesion {
 	    this.descripcionCorta = aux.getDescripcionCorta();
 	    this.estadoRec = aux.isEstadoRec();
 	}
+
+	public void setId(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

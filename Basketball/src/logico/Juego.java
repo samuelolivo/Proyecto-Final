@@ -82,4 +82,9 @@ public class Juego {
 	        this.marcadorAway = aux.getMarcadorAway();
 	        this.ganador = aux.getGanador();
 	    }
+
+		public void setId(String string) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
