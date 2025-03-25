@@ -3,26 +3,20 @@ package logico;
 import java.time.LocalDate;
 
 public class Lesion {
-	private String id;
 	private Jugador jugador;
 	private LocalDate fechaLes;
 	private LocalDate fechaRecPrevista;
 	private String descripcionCorta;
 	private boolean estadoRec;
 	
-	public Lesion(String id, Jugador jugador, LocalDate fechaLes, LocalDate fechaRecPrevista, String descripcionCorta,
+	public Lesion(Jugador jugador, LocalDate fechaLes, LocalDate fechaRecPrevista, String descripcionCorta,
 			boolean estadoRec) {
 		super();
-		this.id = id;
 		this.jugador = jugador;
 		this.fechaLes = fechaLes;
 		this.fechaRecPrevista = fechaRecPrevista;
 		this.descripcionCorta = descripcionCorta;
 		this.estadoRec = estadoRec;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public Jugador getJugador() {
