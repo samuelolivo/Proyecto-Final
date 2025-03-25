@@ -2,29 +2,19 @@ package logico;
 
 public abstract class Estadistica {
 
-	protected String id;
 	protected int cantJuegos;
 	protected int triples;
 	protected int dobles;
 	protected int normales;
 	protected int puntosTot;
 	
-	public Estadistica(String id, int cantJuegos, int triples, int dobles, int normales, int puntosTot) {
+	public Estadistica(int cantJuegos, int triples, int dobles, int normales, int puntosTot) {
 		super();
-		this.id = id;
 		this.cantJuegos = cantJuegos;
 		this.triples = triples;
 		this.dobles = dobles;
 		this.normales = normales;
 		this.puntosTot = puntosTot;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public int getCantJuegos() {

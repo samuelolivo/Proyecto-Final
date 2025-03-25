@@ -16,7 +16,7 @@ public class Juego {
 	        this.id = id;
 	        this.home = home;
 	        this.away = away;
-	        this.estadisticas = new ArrayList<>();
+	        this.estadisticas = new ArrayList<Estadistica>();
 	        this.marcadorCasa = 0;
 	        this.marcadorAway = 0;
 	        this.ganador = null;
@@ -24,10 +24,6 @@ public class Juego {
 
 	    public String getId() {
 	        return id;
-	    }
-
-	    public void setId(String id) {
-	        this.id = id;
 	    }
 
 	    public Equipo getHome() {

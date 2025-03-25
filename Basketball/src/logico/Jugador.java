@@ -23,16 +23,12 @@ public class Jugador {
 		this.equipo = equipo;
 		this.misLesiones = misLesiones;
 		this.juegos = juegos;
-		this.estadisticas = estadisticas;
+		this.estadisticas = new EstJugador(0, 0, 0, 0, 0);
 		this.estadoSalud = estadoSalud;
 	}
 
 	public String getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getNombre() {
@@ -98,7 +94,4 @@ public class Jugador {
 	public void setEstadoSalud(boolean estadoSalud) {
 		this.estadoSalud = estadoSalud;
 	}
-
-		
-
 }

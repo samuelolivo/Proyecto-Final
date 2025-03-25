@@ -2,14 +2,12 @@ package logico;
 
 public class EstEquipo extends Estadistica {
 
-	private Equipo equipo;
 	private int ganados;
 	private int perdidos;
 	
-	public EstEquipo(String id, int cantJuegos, int triples, int dobles, int normales, int puntosTot, Equipo equipo,
+	public EstEquipo(int cantJuegos, int triples, int dobles, int normales, int puntosTot,
 			int ganados, int perdidos) {
-		super(id, cantJuegos, triples, dobles, normales, puntosTot);
-		this.equipo = equipo;
+		super(cantJuegos, triples, dobles, normales, puntosTot);
 		this.ganados = ganados;
 		this.perdidos = perdidos;
 	}
@@ -18,14 +16,6 @@ public class EstEquipo extends Estadistica {
 	public float efectividad() {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	public Equipo getEquipo() {
-		return equipo;
-	}
-
-	public void setEquipo(Equipo equipo) {
-		this.equipo = equipo;
 	}
 
 	public int getGanados() {

@@ -13,9 +13,6 @@ public class SerieNacional {
 	private ArrayList<Juego> misJuegos;
 	private static int generadorJuego;
 
-	private ArrayList<Estadistica> misEstadisticas;
-	private static int generadorEstadistica;
-
 	private static SerieNacional serie = null;
 	
 	private SerieNacional() {
@@ -28,9 +25,6 @@ public class SerieNacional {
 		
 		misJuegos = new ArrayList<Juego>();
 		generadorJuego = 1;
-		
-		misEstadisticas = new ArrayList<Estadistica>();
-		generadorEstadistica = 1;
 	}
 	
 	public SerieNacional getInstance() {
@@ -64,14 +58,6 @@ public class SerieNacional {
 		this.misJuegos = misJuegos;
 	}
 
-	public ArrayList<Estadistica> getMisEstadisticas() {
-		return misEstadisticas;
-	}
-
-	public void setMisEstadisticas(ArrayList<Estadistica> misEstadisticas) {
-		this.misEstadisticas = misEstadisticas;
-	}
-
 	public static int getGeneradorEquipo() {
 		return generadorEquipo;
 	}
@@ -82,9 +68,5 @@ public class SerieNacional {
 
 	public static int getGeneradorJuego() {
 		return generadorJuego;
-	}
-
-	public static int getGeneradorEstadistica() {
-		return generadorEstadistica;
 	}
 }

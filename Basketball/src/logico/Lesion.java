@@ -25,10 +25,6 @@ public class Lesion {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public Jugador getJugador() {
 		return jugador;
 	}
@@ -68,7 +64,4 @@ public class Lesion {
 	public void setEstadoRec(boolean estadoRec) {
 		this.estadoRec = estadoRec;
 	}
-	
-	
-
 }

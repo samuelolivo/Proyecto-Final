@@ -10,20 +10,16 @@ public class Equipo {
 	    private ArrayList<Jugador> jugadores;
 	    private EstEquipo estadistica;
 
-	    public Equipo(String id, String nombre) {
+	    public Equipo(String id, String nombre, ArrayList<Juego> juegos, ArrayList<Jugador> jugadores) {
 	        this.id = id;
 	        this.nombre = nombre;
-	        this.juegos = new ArrayList<>();
-	        this.jugadores = new ArrayList<>();
-	        this.estadistica = new EstEquipo(nombre, 0, 0, 0, 0, 0, null, 0, 0);
+	        this.juegos = juegos;
+	        this.jugadores = jugadores;
+        	this.estadistica = new EstEquipo(0, 0, 0, 0, 0, 0, 0);
 	    }
 
 	    public String getId() {
 	        return id;
-	    }
-
-	    public void setId(String id) {
-	        this.id = id;
 	    }
 
 	    public String getNombre() {
