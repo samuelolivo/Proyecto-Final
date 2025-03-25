@@ -14,7 +14,7 @@ public class SerieNacional {
 	private static int generadorJuego;
 	
 	private static int generadorLesion;
-
+	
 	private static SerieNacional serie = null;
 	
 	private SerieNacional() {
@@ -77,4 +77,6 @@ public class SerieNacional {
 	public static int getGeneradorLesion() {
 		return generadorLesion;
 	}
+
+	
 }

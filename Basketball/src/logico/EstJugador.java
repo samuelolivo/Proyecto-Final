@@ -8,7 +8,9 @@ public class EstJugador extends Estadistica {
 
 	@Override
 	public float efectividad() {
-		// TODO Auto-generated method stub
-		return 0;
+		float puntosPromedio;
+		puntosPromedio=(float)puntosTot/cantJuegos;
+		return puntosPromedio;
+		
 	}
 }

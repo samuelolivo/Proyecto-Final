@@ -14,8 +14,12 @@ public class EstEquipo extends Estadistica {
 	
 	@Override
 	public float efectividad() {
-		// TODO Auto-generated method stub
-		return 0;
+		int totalP=ganados+perdidos;
+		float winrate;
+	
+		winrate=(float)(ganados/totalP)*100;
+		return winrate;
+		
 	}
 
 	public int getGanados() {
