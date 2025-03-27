@@ -3,110 +3,44 @@ package logico;
 import java.util.ArrayList;
 
 public class Jugador {
-	private String id;
-	private String nombre;
-	private float pesoKg;
-	private float alturaCm;
-	private Equipo equipo;
-	private ArrayList<Lesion>misLesiones;
-	private ArrayList<Juego>juegos;
-	private EstJugador estadisticas;
-	private boolean estadoSalud;
-	
-	public Jugador(String id, String nombre, float pesoKg, float alturaCm, Equipo equipo, ArrayList<Lesion> misLesiones,
-			ArrayList<Juego> juegos, EstJugador estadisticas, boolean estadoSalud) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.pesoKg = pesoKg;
-		this.alturaCm = alturaCm;
-		this.equipo = equipo;
-		this.misLesiones = misLesiones;
-		this.juegos = juegos;
-		this.estadisticas = new EstJugador(0, 0, 0, 0, 0);
-		this.estadoSalud = estadoSalud;
-	}
+    private String id;
+    private String nombre;
+    private ArrayList<Lesion> misLesiones;
+    private int generadorLesion;
 
-	public String getId() {
-		return id;
-	}
+    public Jugador(String nombre) {
+        this.nombre = nombre;
+        this.misLesiones = new ArrayList<>();
+        this.generadorLesion = 1;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public void agregarLesion(Lesion lesion) {
+        lesion.setId("LS-" + generadorLesion++);
+        misLesiones.add(lesion);
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public Lesion buscarLesionById(String id) {
+        for (Lesion aux : misLesiones) {
+            if (aux.getId().equals(id)) return aux;
+        }
+        return null;
+    }
 
-	public float getPesoKg() {
-		return pesoKg;
-	}
+    public boolean tieneLesion(String id) {
+        return buscarLesionById(id) != null;
+    }
 
-	public void setPesoKg(float pesoKg) {
-		this.pesoKg = pesoKg;
-	}
+    public void modificarLesion(Lesion lesion) {
+        Lesion update = buscarLesionById(lesion.getId());
+        if (update != null) update.actualizarDatos(lesion);
+    }
 
-	public float getAlturaCm() {
-		return alturaCm;
-	}
+    public void actualizarDatos(Jugador nuevo) {
+        this.nombre = nuevo.getNombre();
+    }
 
-	public void setAlturaCm(float alturaCm) {
-		this.alturaCm = alturaCm;
-	}
-
-	public Equipo getEquipo() {
-		return equipo;
-	}
-
-	public void setEquipo(Equipo equipo) {
-		this.equipo = equipo;
-	}
-
-	public ArrayList<Lesion> getMisLesiones() {
-		return misLesiones;
-	}
-
-	public void setMisLesiones(ArrayList<Lesion> misLesiones) {
-		this.misLesiones = misLesiones;
-	}
-
-	public ArrayList<Juego> getJuegos() {
-		return juegos;
-	}
-
-	public void setJuegos(ArrayList<Juego> juegos) {
-		this.juegos = juegos;
-	}
-
-	public EstJugador getEstadisticas() {
-		return estadisticas;
-	}
-
-	public void setEstadisticas(EstJugador estadisticas) {
-		this.estadisticas = estadisticas;
-	}
-
-	public boolean isEstadoSalud() {
-		return estadoSalud;
-	}
-
-	public void setEstadoSalud(boolean estadoSalud) {
-		this.estadoSalud = estadoSalud;
-	}
-	
-	public void actualizarDatos(Jugador aux) {
-	    this.nombre = aux.getNombre();
-	    this.pesoKg = aux.getPesoKg();
-	    this.alturaCm = aux.getAlturaCm();
-	    this.equipo = aux.getEquipo();
-	    this.misLesiones = aux.getMisLesiones();
-	    this.juegos = aux.getJuegos();
-	    this.estadoSalud = aux.isEstadoSalud();
-	}
-
-	public void setId(String string) {
-		// TODO Auto-generated method stub
-		
-	}
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public String getNombre() { return nombre; }
+    public ArrayList<Lesion> getMisLesiones() { return misLesiones; }
 }
