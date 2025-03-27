@@ -1,5 +1,3 @@
-
-
 package logico;
 
 import java.util.ArrayList;
@@ -11,7 +9,6 @@ public class SerieNacional {
     private static int generadorJugador;
     private ArrayList<Juego> misJuegos;
     private static int generadorJuego;
-    private ArrayList<Lesion> misLesiones;
     private static int generadorLesion;
     private static SerieNacional serie = null;
 
@@ -23,7 +20,6 @@ public class SerieNacional {
         generadorJugador = 1;
         misJuegos = new ArrayList<Juego>();
         generadorJuego = 1;
-        misLesiones = new ArrayList<Lesion>();
         generadorLesion = 1;
     }
 
@@ -62,16 +58,6 @@ public class SerieNacional {
         return null;
     }
 
-    public Lesion buscarLesionPorId(String id) {
-        for (Lesion lesion : misLesiones) {
-            if (lesion.getId().equals(id)) {
-                return lesion;
-            }
-        }
-        return null;
-    }
-
-
     public void agregarEquipo(Equipo equipo) {
         equipo.setId("EQ-" + generadorEquipo++);
         misEquipos.add(equipo);
@@ -87,12 +73,6 @@ public class SerieNacional {
         misJuegos.add(juego);
     }
 
-    public void agregarLesion(Lesion lesion) {
-        lesion.setId("LS-" + generadorLesion++);
-        misLesiones.add(lesion);
-    }
-
-
     public void actualizarEquipo(Equipo equipoActualizado) {
         for (int i = 0; i < misEquipos.size(); i++) {
             if (misEquipos.get(i).getId().equals(equipoActualizado.getId())) {
@@ -101,7 +81,7 @@ public class SerieNacional {
             }
         }
     }
-
+    
     public void actualizarJugador(Jugador jugadorActualizado) {
         for (int i = 0; i < misJugadores.size(); i++) {
             if (misJugadores.get(i).getId().equals(jugadorActualizado.getId())) {
@@ -115,15 +95,6 @@ public class SerieNacional {
         for (int i = 0; i < misJuegos.size(); i++) {
             if (misJuegos.get(i).getId().equals(juegoActualizado.getId())) {
                 misJuegos.set(i, juegoActualizado);
-                break;
-            }
-        }
-    }
-
-    public void actualizarLesion(Lesion lesionActualizada) {
-        for (int i = 0; i < misLesiones.size(); i++) {
-            if (misLesiones.get(i).getId().equals(lesionActualizada.getId())) {
-                misLesiones.set(i, lesionActualizada);
                 break;
             }
         }
@@ -151,14 +122,6 @@ public class SerieNacional {
 
     public void setMisJuegos(ArrayList<Juego> misJuegos) {
         this.misJuegos = misJuegos;
-    }
-
-    public ArrayList<Lesion> getMisLesiones() {
-        return misLesiones;
-    }
-
-    public void setMisLesiones(ArrayList<Lesion> misLesiones) {
-        this.misLesiones = misLesiones;
     }
 
     public static int getGeneradorEquipo() {

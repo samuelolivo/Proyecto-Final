@@ -121,4 +121,5 @@ public class Jugador {
 		this.juegos = aux.getJuegos();
 		this.estadoSalud = aux.isEstadoSalud();
 	}
+	
 }
