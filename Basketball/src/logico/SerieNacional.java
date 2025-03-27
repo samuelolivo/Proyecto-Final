@@ -9,87 +9,63 @@ public class SerieNacional {
     private static int generadorJugador;
     private ArrayList<Juego> misJuegos;
     private static int generadorJuego;
-    private static int generadorLesion;
-    private static SerieNacional serie = null;
-
-    private SerieNacional() {
-        super();
-        misEquipos = new ArrayList<Equipo>();
-        generadorEquipo = 1;
-        misJugadores = new ArrayList<Jugador>();
-        generadorJugador = 1;
-        misJuegos = new ArrayList<Juego>();
-        generadorJuego = 1;
-        generadorLesion = 1;
-    }
-
-    public static SerieNacional getInstance() {
-        if (serie == null) {
-            serie = new SerieNacional();
-        }
-        return serie;
-    }
 
 
-    public Equipo buscarEquipoPorId(String id) {
-        for (Equipo equipo : misEquipos) {
-            if (equipo.getId().equals(id)) {
-                return equipo;
-            }
+
+
+    public Equipo buscarEquipoById(String id) {
+        for (Equipo aux : misEquipos) {
+            if (aux.getId().equals(id)) return aux;
         }
         return null;
     }
 
-    public Jugador buscarJugadorPorId(String id) {
+
+    public Juego buscarJuegoById(String id) {
+        for (Juego aux : misJuegos) {
+            if (aux.getId().equals(id)) return aux;
+        }
+        return null;
+    }
+
+    public Lesion buscarLesionById(String id) {
         for (Jugador jugador : misJugadores) {
-            if (jugador.getId().equals(id)) {
-                return jugador;
-            }
+            Lesion encontrada = jugador.buscarLesionById(id);
+            if (encontrada != null) return encontrada;
         }
         return null;
     }
 
-    public Juego buscarJuegoPorId(String id) {
-        for (Juego juego : misJuegos) {
-            if (juego.getId().equals(id)) {
-                return juego;
-            }
-        }
-        return null;
+    public void guardarEquipo(Equipo aux) {
+        aux.setId("EQ-" + generadorEquipo++);
+        misEquipos.add(aux);
     }
 
-    public void agregarEquipo(Equipo equipo) {
-        equipo.setId("EQ-" + generadorEquipo++);
-        misEquipos.add(equipo);
+
+    public void guardarJugador(Jugador aux) {
+        aux.setId("JG-" + generadorJugador++);
+        misJugadores.add(aux);
     }
 
-    public void agregarJugador(Jugador jugador) {
-        jugador.setId("JG-" + generadorJugador++);
-        misJugadores.add(jugador);
+
+
+    public void agregarLesion(Jugador jugador, Lesion lesion) {
+        jugador.agregarLesion(lesion);
     }
 
-    public void agregarJuego(Juego juego) {
-        juego.setId("JU-" + generadorJuego++);
-        misJuegos.add(juego);
+    public void modificarEquipo(Equipo aux) {
+        Equipo update = buscarEquipoById(aux.getId());
+        if (update != null) update.actualizarDatos(aux);
     }
 
-    public void actualizarEquipo(Equipo equipoActualizado) {
-        for (int i = 0; i < misEquipos.size(); i++) {
-            if (misEquipos.get(i).getId().equals(equipoActualizado.getId())) {
-                misEquipos.set(i, equipoActualizado);
-                break;
-            }
-        }
+
+
+    public void modificarJuego(Juego aux) {
+        Juego update = buscarJuegoById(aux.getId());
+        if (update != null) update.actualizarDatos(aux);
     }
+
     
-    public void actualizarJugador(Jugador jugadorActualizado) {
-        for (int i = 0; i < misJugadores.size(); i++) {
-            if (misJugadores.get(i).getId().equals(jugadorActualizado.getId())) {
-                misJugadores.set(i, jugadorActualizado);
-                break;
-            }
-        }
-    }
 
     public void actualizarJuego(Juego juegoActualizado) {
         for (int i = 0; i < misJuegos.size(); i++) {
@@ -100,25 +76,19 @@ public class SerieNacional {
         }
     }
 
-    public ArrayList<Equipo> getMisEquipos() {
-        return misEquipos;
-    }
+
+
 
     public void setMisEquipos(ArrayList<Equipo> misEquipos) {
         this.misEquipos = misEquipos;
     }
 
-    public ArrayList<Jugador> getMisJugadores() {
-        return misJugadores;
-    }
+
 
     public void setMisJugadores(ArrayList<Jugador> misJugadores) {
         this.misJugadores = misJugadores;
     }
 
-    public ArrayList<Juego> getMisJuegos() {
-        return misJuegos;
-    }
 
     public void setMisJuegos(ArrayList<Juego> misJuegos) {
         this.misJuegos = misJuegos;
@@ -136,7 +106,5 @@ public class SerieNacional {
         return generadorJuego;
     }
 
-    public static int getGeneradorLesion() {
-        return generadorLesion;
-    }
+
 }
