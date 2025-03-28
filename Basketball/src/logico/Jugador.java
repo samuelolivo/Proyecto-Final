@@ -3,22 +3,23 @@ package logico;
 import java.util.ArrayList;
 
 public class Jugador {
-
-
-	private String posicion;
-
+	private String id;
+	private String nombre;
+	private float pesoKg;
+	private float alturaCm;
 	private Equipo equipo;
 	private ArrayList<Lesion>misLesiones;
 	private ArrayList<Juego>juegos;
 	private EstJugador estadisticas;
 	private boolean estadoSalud;
 	
-	public Jugador(String id, String nombre, String posicion, float pesoKg, float alturaCm, Equipo equipo, ArrayList<Lesion> misLesiones,
+	public Jugador(String id, String nombre, float pesoKg, float alturaCm, Equipo equipo, ArrayList<Lesion> misLesiones,
 			ArrayList<Juego> juegos, EstJugador estadisticas, boolean estadoSalud) {
 		super();
-
-		this.posicion = posicion;
-
+		this.id = id;
+		this.nombre = nombre;
+		this.pesoKg = pesoKg;
+		this.alturaCm = alturaCm;
 		this.equipo = equipo;
 		this.misLesiones = misLesiones;
 		this.juegos = juegos;
@@ -26,27 +27,33 @@ public class Jugador {
 		this.estadoSalud = estadoSalud;
 	}
 
+	public String getId() {
+		return id;
+	}
 
-    public void agregarLesion(Lesion lesion) {
-        misLesiones.add(lesion);
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public Lesion buscarLesionById(String id) {
-        for (Lesion aux : misLesiones) {
-            if (aux.getId().equals(id)) return aux;
-        }
-        return null;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public boolean tieneLesion(String id) {
-        return buscarLesionById(id) != null;
-    }
+	public float getPesoKg() {
+		return pesoKg;
+	}
 
-    public void modificarLesion(Lesion lesion) {
-        Lesion update = buscarLesionById(lesion.getId());
-        if (update != null) update.actualizarDatos(lesion);
-    }
+	public void setPesoKg(float pesoKg) {
+		this.pesoKg = pesoKg;
+	}
 
+	public float getAlturaCm() {
+		return alturaCm;
+	}
+
+	public void setAlturaCm(float alturaCm) {
+		this.alturaCm = alturaCm;
+	}
 
 	public Equipo getEquipo() {
 		return equipo;
@@ -88,21 +95,14 @@ public class Jugador {
 		this.estadoSalud = estadoSalud;
 	}
 	
-
-	public void setId(String string) {
-		// TODO Auto-generated method stub
-		
+	public void actualizarDatos(Jugador aux) {
+	    this.nombre = aux.getNombre();
+	    this.pesoKg = aux.getPesoKg();
+	    this.alturaCm = aux.getAlturaCm();
+	    this.equipo = aux.getEquipo();
+	    this.misLesiones = aux.getMisLesiones();
+	    this.juegos = aux.getJuegos();
+	    this.estadoSalud = aux.isEstadoSalud();
 	}
-
-	public String getPosicion() {
-		return posicion;
-	}
-
-	public void setPosicion(String posicion) {
-		this.posicion = posicion;
-	}
-	
-
-	
 }
 
