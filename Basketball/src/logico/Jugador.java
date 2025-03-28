@@ -7,23 +7,25 @@ public class Jugador {
 	private String nombre;
 	private float pesoKg;
 	private float alturaCm;
+	private int numero;
 	private Equipo equipo;
 	private ArrayList<Lesion>misLesiones;
 	private ArrayList<Juego>juegos;
 	private EstJugador estadisticas;
 	private boolean estadoSalud;
-	
-	public Jugador(String id, String nombre, float pesoKg, float alturaCm, Equipo equipo, ArrayList<Lesion> misLesiones,
-			ArrayList<Juego> juegos, EstJugador estadisticas, boolean estadoSalud) {
+
+	public Jugador(String id, String nombre, float pesoKg, float alturaCm, int numero, Equipo equipo,
+			ArrayList<Lesion> misLesiones, ArrayList<Juego> juegos, EstJugador estadisticas, boolean estadoSalud) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.pesoKg = pesoKg;
 		this.alturaCm = alturaCm;
+		this.numero = numero;
 		this.equipo = equipo;
 		this.misLesiones = misLesiones;
 		this.juegos = juegos;
-		this.estadisticas = new EstJugador(0, 0, 0, 0, 0);
+		this.estadisticas = new EstJugador(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 		this.estadoSalud = estadoSalud;
 	}
 
@@ -95,6 +97,14 @@ public class Jugador {
 		this.estadoSalud = estadoSalud;
 	}
 	
+	public int getNumero() {
+		return numero;
+	}
+
+	public void setNumero(int numero) {
+		this.numero = numero;
+	}
+
 	public void actualizarDatos(Jugador aux) {
 	    this.nombre = aux.getNombre();
 	    this.pesoKg = aux.getPesoKg();
@@ -103,6 +113,7 @@ public class Jugador {
 	    this.misLesiones = aux.getMisLesiones();
 	    this.juegos = aux.getJuegos();
 	    this.estadoSalud = aux.isEstadoSalud();
+	    this.numero = aux.getNumero();
 	}
 }
 
