@@ -6,25 +6,23 @@ public class Lesion {
 	private String id;
 	private Jugador jugador;
 	private LocalDate fechaLes;
+	private String tipoDeLesion;
 	private LocalDate fechaRecPrevista;
 	private String descripcionCorta;
 	private boolean estadoRec;
-	
-	public Lesion(String id, Jugador jugador, LocalDate fechaLes, LocalDate fechaRecPrevista, String descripcionCorta,
-			boolean estadoRec) {
+		
+	public Lesion(String id, Jugador jugador, LocalDate fechaLes, String tipoDeLesion, LocalDate fechaRecPrevista,
+			String descripcionCorta, boolean estadoRec) {
 		super();
 		this.id = id;
 		this.jugador = jugador;
 		this.fechaLes = fechaLes;
+		this.tipoDeLesion = tipoDeLesion;
 		this.fechaRecPrevista = fechaRecPrevista;
 		this.descripcionCorta = descripcionCorta;
 		this.estadoRec = estadoRec;
 	}
 
-	public String getId() {
-		return id;
-	}
-	
 	public Jugador getJugador() {
 		return jugador;
 	}
@@ -39,6 +37,14 @@ public class Lesion {
 
 	public void setFechaLes(LocalDate fechaLes) {
 		this.fechaLes = fechaLes;
+	}
+
+	public String getTipoDeLesion() {
+		return tipoDeLesion;
+	}
+
+	public void setTipoDeLesion(String tipoDeLesion) {
+		this.tipoDeLesion = tipoDeLesion;
 	}
 
 	public LocalDate getFechaRecPrevista() {
@@ -64,17 +70,17 @@ public class Lesion {
 	public void setEstadoRec(boolean estadoRec) {
 		this.estadoRec = estadoRec;
 	}
-	
+
+	public String getId() {
+		return id;
+	}
+
 	public void actualizarDatos(Lesion aux) {
 	    this.jugador = aux.getJugador();
 	    this.fechaLes = aux.getFechaLes();
 	    this.fechaRecPrevista = aux.getFechaRecPrevista();
 	    this.descripcionCorta = aux.getDescripcionCorta();
 	    this.estadoRec = aux.isEstadoRec();
-	}
-
-	public void setId(String string) {
-		// TODO Auto-generated method stub
-		
+	    this.tipoDeLesion = aux.getTipoDeLesion();
 	}
 }
