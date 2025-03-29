@@ -5,8 +5,8 @@ import java.time.LocalDate;
 public class Lesion {
 	private String id;
 	private Jugador jugador;
-	private LocalDate fechaLes;
 	private String tipoDeLesion;
+	private LocalDate fechaLes;
 	private LocalDate fechaRecPrevista;
 	private String descripcionCorta;
 	private boolean estadoRec;
@@ -77,10 +77,10 @@ public class Lesion {
 
 	public void actualizarDatos(Lesion aux) {
 	    this.jugador = aux.getJugador();
+	    this.tipoDeLesion = aux.getTipoDeLesion();
 	    this.fechaLes = aux.getFechaLes();
 	    this.fechaRecPrevista = aux.getFechaRecPrevista();
 	    this.descripcionCorta = aux.getDescripcionCorta();
 	    this.estadoRec = aux.isEstadoRec();
-	    this.tipoDeLesion = aux.getTipoDeLesion();
 	}
 }

@@ -25,52 +25,82 @@ public class Equipo {
 	        this.juegos = juegos;
 	        this.estadistica = new EstEquipo(0, 0, 0, 0, 0, 0, 0);
 	    }
-	    
 
-	    public String getId() {
-	        return id;
-	    }
+		public String getNombre() {
+			return nombre;
+		}
 
-	    public String getNombre() {
-	        return nombre;
-	    }
+		public void setNombre(String nombre) {
+			this.nombre = nombre;
+		}
 
-	    public void setNombre(String nombre) {
-	        this.nombre = nombre;
-	    }
+		public String getEntrenador() {
+			return entrenador;
+		}
 
-	    public ArrayList<Juego> getJuegos() {
-	        return juegos;
-	    }
+		public void setEntrenador(String entrenador) {
+			this.entrenador = entrenador;
+		}
 
-	    public void setJuegos(ArrayList<Juego> juegos) {
-	        this.juegos = juegos;
-	    }
+		public String getCiudad() {
+			return ciudad;
+		}
 
-	    public ArrayList<Jugador> getJugadores() {
-	        return jugadores;
-	    }
+		public void setCiudad(String ciudad) {
+			this.ciudad = ciudad;
+		}
 
-	    public void setJugadores(ArrayList<Jugador> jugadores) {
-	        this.jugadores = jugadores;
-	    }
+		public int getAnoFundacion() {
+			return anoFundacion;
+		}
 
-	    public EstEquipo getEstadistica() {
-	        return estadistica;
-	    }
+		public void setAnoFundacion(int anoFundacion) {
+			this.anoFundacion = anoFundacion;
+		}
 
-	    public void setEstadistica(EstEquipo estadistica) {
-	        this.estadistica = estadistica;
-	    }
-	    
-	    public void actualizarDatos(Equipo aux) {
-	        this.nombre = aux.getNombre();
-	        this.juegos = aux.getJuegos();
-	        this.jugadores = aux.getJugadores();
-	    }
+		public String getDueno() {
+			return dueno;
+		}
 
-		public void setId(String string) {
-			// TODO Auto-generated method stub
-			
+		public void setDueno(String dueno) {
+			this.dueno = dueno;
+		}
+
+		public ArrayList<Juego> getJuegos() {
+			return juegos;
+		}
+
+		public void setJuegos(ArrayList<Juego> juegos) {
+			this.juegos = juegos;
+		}
+
+		public ArrayList<Jugador> getJugadores() {
+			return jugadores;
+		}
+
+		public void setJugadores(ArrayList<Jugador> jugadores) {
+			this.jugadores = jugadores;
+		}
+
+		public EstEquipo getEstadistica() {
+			return estadistica;
+		}
+
+		public void setEstadistica(EstEquipo estadistica) {
+			this.estadistica = estadistica;
+		}
+
+		public String getId() {
+			return id;
+		}
+		
+		public void actualizarDatos(Equipo aux) { 
+			this.nombre = aux.getNombre();
+			this.entrenador = aux.getEntrenador();
+			this.ciudad = aux.getCiudad();
+			this.anoFundacion = aux.getAnoFundacion();
+			this.dueno = aux.getDueno();
+			this.juegos = aux.getJuegos();
+			this.jugadores = aux.getJugadores();
 		}
 	}

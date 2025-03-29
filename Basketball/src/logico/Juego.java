@@ -3,7 +3,6 @@ package logico;
 import java.util.ArrayList;
 
 public class Juego {
-
 	    private String id;
 	    private Equipo home;
 	    private Equipo away;
@@ -82,9 +81,4 @@ public class Juego {
 	        this.marcadorAway = aux.getMarcadorAway();
 	        this.ganador = aux.getGanador();
 	    }
-
-		public void setId(String string) {
-			// TODO Auto-generated method stub
-			
-		}
 	}
