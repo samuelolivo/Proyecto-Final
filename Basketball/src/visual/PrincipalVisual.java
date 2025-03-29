@@ -39,36 +39,6 @@ public class PrincipalVisual extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1280, 720);
 		setLocationRelativeTo(null);
-		
-		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		
-		JMenu mnJugador = new JMenu(" Jugadores ");
-		menuBar.add(mnJugador);
-		
-		JMenuItem mntmJugLis = new JMenuItem("Listado");
-		mnJugador.add(mntmJugLis);
-		
-		JMenuItem mntmNewJug = new JMenuItem("Agregar");
-		mnJugador.add(mntmNewJug);
-		
-		JMenu mnEquipo = new JMenu(" Equipos ");
-		menuBar.add(mnEquipo);
-		
-		JMenuItem mntmEquLis = new JMenuItem("Listado");
-		mnEquipo.add(mntmEquLis);
-		
-		JMenuItem mntmNewEqu = new JMenuItem("Agregar");
-		mnEquipo.add(mntmNewEqu);
-		
-		JMenu mnJuego = new JMenu(" Torneo ");
-		menuBar.add(mnJuego);
-		
-		JMenuItem mntmCalendario = new JMenuItem("Calendario");
-		mnJuego.add(mntmCalendario);
-		
-		JMenuItem mntmCrearTorneo = new JMenuItem("Crear");
-		mnJuego.add(mntmCrearTorneo);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
