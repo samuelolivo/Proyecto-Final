@@ -6,17 +6,26 @@ public class Equipo {
 	
 	    private String id;
 	    private String nombre;
+	    private String entrenador;
+	    private String ciudad;
+	    private int anoFundacion;
+	    private String dueno;
 	    private ArrayList<Juego> juegos;
 	    private ArrayList<Jugador> jugadores;
 	    private EstEquipo estadistica;
 
-	    public Equipo(String id, String nombre, ArrayList<Juego> juegos, ArrayList<Jugador> jugadores) {
+	    public Equipo(String id, String nombre, String entrenador, String ciudad, int anoFundacion, String dueno, ArrayList<Juego> juegos, ArrayList<Jugador> jugadores) {
 	        this.id = id;
 	        this.nombre = nombre;
-	        this.juegos = juegos;
+	        this.entrenador = entrenador;
+	        this.ciudad = ciudad;
+	        this.anoFundacion = anoFundacion;
+	        this.dueno = dueno;
 	        this.jugadores = jugadores;
-        	this.estadistica = new EstEquipo(0, 0, 0, 0, 0, 0, 0);
+	        this.juegos = juegos;
+	        this.estadistica = new EstEquipo(0, 0, 0, 0, 0, 0, 0);
 	    }
+	    
 
 	    public String getId() {
 	        return id;
