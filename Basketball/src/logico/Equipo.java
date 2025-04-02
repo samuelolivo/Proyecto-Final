@@ -1,5 +1,6 @@
 package logico;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Equipo {
@@ -10,17 +11,20 @@ public class Equipo {
 	    private String ciudad;
 	    private int anoFundacion;
 	    private String dueno;
+	    private File foto;
 	    private ArrayList<Juego> juegos;
 	    private ArrayList<Jugador> jugadores;
 	    private EstEquipo estadistica;
 
-	    public Equipo(String id, String nombre, String entrenador, String ciudad, int anoFundacion, String dueno, ArrayList<Juego> juegos, ArrayList<Jugador> jugadores) {
+	    public Equipo(String id, String nombre, String entrenador, String ciudad, int anoFundacion, 
+	    			  String dueno, File foto, ArrayList<Juego> juegos, ArrayList<Jugador> jugadores) {
 	        this.id = id;
 	        this.nombre = nombre;
 	        this.entrenador = entrenador;
 	        this.ciudad = ciudad;
 	        this.anoFundacion = anoFundacion;
 	        this.dueno = dueno;
+	        this.foto = foto;
 	        this.jugadores = jugadores;
 	        this.juegos = juegos;
 	        this.estadistica = new EstEquipo(0, 0, 0, 0, 0, 0, 0);
@@ -66,6 +70,14 @@ public class Equipo {
 			this.dueno = dueno;
 		}
 
+		public File getFoto() {
+			return foto;
+		}
+
+		public void setFoto(File foto) {
+			this.foto = foto;
+		}
+
 		public ArrayList<Juego> getJuegos() {
 			return juegos;
 		}
@@ -99,6 +111,7 @@ public class Equipo {
 			this.entrenador = aux.getEntrenador();
 			this.ciudad = aux.getCiudad();
 			this.anoFundacion = aux.getAnoFundacion();
+			this.foto = aux.getFoto();
 			this.dueno = aux.getDueno();
 			this.juegos = aux.getJuegos();
 			this.jugadores = aux.getJugadores();

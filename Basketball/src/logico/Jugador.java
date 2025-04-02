@@ -1,27 +1,34 @@
 package logico;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class Jugador {
 	private String id;
 	private String nombre;
+	private String apellido;
+	private String posicion;
 	private float pesoKg;
 	private float alturaCm;
 	private int numero;
+	private File foto;
 	private Equipo equipo;
 	private ArrayList<Lesion>misLesiones;
 	private ArrayList<Juego>juegos;
 	private EstJugador estadisticas;
 	private boolean estadoSalud;
 
-	public Jugador(String id, String nombre, float pesoKg, float alturaCm, int numero, Equipo equipo,
-			ArrayList<Lesion> misLesiones, ArrayList<Juego> juegos, EstJugador estadisticas, boolean estadoSalud) {
+	public Jugador(String id, String nombre, String apellido, String posicion, float pesoKg, float alturaCm, int numero, File foto, Equipo equipo,
+				   ArrayList<Lesion> misLesiones, ArrayList<Juego> juegos, boolean estadoSalud) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
+		this.apellido = apellido;
+		this.posicion = posicion;
 		this.pesoKg = pesoKg;
 		this.alturaCm = alturaCm;
 		this.numero = numero;
+		this.foto = foto;
 		this.equipo = equipo;
 		this.misLesiones = misLesiones;
 		this.juegos = juegos;
@@ -41,6 +48,22 @@ public class Jugador {
 		this.nombre = nombre;
 	}
 
+	public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(String posicion) {
+		this.posicion = posicion;
+	}
+
 	public float getPesoKg() {
 		return pesoKg;
 	}
@@ -55,6 +78,14 @@ public class Jugador {
 
 	public void setAlturaCm(float alturaCm) {
 		this.alturaCm = alturaCm;
+	}
+
+	public File getFoto() {
+		return foto;
+	}
+
+	public void setFoto(File foto) {
+		this.foto = foto;
 	}
 
 	public Equipo getEquipo() {
@@ -107,8 +138,10 @@ public class Jugador {
 
 	public void actualizarDatos(Jugador aux) {
 	    this.nombre = aux.getNombre();
+	    this.apellido = aux.getApellido();
 	    this.pesoKg = aux.getPesoKg();
 	    this.alturaCm = aux.getAlturaCm();
+	    this.foto = aux.getFoto();
 	    this.equipo = aux.getEquipo();
 	    this.misLesiones = aux.getMisLesiones();
 	    this.juegos = aux.getJuegos();

@@ -30,7 +30,7 @@ public class SerieNacional {
 		generadorLesion = 1;
 	}
 	
-	public SerieNacional getInstance() {
+	public static SerieNacional getInstance() {
 		if (serie == null)
 			serie = new SerieNacional();
 		
