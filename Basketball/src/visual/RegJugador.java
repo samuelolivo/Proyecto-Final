@@ -49,7 +49,7 @@ public class RegJugador extends JDialog {
 	private JLabel lblNombre;
 	private JLabel lblApellido;
 	private JLabel lblPosicion;
-	private JComboBox cmbxPosicion;
+	private JComboBox<String> cmbxPosicion;
 	private JLabel lblPeso;
 	private JSpinner spnPeso;
 	private JLabel lblAltura;
@@ -98,7 +98,8 @@ public class RegJugador extends JDialog {
 			txtId = new JTextField();
 			txtId.setBounds(84, 11, 394, 22);
 			txtId.setEditable(false);
-			txtId.setText("PL-"+SerieNacional.getInstance().getGeneradorJugador());
+			SerieNacional.getInstance();
+			txtId.setText("PL-"+SerieNacional.getGeneradorJugador());
 			txtId.setColumns(10);
 		}
 		{
@@ -124,7 +125,7 @@ public class RegJugador extends JDialog {
 			lblPosicion.setBounds(25, 70, 59, 16);
 		}
 		{
-			cmbxPosicion = new JComboBox();
+			cmbxPosicion = new JComboBox<String>();
 			cmbxPosicion.setBounds(83, 67, 395, 22);
 		}
 		{
@@ -287,6 +288,9 @@ public class RegJugador extends JDialog {
 							String posicion = cmbxPosicion.getSelectedItem() != null ? 
 									cmbxPosicion.getSelectedItem().toString() :  "Seleccionar";
 							
+							ArrayList<Lesion> misLesiones = new ArrayList<Lesion>();
+							ArrayList<Juego> misJuegos = new ArrayList<Juego>();
+							
 					                Jugador jug = new Jugador(txtId.getText(), 
 					                						  txtNombre.getText(), 
 					                						  txtApellido.getText(),
@@ -297,8 +301,8 @@ public class RegJugador extends JDialog {
 					                						  selectedFile, 
 					                						  SerieNacional.getInstance().searchEquipoById(txtIdEquipo.getText(),
 					                								  									   SerieNacional.getInstance().getMisEquipos()),
-					                						  new ArrayList<Lesion>(),
-					                						  new ArrayList<Juego>(),
+					                						  misLesiones,
+					                						  misJuegos,
 					                						  true);				
 					        SerieNacional.getInstance().guardarJugador(jug);
 							clean();
@@ -316,7 +320,7 @@ public class RegJugador extends JDialog {
 							aux.setEquipo(SerieNacional.getInstance().searchEquipoById(txtIdEquipo.getText(), 
 																					   SerieNacional.getInstance().getMisEquipos()));
 							SerieNacional.getInstance().modificarJugador(aux);
-						    //Lis.load(null);
+						    //ListadoJugadores.loadAll(null);
 						    dispose();
 						}
 					}
@@ -422,17 +426,33 @@ public class RegJugador extends JDialog {
 	        txtIdEquipo.setText(aux.getEquipo() != null ? aux.getEquipo().getId() : "");
 	        txtEquipoNombre.setText(aux.getEquipo() != null ? aux.getEquipo().getNombre() : "");
 	        cmbxPosicion.setSelectedItem(aux.getPosicion());
+	        
+	        if (selectedFile != null)
+	        {
+	        	displayImage(selectedFile);
+	        }
+	        else
+	        {
+	        	imageDisplayLabel.setIcon(null);
+	            imageDisplayLabel.setText("No hay imagen seleccionada");
+	        }
+	        
+	        updateButtonText();
 	    }
 	}
 
 	private void clean() {
-	    txtId.setText("PL-"+SerieNacional.getInstance().getGeneradorJugador());
+	    SerieNacional.getInstance();
+		txtId.setText("PL-"+SerieNacional.getGeneradorJugador());
 	    txtNombre.setText("");
 	    txtApellido.setText("");
 	    spnPeso.setValue(0f);
 	    spnAltura.setValue(0f);
 	    spnNumero.setValue(0);
 	    selectedFile = null;
+	    imageDisplayLabel.setIcon(null);
+	    imageDisplayLabel.setText("No hay imagen seleccionada");
+	    updateButtonText();
 	    txtIdEquipo.setText("");
 	    txtEquipoNombre.setText("");
 	    cmbxPosicion.setSelectedItem("Seleccionar");

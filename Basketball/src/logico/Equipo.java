@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Equipo {
-	
 	    private String id;
 	    private String nombre;
 	    private String entrenador;
@@ -27,7 +26,7 @@ public class Equipo {
 	        this.foto = foto;
 	        this.jugadores = jugadores;
 	        this.juegos = juegos;
-	        this.estadistica = new EstEquipo(0, 0, 0, 0, 0, 0, 0);
+	        this.estadistica = new EstEquipo(0, 0, 0, 0, 0, 0, 0, 0);
 	    }
 
 		public String getNombre() {

@@ -19,10 +19,22 @@ public class EstJugador extends Estadistica {
 	
 	@Override
 	public float efectividad() {
-		float puntosPromedio;
-		puntosPromedio=(float)puntosTot/cantJuegos;
-		return puntosPromedio;
-		
+	    if (cantJuegos == 0) {
+	        return 0.0f;}
+	    
+	    float puntosPorJuego = (float) puntosTot / cantJuegos;
+	    
+	    float puntosEfectivos = triples * 3.0f + dobles * 2.0f + normales * 1.0f;
+	    float eficienciaTiros = puntosEfectivos / puntosTot;
+
+	    float contribucionesDefensivas = (robos * 2.0f + tapones * 1.8f) / cantJuegos;
+	    float contribucionesOfensivas = (asistencias * 1.5f + puntosPorJuego) / cantJuegos;
+	    
+	    float penalizaciones = faltas / (float) cantJuegos * 1.2f;
+	    
+	    float bonusMVP = mvp * 5.0f;
+	    
+	    return (contribucionesDefensivas + contribucionesOfensivas - penalizaciones + bonusMVP) * eficienciaTiros * 10.0f;
 	}
 
 	public int getRobos() {

@@ -12,6 +12,7 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -27,36 +28,47 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import logico.Equipo;
+import logico.Juego;
+import logico.Jugador;
+import logico.SerieNacional;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.SpinnerNumberModel;
 
 public class RegEquipo extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtId;
-	private JTextField textField_1;
+	private JTextField txtNombre;
 	private JPanel photoPanel;
 	private JLabel photoLabel;
 	private JLabel imageDisplayLabel; // Etiqueta para mostrar la imagen en el panel izquierdo
 	private File selectedFile = null;
 	private JLabel lblId;
 	private JLabel lblNombre;
-	private JLabel lblApellido;
-	private JLabel lblPosicion;
-	private JComboBox comboBox;
+	private JLabel lblAnoFund;
+	private JLabel ldlCiudad;
+	private JComboBox<String> cmbxCiudad;
 	private JLabel lblFoto;
 	private JPanel panel;
 	private JButton selectImageButton; // Botón unificado para seleccionar/cambiar imagen
-	private JSpinner spinner_2;
-	private JTextField textField;
-	private JTextField textField_2;
+	private JSpinner spnAnoFund;
+	private JTextField txtEntrenador;
+	private JTextField txtDueno;
+	private JLabel lblEntrenador;
+	private JLabel lblDueno;
+	private JButton okButton;
+	private JButton cancelButton;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegEquipo dialog = new RegEquipo();
+			RegEquipo dialog = new RegEquipo(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -67,7 +79,7 @@ public class RegEquipo extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegEquipo() {
+	public RegEquipo(Equipo aux) {
 		setTitle("Registrar Equipo");
 		setBounds(100, 100, 507, 460);
 		getContentPane().setLayout(new BorderLayout());
@@ -81,7 +93,8 @@ public class RegEquipo extends JDialog {
 			txtId = new JTextField();
 			txtId.setBounds(88, 13, 388, 22);
 			txtId.setEditable(false);
-			txtId.setText("EQ-");
+			SerieNacional.getInstance();
+			txtId.setText("EQ-"+SerieNacional.getGeneradorEquipo());
 			txtId.setColumns(10);
 		}
 		{
@@ -89,21 +102,21 @@ public class RegEquipo extends JDialog {
 			lblNombre.setBounds(31, 43, 50, 16);
 		}
 		{
-			textField_1 = new JTextField();
-			textField_1.setBounds(89, 40, 178, 22);
-			textField_1.setColumns(10);
+			txtNombre = new JTextField();
+			txtNombre.setBounds(89, 40, 178, 22);
+			txtNombre.setColumns(10);
 		}
 		{
-			lblApellido = new JLabel("A\u00F1o de fundaci\u00F3n:");
-			lblApellido.setBounds(277, 42, 105, 16);
+			lblAnoFund = new JLabel("A\u00F1o de fundaci\u00F3n:");
+			lblAnoFund.setBounds(277, 42, 105, 16);
 		}
 		{
-			lblPosicion = new JLabel("Ciudad:");
-			lblPosicion.setBounds(38, 69, 46, 16);
+			ldlCiudad = new JLabel("Ciudad:");
+			ldlCiudad.setBounds(38, 69, 46, 16);
 		}
 		{
-			comboBox = new JComboBox();
-			comboBox.setBounds(89, 66, 387, 22);
+			cmbxCiudad = new JComboBox();
+			cmbxCiudad.setBounds(89, 66, 387, 22);
 		}
 		// Crear el panel para la foto con soporte para drag and drop
 		photoPanel = new JPanel();
@@ -185,55 +198,100 @@ public class RegEquipo extends JDialog {
 		lblOHazClic.setBounds(0, 88, 230, 15);
 		photoPanel.add(lblOHazClic);
 		{
-			spinner_2 = new JSpinner();
-			spinner_2.setBounds(386, 40, 90, 22);
+			spnAnoFund = new JSpinner();
+			spnAnoFund.setModel(new SpinnerNumberModel(new Integer(2000), null, null, new Integer(1)));
+			spnAnoFund.setBounds(386, 40, 90, 22);
 		}
 		
-		textField = new JTextField();
-		textField.setBounds(90, 92, 153, 22);
-		textField.setColumns(10);
+		txtEntrenador = new JTextField();
+		txtEntrenador.setBounds(90, 92, 153, 22);
+		txtEntrenador.setColumns(10);
 		
-		JLabel lblEntrenador = new JLabel("Entrenador:");
+		lblEntrenador = new JLabel("Entrenador:");
 		lblEntrenador.setBounds(14, 95, 68, 16);
 		
-		JLabel lblDueo = new JLabel("Due\u00F1o:");
-		lblDueo.setBounds(259, 95, 50, 16);
+		lblDueno = new JLabel("Due\u00F1o:");
+		lblDueno.setBounds(259, 95, 50, 16);
 		
-		textField_2 = new JTextField();
-		textField_2.setBounds(305, 92, 171, 22);
-		textField_2.setColumns(10);
+		txtDueno = new JTextField();
+		txtDueno.setBounds(305, 92, 171, 22);
+		txtDueno.setColumns(10);
 		contentPanel.setLayout(null);
 		contentPanel.add(lblId);
 		contentPanel.add(txtId);
 		contentPanel.add(lblNombre);
-		contentPanel.add(textField_1);
-		contentPanel.add(lblApellido);
-		contentPanel.add(lblPosicion);
-		contentPanel.add(comboBox);
+		contentPanel.add(txtNombre);
+		contentPanel.add(lblAnoFund);
+		contentPanel.add(ldlCiudad);
+		contentPanel.add(cmbxCiudad);
 		contentPanel.add(panel);
 		contentPanel.add(photoPanel);
 		contentPanel.add(lblFoto);
-		contentPanel.add(spinner_2);
-		contentPanel.add(textField);
+		contentPanel.add(spnAnoFund);
+		contentPanel.add(txtEntrenador);
 		contentPanel.add(lblEntrenador);
-		contentPanel.add(lblDueo);
-		contentPanel.add(textField_2);
+		contentPanel.add(lblDueno);
+		contentPanel.add(txtDueno);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Registrar");
+				okButton = new JButton("Registrar");
+				if (aux != null)
+					okButton.setText("Modificar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if (aux == null) {
+						    String ciudad = cmbxCiudad.getSelectedItem() != null ? 
+						        cmbxCiudad.getSelectedItem().toString() : "Seleccionar";
+						    
+						    ArrayList<Juego> misJuegos = new ArrayList<Juego>();
+						    ArrayList<Jugador> misJugadores = new ArrayList<Jugador>();
+						    
+						    Equipo equipo = new Equipo(txtId.getText(),
+						                             txtNombre.getText(),
+						                             txtEntrenador.getText(),
+						                             ciudad,
+						                             Integer.parseInt(spnAnoFund.getValue().toString()),
+						                             txtDueno.getText(),
+						                             selectedFile,
+						                             misJuegos,
+						                             misJugadores);
+						    
+						    SerieNacional.getInstance().guardarEquipo(equipo);
+						    clean();
+						} else {
+						    aux.setNombre(txtNombre.getText());
+						    aux.setEntrenador(txtEntrenador.getText());
+						    aux.setCiudad(cmbxCiudad.getSelectedItem() != null ? 
+						        cmbxCiudad.getSelectedItem().toString() : "Seleccionar");
+						    aux.setAnoFundacion(Integer.parseInt(spnAnoFund.getValue().toString()));
+						    aux.setDueno(txtDueno.getText());
+						    aux.setFoto(selectedFile);
+						    
+						    SerieNacional.getInstance().modificarEquipo(aux);
+						    //ListadoEquipos.loadAll(null);
+						    dispose();
+						}
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
+				cancelButton = new JButton("Cancelar");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadEquipo(aux);
 	}
 	
 	/**
@@ -304,5 +362,43 @@ public class RegEquipo extends JDialog {
 		return name.endsWith(".jpg") || name.endsWith(".jpeg") || 
 			   name.endsWith(".png") || name.endsWith(".gif") || 
 			   name.endsWith(".bmp");
+	}
+	
+	private void loadEquipo(Equipo aux) {
+	    if (aux != null) {
+	        txtId.setText(aux.getId());
+	        txtNombre.setText(aux.getNombre());
+	        txtEntrenador.setText(aux.getEntrenador());	        
+	        txtDueno.setText(aux.getDueno());
+		    cmbxCiudad.setSelectedItem(aux.getCiudad());
+		    spnAnoFund.setValue(aux.getAnoFundacion());
+		    selectedFile = aux.getFoto();
+		    
+	        if (selectedFile != null)
+	        {
+	        	displayImage(selectedFile);
+	        }
+	        else
+	        {
+	        	imageDisplayLabel.setIcon(null);
+	            imageDisplayLabel.setText("No hay imagen seleccionada");
+	        }
+	        
+	        updateButtonText();
+	    }
+	}
+	
+	private void clean() {
+	    SerieNacional.getInstance();
+		txtId.setText("EQ-"+SerieNacional.getGeneradorEquipo());
+	    txtNombre.setText("");
+	    txtEntrenador.setText("");
+	    txtDueno.setText("");
+	    cmbxCiudad.setSelectedItem("Seleccionar");
+	    spnAnoFund.setValue(2000);
+	    selectedFile = null;
+	    imageDisplayLabel.setIcon(null);
+	    imageDisplayLabel.setText("No hay imagen seleccionada");
+	    updateButtonText();
 	}
 }
