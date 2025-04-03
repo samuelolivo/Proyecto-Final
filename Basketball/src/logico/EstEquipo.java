@@ -1,5 +1,9 @@
 package logico;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 public class EstEquipo extends Estadistica {
 
 	private int juegosGanados;
@@ -59,4 +63,16 @@ public class EstEquipo extends Estadistica {
 	public void setTorneosGanados(int torneosGanados) {
 		this.torneosGanados = torneosGanados;
 	}
+	
+	// coca colas
+ 	public static List<EstEquipo> getTop3Equipos(List<EstEquipo> equipos) {
+        Collections.sort(equipos, new Comparator<EstEquipo>() {
+            @Override
+            public int compare(EstEquipo e1, EstEquipo e2) {
+                return Float.compare(e2.efectividad(), e1.efectividad());
+            }
+        });
+        return equipos.subList(0, Math.min(3, equipos.size()));
+    }
+
 }
