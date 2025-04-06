@@ -1,96 +1,84 @@
 package visual;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JLabel;
+import java.awt.EventQueue;
+import logico.Jugador;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class PrincipalVisual extends JFrame {
-	private	boolean grafica=false;
-	private boolean grafica2=false;
-	private boolean grafica3=false;
 
-	private JPanel contentPane;
+    private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PrincipalVisual frame = new PrincipalVisual();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    PrincipalVisual frame = new PrincipalVisual();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	/**
-	 * Create the frame.
-	 */
-	public PrincipalVisual() {
-		setTitle("Serie Nacional de Basketball");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1280, 720);
-		setLocationRelativeTo(null);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JButton botonGrafico = new JButton("Graficar");
-		botonGrafico.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				grafica=true;
-				grafica2=true;
-				grafica3=true;
-				repaint();
-			}
-		});
-		botonGrafico.setBounds(990, 647, 89, 23);
-		contentPane.add(botonGrafico);
-	}
-	//funcion grafico redondo
+    /**
+     * Create the frame.
+     */
+    public PrincipalVisual() {
+        setTitle("Serie Nacional de Basketball");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 1280, 720);
+        setLocationRelativeTo(null); 
 
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		if(grafica) {
-			
-		}
-	}
-	//funcion grafico palos...
-	@Override
-	public void paintComponents(Graphics g) {
-		super.paintComponents(g);
-		if(grafica2) {
-			
-		}
-	}
-	//funcion grafica barra...
-	@Override
-	public void paintAll(Graphics g) {
-		super.paintAll(g);
-		if(grafica3) {
-			
-		}
-	}
-	
-	
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        
+        //bara 1
+        GraficaBarra grafica = new GraficaBarra();
+        grafica.setBounds(415, 21, 600, 300);
+        contentPane.add(grafica);
+        
+        JButton botonEquipos = new JButton("Equipos");
+        botonEquipos.setFont(new Font("Trebuchet MS", Font.PLAIN, 25));
+        botonEquipos.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        botonEquipos.setBounds(10, 76, 267, 111);
+        contentPane.add(botonEquipos);
+        
+        JButton btnJugadores = new JButton("Jugadores");
+        btnJugadores.setFont(new Font("Trebuchet MS", Font.PLAIN, 25));
+        btnJugadores.setBounds(10, 186, 267, 111);
+        contentPane.add(btnJugadores);
+        
+        JButton btnSimulacion = new JButton("Simulacion de juego ");
+        btnSimulacion.setFont(new Font("Trebuchet MS", Font.PLAIN, 25));
+        btnSimulacion.setBounds(10, 294, 267, 111);
+        contentPane.add(btnSimulacion);
+        
+        JButton btnCalendario = new JButton("Calendario de juegos");
+        btnCalendario.setFont(new Font("Trebuchet MS", Font.PLAIN, 24));
+        btnCalendario.setBounds(10, 402, 267, 111);
+        contentPane.add(btnCalendario);
+   
+        //bara 2 
+        BarraWinrate gwin = new BarraWinrate();
+        gwin.setBounds(152, 524, 1057, 150);
+        contentPane.add(gwin);
+    }
 }
+
+
 
