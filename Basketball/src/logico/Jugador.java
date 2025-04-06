@@ -16,10 +16,9 @@ public class Jugador {
 	private ArrayList<Lesion>misLesiones;
 	private ArrayList<Juego>juegos;
 	private EstJugador estadisticas;
-	private boolean estadoSalud;
 
 	public Jugador(String id, String nombre, String apellido, String posicion, float pesoKg, float alturaCm, int numero, File foto, Equipo equipo,
-				   ArrayList<Lesion> misLesiones, ArrayList<Juego> juegos, boolean estadoSalud) {
+				   ArrayList<Lesion> misLesiones, ArrayList<Juego> juegos) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -33,7 +32,6 @@ public class Jugador {
 		this.misLesiones = misLesiones;
 		this.juegos = juegos;
 		this.estadisticas = new EstJugador(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		this.estadoSalud = estadoSalud;
 	}
 
 	public String getId() {
@@ -120,12 +118,15 @@ public class Jugador {
 		this.estadisticas = estadisticas;
 	}
 
-	public boolean isEstadoSalud() {
-		return estadoSalud;
-	}
 
-	public void setEstadoSalud(boolean estadoSalud) {
-		this.estadoSalud = estadoSalud;
+	public boolean getEstadoSalud() {
+		for (Lesion lesI : misLesiones)
+		{
+			if (lesI.isEstado())				
+				return false;
+		}
+
+		return true;
 	}
 	
 	public int getNumero() {
@@ -145,7 +146,6 @@ public class Jugador {
 	    this.equipo = aux.getEquipo();
 	    this.misLesiones = aux.getMisLesiones();
 	    this.juegos = aux.getJuegos();
-	    this.estadoSalud = aux.isEstadoSalud();
 	    this.numero = aux.getNumero();
 	}
 }

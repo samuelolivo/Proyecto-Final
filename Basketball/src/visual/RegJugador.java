@@ -29,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import logico.Equipo;
 import logico.Juego;
 import logico.Jugador;
 import logico.Lesion;
@@ -81,12 +82,15 @@ public class RegJugador extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegJugador(Jugador aux) {
+		setResizable(false);
+		setModal(true);
+		setAlwaysOnTop(true);
 		if (aux == null)
 			setTitle("Registrar Jugador");
 		else
 			setTitle("Modificar Jugador");
 		
-		setBounds(100, 100, 508, 508);
+		setBounds(100, 100, 507, 508);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -136,20 +140,19 @@ public class RegJugador extends JDialog {
 			spnPeso = new JSpinner();
 			spnPeso.setBounds(83, 94, 66, 22);
 		}
-		// Crear el panel para la foto con soporte para drag and drop
+		
 		photoPanel = new JPanel();
 		photoPanel.setBounds(243, 148, 235, 223);
 		photoPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 		
-		// Etiqueta para mostrar instrucciones
 		photoLabel = new JLabel("Arrastra una imagen aqu\u00ED", SwingConstants.CENTER);
 		photoLabel.setBounds(0, 75, 230, 15);
 		photoLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 		photoLabel.setPreferredSize(new Dimension(150, 150));
 		photoLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
 		
-		// Botón unificado para seleccionar/cambiar imagen
 		selectImageButton = new JButton("Seleccionar imagen");
+		selectImageButton.setFont(new Font("Tahoma", Font.ITALIC, 13));
 		selectImageButton.setBounds(40, 114, 154, 25);
 		selectImageButton.setAlignmentX(JButton.CENTER_ALIGNMENT);
 		selectImageButton.addActionListener(new ActionListener() {
@@ -171,14 +174,12 @@ public class RegJugador extends JDialog {
 			lblFoto.setBounds(23, 127, 99, 16);
 		}
 		{
-			// Configurar el panel izquierdo para mostrar la imagen
 			panel = new JPanel();
 			panel.setBounds(13, 148, 225, 223);
 			panel.setBackground(Color.WHITE);
 			panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 			panel.setLayout(null);
 			
-			// Etiqueta para mostrar la imagen en el panel izquierdo
 			imageDisplayLabel = new JLabel("No hay imagen seleccionada", SwingConstants.CENTER);
 			imageDisplayLabel.setBounds(10, 10, 205, 203);
 			imageDisplayLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -186,11 +187,9 @@ public class RegJugador extends JDialog {
 		}
 		photoPanel.setLayout(null);
 		
-		// Añadir componentes al panel de arrastrar y soltar
 		photoPanel.add(photoLabel);
 		photoPanel.add(selectImageButton);
 		
-		// Configurar el Drag and Drop
 		new DropTarget(photoPanel, new DropTargetAdapter() {
 			@Override
 			public void drop(DropTargetDropEvent dtde) {
@@ -205,7 +204,7 @@ public class RegJugador extends JDialog {
 						if (isImageFile(file)) {
 							selectedFile = file;
 							displayImage(file);
-							// Actualizar el texto del botón
+							
 							updateButtonText();
 						}
 					}
@@ -229,6 +228,7 @@ public class RegJugador extends JDialog {
 		}
 		{
 			btnSelJug = new JButton("Seleccionar");
+			btnSelJug.setFont(new Font("Tahoma", Font.ITALIC, 13));
 			btnSelJug.setBounds(61, 389, 107, 25);
 		}
 		{
@@ -278,6 +278,7 @@ public class RegJugador extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				okButton = new JButton("Registrar");
+				okButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 				if (aux != null)
 					okButton.setText("Modificar");
 				
@@ -290,6 +291,8 @@ public class RegJugador extends JDialog {
 							
 							ArrayList<Lesion> misLesiones = new ArrayList<Lesion>();
 							ArrayList<Juego> misJuegos = new ArrayList<Juego>();
+							Equipo equipo = SerieNacional.getInstance().searchEquipoById(txtIdEquipo.getText(),
+									   													 SerieNacional.getInstance().getMisEquipos());
 							
 					                Jugador jug = new Jugador(txtId.getText(), 
 					                						  txtNombre.getText(), 
@@ -299,11 +302,9 @@ public class RegJugador extends JDialog {
 					                						  Float.parseFloat(spnAltura.getValue().toString()), 
 					                						  Integer.parseInt(spnNumero.getValue().toString()), 
 					                						  selectedFile, 
-					                						  SerieNacional.getInstance().searchEquipoById(txtIdEquipo.getText(),
-					                								  									   SerieNacional.getInstance().getMisEquipos()),
+					                						  equipo,
 					                						  misLesiones,
-					                						  misJuegos,
-					                						  true);				
+					                						  misJuegos);				
 					        SerieNacional.getInstance().guardarJugador(jug);
 							clean();
 						}
@@ -320,7 +321,6 @@ public class RegJugador extends JDialog {
 							aux.setEquipo(SerieNacional.getInstance().searchEquipoById(txtIdEquipo.getText(), 
 																					   SerieNacional.getInstance().getMisEquipos()));
 							SerieNacional.getInstance().modificarJugador(aux);
-						    //ListadoJugadores.loadAll(null);
 						    dispose();
 						}
 					}
@@ -331,6 +331,7 @@ public class RegJugador extends JDialog {
 			}
 			{
 				cancelButton = new JButton("Cancelar");
+				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -362,7 +363,6 @@ public class RegJugador extends JDialog {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Seleccionar imagen");
 		
-		// Filtro para archivos de imagen
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
 				"Archivos de imagen", "jpg", "jpeg", "png", "gif", "bmp");
 		fileChooser.setFileFilter(filter);
@@ -371,7 +371,7 @@ public class RegJugador extends JDialog {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			selectedFile = fileChooser.getSelectedFile();
 			displayImage(selectedFile);
-			// Actualizar el texto del botón
+
 			updateButtonText();
 		}
 	}
@@ -383,18 +383,15 @@ public class RegJugador extends JDialog {
 		try {
 			ImageIcon icon = new ImageIcon(file.getPath());
 			
-			// Redimensionar si es necesario para ajustar al panel
 			if (icon.getIconWidth() > 200 || icon.getIconHeight() > 200) {
 				Image img = icon.getImage();
 				Image scaledImg = img.getScaledInstance(200, -1, Image.SCALE_SMOOTH);
 				icon = new ImageIcon(scaledImg);
 			}
-			
-			// Mostrar la imagen en el panel izquierdo
+
 			imageDisplayLabel.setIcon(icon);
-			imageDisplayLabel.setText(""); // Eliminar el texto
+			imageDisplayLabel.setText("");
 			
-			// Mantener el panel derecho como área de arrastrar y soltar
 			photoLabel.setIcon(null);
 			photoLabel.setText("Arrastra una imagen aquí");
 		} catch (Exception e) {

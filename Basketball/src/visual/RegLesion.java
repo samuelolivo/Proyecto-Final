@@ -24,6 +24,7 @@ import java.awt.Dimension;
 import java.awt.TextArea;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.FocusAdapter;
@@ -33,6 +34,11 @@ import java.awt.event.InputMethodEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.ComponentOrientation;
+import java.util.Locale;
+import javax.swing.JRadioButton;
 
 public class RegLesion extends JDialog {
 
@@ -45,6 +51,11 @@ public class RegLesion extends JDialog {
 	private JSpinner spnDiasReposo;
 	private LocalDate today;
 	private LocalDate recuperacion;
+	private JButton okButton;
+	private JButton cancelButton;
+	private TextArea txtDescripcion;
+	private JRadioButton rdLesion;
+	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	/**
 	 * Launch the application.
@@ -63,15 +74,18 @@ public class RegLesion extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegLesion(Jugador jug, Lesion aux) {
+		setResizable(false);
+		setModal(true);
+		setAlwaysOnTop(true);
 		today = LocalDate.now();
 		recuperacion = today;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
-		setTitle("Registrar Lesion");
-		if (aux != null)
+		if (aux == null)
+			setTitle("Registrar Lesion");
+		else
 			setTitle("Modificar Lesion");
 		
-		setBounds(100, 100, 504, 313);
+		setBounds(100, 100, 503, 322);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -86,11 +100,11 @@ public class RegLesion extends JDialog {
 		txtId.setText("LE-"+SerieNacional.getGeneradorLesion());
 		txtId.setEditable(false);
 		txtId.setColumns(10);
-		txtId.setBounds(101, 13, 373, 22);
+		txtId.setBounds(101, 13, 226, 22);
 		contentPanel.add(txtId);
 		
 		JLabel lblTipoDeLesion = new JLabel("Tipo de lesi\u00F3n:");
-		lblTipoDeLesion.setBounds(10, 69, 90, 16);
+		lblTipoDeLesion.setBounds(11, 68, 90, 16);
 		contentPanel.add(lblTipoDeLesion);
 		
 		cmbxTipoLesion = new JComboBox<String>();
@@ -98,7 +112,7 @@ public class RegLesion extends JDialog {
 		contentPanel.add(cmbxTipoLesion);
 		
 		JLabel lblDasDeReposo = new JLabel("D\u00EDas de reposo:");
-		lblDasDeReposo.setBounds(10, 201, 90, 16);
+		lblDasDeReposo.setBounds(12, 208, 90, 16);
 		contentPanel.add(lblDasDeReposo);
 		
 		spnDiasReposo = new JSpinner();
@@ -109,10 +123,10 @@ public class RegLesion extends JDialog {
 				txtFechaRec.setText(recuperacion.format(formatter));
 			}
 		});
-		spnDiasReposo.setBounds(105, 198, 79, 22);
+		spnDiasReposo.setBounds(107, 205, 52, 22);
 		contentPanel.add(spnDiasReposo);
 		JLabel lblFechaDeRecuperacin = new JLabel("Fecha de recuperaci\u00F3n:");
-		lblFechaDeRecuperacin.setBounds(199, 201, 143, 16);
+		lblFechaDeRecuperacin.setBounds(242, 208, 143, 16);
 		contentPanel.add(lblFechaDeRecuperacin);
 		
 		JLabel label_1 = new JLabel("Jugador:");
@@ -120,18 +134,20 @@ public class RegLesion extends JDialog {
 		contentPanel.add(label_1);
 		
 		txtFechaRec = new JTextField();
+		txtFechaRec.setHorizontalAlignment(SwingConstants.CENTER);
 		txtFechaRec.setEditable(false);
 		txtFechaRec.setColumns(10);
-		txtFechaRec.setBounds(338, 198, 136, 22);
+		txtFechaRec.setBounds(384, 205, 90, 22);
 		contentPanel.add(txtFechaRec);
 		txtFechaRec.setText(recuperacion.format(formatter));
 		
 		JLabel lblDescripcin = new JLabel("Descripci\u00F3n:");
-		lblDescripcin.setBounds(24, 98, 70, 16);
+		lblDescripcin.setBounds(23, 98, 74, 16);
 		contentPanel.add(lblDescripcin);
 		
-		TextArea txtDescripcion = new TextArea();
-		txtDescripcion.setBounds(101, 93, 373, 99);
+		txtDescripcion = new TextArea();
+		txtDescripcion.setLocale(new Locale("es", "DO"));
+		txtDescripcion.setBounds(101, 93, 373, 100);
 		contentPanel.add(txtDescripcion);
 		
 		txtIdJugador = new JTextField();
@@ -145,21 +161,98 @@ public class RegLesion extends JDialog {
 		txtNomJugador.setColumns(10);
 		txtNomJugador.setBounds(227, 39, 247, 22);
 		contentPanel.add(txtNomJugador);
+		
+		rdLesion = new JRadioButton("Activa");
+		rdLesion.setEnabled(false);
+		rdLesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (rdLesion.isSelected())
+					rdLesion.setText("Activa");
+				else
+					rdLesion.setText("No Activa");
+			}
+		});
+		rdLesion.setSelected(true);
+		rdLesion.setBounds(384, 12, 90, 25);
+		contentPanel.add(rdLesion);
+		
+		JLabel lblEstado = new JLabel("Estado:");
+		lblEstado.setBounds(339, 16, 52, 16);
+		contentPanel.add(lblEstado);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Registrar");
+				okButton = new JButton("Registrar");
+				okButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+				if (aux != null)
+					okButton.setText("Modificar");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if (aux == null)
+						{
+							if (jug != null)
+							{
+							    String tipoLesion = cmbxTipoLesion.getSelectedItem() != null ? cmbxTipoLesion.getSelectedItem().toString() : "Seleccionar";
+								Lesion les = new Lesion(txtId.getText(),
+														SerieNacional.getInstance().searchJugadorById(jug.getId(), SerieNacional.getInstance().getMisJugadores()),
+														today,
+														tipoLesion,
+														recuperacion,
+														txtDescripcion.getText(),
+														rdLesion.isSelected());
+								SerieNacional.getInstance().searchJugadorById(jug.getId(), SerieNacional.getInstance().getMisJugadores()).getMisLesiones().add(les);
+								ListadoLesiones.loadAll(jug, null);
+								dispose();		
+							}
+						}
+						else
+						{
+							String tipoLesion = cmbxTipoLesion.getSelectedItem() != null ? cmbxTipoLesion.getSelectedItem().toString() : "Seleccionar";
+							aux.setTipoDeLesion(tipoLesion);
+							aux.setFechaRecPrevista(recuperacion);
+							aux.setDescripcionCorta(txtDescripcion.getText());
+							aux.setEstado(rdLesion.isSelected());
+							SerieNacional.getInstance().modificarLesion(aux);
+							dispose();	
+						}
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
+				cancelButton = new JButton("Cancelar");
+				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		loadLesion(aux);
+	}
+	
+	public void loadLesion(Lesion aux)
+	{
+		if (aux == null)
+			return;
+		
+		rdLesion.setEnabled(true);
+		txtId.setText(aux.getId());
+		txtFechaRec.setText(aux.getFechaRecPrevista().format(formatter));
+		txtIdJugador.setText(aux.getJugador().getId());
+		txtNomJugador.setText(aux.getJugador().getId());
+		cmbxTipoLesion.setSelectedItem(aux.getTipoDeLesion());
+		today = aux.getFechaLes();
+		recuperacion = aux.getFechaRecPrevista();
+		spnDiasReposo.setValue(ChronoUnit.DAYS.between(today, recuperacion));
+		txtDescripcion.setText(aux.getDescripcionCorta());
+		rdLesion.setSelected(aux.isEstado());
 	}
 }

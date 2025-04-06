@@ -9,10 +9,10 @@ public class Lesion {
 	private LocalDate fechaLes;
 	private LocalDate fechaRecPrevista;
 	private String descripcionCorta;
-	private boolean estadoRec;
+	private boolean estado;
 		
 	public Lesion(String id, Jugador jugador, LocalDate fechaLes, String tipoDeLesion, LocalDate fechaRecPrevista,
-			String descripcionCorta, boolean estadoRec) {
+			String descripcionCorta, boolean estado) {
 		super();
 		this.id = id;
 		this.jugador = jugador;
@@ -20,7 +20,7 @@ public class Lesion {
 		this.tipoDeLesion = tipoDeLesion;
 		this.fechaRecPrevista = fechaRecPrevista;
 		this.descripcionCorta = descripcionCorta;
-		this.estadoRec = estadoRec;
+		this.estado = estado;
 	}
 
 	public Jugador getJugador() {
@@ -63,12 +63,12 @@ public class Lesion {
 		this.descripcionCorta = descripcionCorta;
 	}
 
-	public boolean isEstadoRec() {
-		return estadoRec;
+	public boolean isEstado() {
+		return estado;
 	}
 
-	public void setEstadoRec(boolean estadoRec) {
-		this.estadoRec = estadoRec;
+	public void setEstado(boolean estado) {
+		this.estado = estado;
 	}
 
 	public String getId() {
@@ -81,6 +81,6 @@ public class Lesion {
 	    this.fechaLes = aux.getFechaLes();
 	    this.fechaRecPrevista = aux.getFechaRecPrevista();
 	    this.descripcionCorta = aux.getDescripcionCorta();
-	    this.estadoRec = aux.isEstadoRec();
+	    this.estado = aux.isEstado();
 	}
 }
