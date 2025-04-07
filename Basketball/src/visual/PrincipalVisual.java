@@ -44,9 +44,9 @@ public class PrincipalVisual extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
         
-        //bara 1
+        //bara 1 tops3
         GraficaBarra grafica = new GraficaBarra();
-        grafica.setBounds(415, 21, 600, 300);
+        grafica.setBounds(307, 65, 453, 429);
         contentPane.add(grafica);
         
         JButton botonEquipos = new JButton("Equipos");
@@ -73,10 +73,16 @@ public class PrincipalVisual extends JFrame {
         btnCalendario.setBounds(10, 402, 267, 111);
         contentPane.add(btnCalendario);
    
-        //bara 2 
+        //bara 2 win
         BarraWinrate gwin = new BarraWinrate();
-        gwin.setBounds(152, 524, 1057, 150);
+        gwin.setBounds(138, 524, 1103, 150);
         contentPane.add(gwin);
+        
+        //bara 3 top10
+        GraficaEfectividad ge = new GraficaEfectividad();
+        ge.setBounds(770, 65, 538, 429);
+        contentPane.add(ge);
+        
     }
 }
 
