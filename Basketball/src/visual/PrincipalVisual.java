@@ -43,9 +43,10 @@ public class PrincipalVisual extends JFrame {
     private JMenuItem mntmRegEquipo;
     private JMenuItem mntmListadoJugador;
     private JMenuItem mntmRegJugador;
-    private JMenuItem mntmVerCalendario;
     private JMenuItem mntmNewMenuItem;
     private JMenuItem mntmIniciarSimulacion;
+    private JMenu mnNewMenu;
+    private JMenuItem mntmNewMenuItem_1;
 
     /**
      * Launch the application.
@@ -145,9 +146,6 @@ public class PrincipalVisual extends JFrame {
         mnCalendario = new JMenu("  Calendario de Juegos  ");
         menuBar.add(mnCalendario);
         
-        mntmVerCalendario = new JMenuItem("Abrir");
-        mnCalendario.add(mntmVerCalendario);
-        
         mntmNewMenuItem = new JMenuItem("Listado de Juegos");
         mnCalendario.add(mntmNewMenuItem);
         
@@ -163,6 +161,19 @@ public class PrincipalVisual extends JFrame {
         	}
         });
         mnSimulacion.add(mntmIniciarSimulacion);
+        
+        mnNewMenu = new JMenu("  Usuarios  ");
+        menuBar.add(mnNewMenu);
+        
+        mntmNewMenuItem_1 = new JMenuItem("Registrar");
+        mntmNewMenuItem_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		RegUser usuario = new RegUser();
+        		usuario.setVisible(true);
+        		usuario.setModal(true);
+        	}
+        });
+        mnNewMenu.add(mntmNewMenuItem_1);
 
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
