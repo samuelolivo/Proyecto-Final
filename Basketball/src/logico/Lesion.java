@@ -1,8 +1,10 @@
 package logico;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Lesion {
+public class Lesion implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private Jugador jugador;
 	private String tipoDeLesion;

@@ -1,0 +1,129 @@
+package visual;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import logico.User;
+import logico.SerieNacional;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class Login extends JDialog {
+
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JButton btnLogin;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				FileInputStream serieIn;
+				FileOutputStream serieout;
+				ObjectInputStream serieRead;
+				ObjectOutputStream serieWrite;
+				try {
+					serieIn = new FileInputStream ("serie.dat");
+					serieRead = new ObjectInputStream(serieIn);
+					SerieNacional temp = (SerieNacional)serieRead.readObject();
+					SerieNacional.setSerie(temp);
+					serieIn.close();
+					serieRead.close();
+				} catch (FileNotFoundException e) {
+					try {
+						serieout = new  FileOutputStream("serie.dat");
+						serieWrite = new ObjectOutputStream(serieout);
+						User aux = new User("Administrador", "Admin", "Admin");
+						SerieNacional.getInstance().regUser(aux);
+						serieWrite.writeObject(SerieNacional.getInstance());
+						serieout.close();
+						serieWrite.close();
+					} catch (FileNotFoundException e1) {
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+					}
+				} catch (IOException e) {
+					
+					
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+					frame.setModal(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Login() {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 249, 217);
+		setLocationRelativeTo(null);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.CENTER);
+		panel.setLayout(null);
+		
+		JLabel lblUsuario = new JLabel("Usuario:");
+		lblUsuario.setBounds(14, 13, 57, 14);
+		panel.add(lblUsuario);
+		
+		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
+		lblContrasea.setBounds(14, 63, 105, 14);
+		panel.add(lblContrasea);
+		
+		textField = new JTextField();
+		textField.setBounds(14, 31, 191, 20);
+		panel.add(textField);
+		textField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(14, 81, 191, 20);
+		panel.add(textField_1);
+		textField_1.setColumns(10);
+		
+		btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(SerieNacional.getInstance().confirmLogin(textField.getText(),textField_1.getText())){
+					PrincipalVisual frame = new PrincipalVisual();
+					dispose();
+					frame.setVisible(true);
+				};
+				
+			}
+		});
+		btnLogin.setBounds(14, 117, 191, 23);
+		panel.add(btnLogin);
+	}
+}

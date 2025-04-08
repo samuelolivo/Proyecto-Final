@@ -1,12 +1,15 @@
 package logico;
 
-public abstract class Estadistica {
+import java.io.Serializable;
+
+public abstract class Estadistica implements Serializable{
 
 	protected int cantJuegos;
 	protected int triples;
 	protected int dobles;
 	protected int normales;
 	protected int puntosTot;
+	private static final long serialVersionUID = 1L;
 	
 	public Estadistica(int cantJuegos, int triples, int dobles, int normales, int puntosTot) {
 		super();

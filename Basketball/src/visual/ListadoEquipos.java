@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import logico.Equipo;
 import logico.SerieNacional; // Corrected to use SerieNacional instead of Torneo
 
-public class ListadoEquipos extends JFrame {
+public class ListadoEquipos extends JDialog {
    
     private static final long serialVersionUID = 1L;
     private JTable table;
@@ -30,13 +30,15 @@ public class ListadoEquipos extends JFrame {
     private JPanel mainPanel;
     private JPanel searchPanel;
     private JScrollPane scrollPane;
+    private JButton consultarBtn;
 
     public ListadoEquipos() {
+    	setModal(true);
         setResizable(false);
         setAlwaysOnTop(true);
         setTitle("Listado de Equipos");
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         mainPanel = new JPanel(new BorderLayout());
@@ -80,6 +82,7 @@ public class ListadoEquipos extends JFrame {
                     searchField.setEnabled(true);
                     searchField.setText("");
                     modificarBtn.setEnabled(false);
+                    consultarBtn.setEnabled(false);
                     equipoSeleccionado = null;
                 }
             }
@@ -115,6 +118,7 @@ public class ListadoEquipos extends JFrame {
                     String equipoId = table.getValueAt(index, 0).toString();
                     equipoSeleccionado = SerieNacional.getInstance().searchEquipoById(equipoId, SerieNacional.getInstance().getMisEquipos());
                     modificarBtn.setEnabled(true);
+                    consultarBtn.setEnabled(true);
                 }
             }
         });
@@ -139,6 +143,7 @@ public class ListadoEquipos extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
             	modificarBtn.setEnabled(false);
+            	consultarBtn.setEnabled(false);
                 equipoSeleccionado = null;
                 RegEquipo regEquipo = new RegEquipo(null);
                 regEquipo.setVisible(true);
@@ -156,14 +161,41 @@ public class ListadoEquipos extends JFrame {
                     RegEquipo regEquipo = new RegEquipo(equipoSeleccionado);
                     regEquipo.setVisible(true);
                     regEquipo.setModal(true);
+                    modificarBtn.setEnabled(false);
+                    consultarBtn.setEnabled(false);
+                    equipoSeleccionado = null;
+                    String text = searchField.getText();
+                    if(text.equals("Buscar...") || text.isEmpty()) {
+                        loadAll(null);
+                    } else {
+                        loadAll(text);
+                    }
                 }
             }
         });
         
-        JButton button = new JButton("Consultar");
-        button.setFont(new Font("Dialog", Font.BOLD, 12));
-        button.setEnabled(false);
-        buttonPanel.add(button);
+        consultarBtn = new JButton("Consultar");
+        consultarBtn.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(equipoSeleccionado != null) {
+                    ConsultaEquipo consulta = new ConsultaEquipo(equipoSeleccionado);
+                    consulta.setVisible(true);
+                    consulta.setModal(true);
+                    modificarBtn.setEnabled(false);
+                    consultarBtn.setEnabled(false);
+                    equipoSeleccionado = null;
+                    String text = searchField.getText();
+                    if(text.equals("Buscar...") || text.isEmpty()) {
+                        loadAll(null);
+                    } else {
+                        loadAll(text);
+                    }
+                }
+        	}
+        });
+        consultarBtn.setFont(new Font("Dialog", Font.BOLD, 12));
+        consultarBtn.setEnabled(false);
+        buttonPanel.add(consultarBtn);
         buttonPanel.add(modificarBtn);
         buttonPanel.add(registrarBtn);
         

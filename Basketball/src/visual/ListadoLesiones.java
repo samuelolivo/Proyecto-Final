@@ -17,7 +17,7 @@ import logico.Jugador;
 import logico.Lesion;
 import logico.SerieNacional;
 
-public class ListadoLesiones extends JFrame {
+public class ListadoLesiones extends JDialog {
    
     private static final long serialVersionUID = 1L;
     private JTable table;
@@ -31,13 +31,15 @@ public class ListadoLesiones extends JFrame {
     private JPanel mainPanel;
     private JPanel searchPanel;
     private JScrollPane scrollPane;
+    private JButton consultarBtn;
 
     public ListadoLesiones(Jugador aux) {
+    	setModal(true);
         setResizable(false);
         setAlwaysOnTop(true);
         setTitle("Listado de Lesiones");
         setSize(800, 500);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         mainPanel = new JPanel(new BorderLayout());
@@ -81,6 +83,7 @@ public class ListadoLesiones extends JFrame {
                     searchField.setEnabled(true);
                     searchField.setText("");
                     modificarBtn.setEnabled(false);
+                    consultarBtn.setEnabled(false);
                     lesionSeleccionada = null;
                 }
             }
@@ -116,6 +119,7 @@ public class ListadoLesiones extends JFrame {
                     String lesionId = table.getValueAt(index, 0).toString();
                     lesionSeleccionada = SerieNacional.getInstance().searchLesionById(lesionId, SerieNacional.getInstance().getMisJugadores());
                     modificarBtn.setEnabled(true);
+                    consultarBtn.setEnabled(true);
                 }
             }
         });
@@ -139,7 +143,8 @@ public class ListadoLesiones extends JFrame {
         registrarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                modificarBtn.setEnabled(false);
+            	modificarBtn.setEnabled(false);
+            	consultarBtn.setEnabled(false);
                 lesionSeleccionada = null;
                 if (aux != null)
                 {   
@@ -165,12 +170,38 @@ public class ListadoLesiones extends JFrame {
                     RegLesion regLesion = new RegLesion(lesionSeleccionada.getJugador(), lesionSeleccionada);
                     regLesion.setVisible(true);
                     regLesion.setModal(true);
-                    loadAll(aux, null);
+                    modificarBtn.setEnabled(false);
+                	consultarBtn.setEnabled(false);
+                    lesionSeleccionada = null;
+                    String text = searchField.getText();
+                    if(text.equals("Buscar...") || text.isEmpty()) {
+                        loadAll(aux, null);
+                    } else {
+                        loadAll(aux, text);
+                    }
                 }
             }
         });
         
-        JButton consultarBtn = new JButton("Consultar");
+        consultarBtn = new JButton("Consultar");
+        consultarBtn.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(lesionSeleccionada != null) {
+                    ConsultaLesion consultaLesion = new ConsultaLesion(lesionSeleccionada.getJugador(), lesionSeleccionada);
+                    consultaLesion.setVisible(true);
+                    consultaLesion.setModal(true);
+                    modificarBtn.setEnabled(false);
+                	consultarBtn.setEnabled(false);
+                    lesionSeleccionada = null;
+                    String text = searchField.getText();
+                    if(text.equals("Buscar...") || text.isEmpty()) {
+                        loadAll(aux, null);
+                    } else {
+                        loadAll(aux, text);
+                    }
+                }
+        	}
+        });
         consultarBtn.setFont(boldFont);
         consultarBtn.setEnabled(false);
         buttonPanel.add(consultarBtn);

@@ -1,9 +1,10 @@
 package logico;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Equipo {
+public class Equipo implements Serializable{
 	    private String id;
 	    private String nombre;
 	    private String entrenador;
@@ -14,6 +15,7 @@ public class Equipo {
 	    private ArrayList<Juego> juegos;
 	    private ArrayList<Jugador> jugadores;
 	    private EstEquipo estadistica;
+	    private static final long serialVersionUID = 1L;
 
 	    public Equipo(String id, String nombre, String entrenador, String ciudad, int anoFundacion, 
 	    			  String dueno, File foto, ArrayList<Juego> juegos, ArrayList<Jugador> jugadores) {

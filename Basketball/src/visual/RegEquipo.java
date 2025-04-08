@@ -87,6 +87,7 @@ public class RegEquipo extends JDialog {
 		setBounds(100, 100, 504, 460);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			lblId = new JLabel("Id:");

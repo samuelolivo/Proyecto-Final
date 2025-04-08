@@ -1,10 +1,17 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SerieNacional {
-	private ArrayList<User> misUsuarios;
-	private static User loginUser;
+
+public class SerieNacional implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
+	private static SerieNacional serie = null;
+
+	private ArrayList<User> misUsers;
+	private static User loginUser = null;
 	
 	private ArrayList<Equipo> misEquipos;
 	private static int generadorEquipo;
@@ -16,9 +23,7 @@ public class SerieNacional {
 	private static int generadorJuego;
 	
 	private static int generadorLesion;
-	
-	private static SerieNacional serie = null;
-	
+		
 	private SerieNacional() {
 		super();
 		misEquipos = new ArrayList<Equipo>();
@@ -30,7 +35,7 @@ public class SerieNacional {
 		misJuegos = new ArrayList<Juego>();
 		generadorJuego = 1;
 		
-		misUsuarios = new ArrayList<User>();
+		misUsers = new ArrayList<User>();
 		
 		generadorLesion = 1;
 	}
@@ -40,6 +45,14 @@ public class SerieNacional {
 			serie = new SerieNacional();
 		
 		return serie;
+	}
+	
+	public static SerieNacional getSerie() {
+		return serie;
+	}
+	
+	public static void setSerie(SerieNacional serie) {
+		SerieNacional.serie = serie;
 	}
 
 	public ArrayList<Equipo> getMisEquipos() {
@@ -192,9 +205,41 @@ public class SerieNacional {
 	
 	public void eliminarLesion(Lesion aux) {
 		Jugador jug = searchJugadorById(aux.getJugador().getId(), misJugadores);
-		Lesion del = searchLesionByIdInPlayer(aux.getId(), jug.getMisLesiones());
+		if (jug == null)
+			return;
 		
-		if (jug != null && del != null)
-			jug.getMisLesiones().remove(del);
+		Lesion del = searchLesionByIdInPlayer(aux.getId(), jug.getMisLesiones());
+		jug.getMisLesiones().remove(del);
+	}
+
+	public ArrayList<User> getMisUsuarios() {
+		return misUsers;
+	}
+
+	public void setMisUsuarios(ArrayList<User> misUsuarios) {
+		this.misUsers = misUsuarios;
+	}
+	
+	public void regUser(User user) {
+		misUsers.add(user);	
+	}
+	
+	public static User getLoginUser() {
+		return loginUser;
+	}
+
+	public static void setLoginUser(User loginUser) {
+		SerieNacional.loginUser = loginUser;
+	}
+
+	public boolean confirmLogin(String userName, String pass) {
+		boolean login = false;
+		for (User user : misUsers) {
+			if(user.getUserName().equals(userName) && user.getPass().equals(pass)){
+				loginUser = user;
+				login = true;
+			}
+		}
+		return login;
 	}
 }

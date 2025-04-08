@@ -1,38 +1,43 @@
 package logico;
 
-public class User {
-	String username;
-	String password;
-	String type;
+import java.io.Serializable;
+
+public class User implements Serializable{
+    
+	private static final long serialVersionUID = 1L;
+	private String tipo;
+	private String userName;
+	private String pass;
 	
-	public User(String username, String password, String type) {
+	
+	public User(String tipo, String userName, String pass) {
 		super();
-		this.username = username;
-		this.password = password;
-		this.type = type;
+		this.tipo = tipo;
+		this.userName = userName;
+		this.pass = pass;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getTipo() {
+		return tipo;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public String getType() {
-		return type;
+	public String getPass() {
+		return pass;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setPass(String pass) {
+		this.pass = pass;
 	}
 }

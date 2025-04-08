@@ -85,14 +85,15 @@ public class RegLesion extends JDialog {
 		else
 			setTitle("Modificar Lesion");
 		
-		setBounds(100, 100, 503, 322);
+		setBounds(100, 100, 513, 318);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
 		JLabel label = new JLabel("Id:");
-		label.setBounds(79, 20, 16, 16);
+		label.setBounds(91, 17, 16, 16);
 		contentPanel.add(label);
 		
 		txtId = new JTextField();
@@ -100,19 +101,19 @@ public class RegLesion extends JDialog {
 		txtId.setText("LE-"+SerieNacional.getGeneradorLesion());
 		txtId.setEditable(false);
 		txtId.setColumns(10);
-		txtId.setBounds(101, 13, 226, 22);
+		txtId.setBounds(113, 10, 226, 22);
 		contentPanel.add(txtId);
 		
 		JLabel lblTipoDeLesion = new JLabel("Tipo de lesi\u00F3n:");
-		lblTipoDeLesion.setBounds(11, 68, 90, 16);
+		lblTipoDeLesion.setBounds(23, 65, 90, 16);
 		contentPanel.add(lblTipoDeLesion);
 		
 		cmbxTipoLesion = new JComboBox<String>();
-		cmbxTipoLesion.setBounds(101, 66, 373, 22);
+		cmbxTipoLesion.setBounds(113, 63, 373, 22);
 		contentPanel.add(cmbxTipoLesion);
 		
 		JLabel lblDasDeReposo = new JLabel("D\u00EDas de reposo:");
-		lblDasDeReposo.setBounds(12, 208, 90, 16);
+		lblDasDeReposo.setBounds(17, 205, 90, 16);
 		contentPanel.add(lblDasDeReposo);
 		
 		spnDiasReposo = new JSpinner();
@@ -123,43 +124,43 @@ public class RegLesion extends JDialog {
 				txtFechaRec.setText(recuperacion.format(formatter));
 			}
 		});
-		spnDiasReposo.setBounds(107, 205, 52, 22);
+		spnDiasReposo.setBounds(113, 202, 52, 22);
 		contentPanel.add(spnDiasReposo);
 		JLabel lblFechaDeRecuperacin = new JLabel("Fecha de recuperaci\u00F3n:");
-		lblFechaDeRecuperacin.setBounds(242, 208, 143, 16);
+		lblFechaDeRecuperacin.setBounds(254, 205, 143, 16);
 		contentPanel.add(lblFechaDeRecuperacin);
 		
 		JLabel label_1 = new JLabel("Jugador:");
-		label_1.setBounds(44, 42, 52, 16);
+		label_1.setBounds(56, 39, 52, 16);
 		contentPanel.add(label_1);
 		
 		txtFechaRec = new JTextField();
 		txtFechaRec.setHorizontalAlignment(SwingConstants.CENTER);
 		txtFechaRec.setEditable(false);
 		txtFechaRec.setColumns(10);
-		txtFechaRec.setBounds(384, 205, 90, 22);
+		txtFechaRec.setBounds(396, 202, 90, 22);
 		contentPanel.add(txtFechaRec);
 		txtFechaRec.setText(recuperacion.format(formatter));
 		
 		JLabel lblDescripcin = new JLabel("Descripci\u00F3n:");
-		lblDescripcin.setBounds(23, 98, 74, 16);
+		lblDescripcin.setBounds(35, 95, 74, 16);
 		contentPanel.add(lblDescripcin);
 		
 		txtDescripcion = new TextArea();
 		txtDescripcion.setLocale(new Locale("es", "DO"));
-		txtDescripcion.setBounds(101, 93, 373, 100);
+		txtDescripcion.setBounds(113, 90, 373, 100);
 		contentPanel.add(txtDescripcion);
 		
 		txtIdJugador = new JTextField();
 		txtIdJugador.setEditable(false);
 		txtIdJugador.setColumns(10);
-		txtIdJugador.setBounds(101, 39, 122, 22);
+		txtIdJugador.setBounds(113, 36, 122, 22);
 		contentPanel.add(txtIdJugador);
 		
 		txtNomJugador = new JTextField();
 		txtNomJugador.setEditable(false);
 		txtNomJugador.setColumns(10);
-		txtNomJugador.setBounds(227, 39, 247, 22);
+		txtNomJugador.setBounds(239, 36, 247, 22);
 		contentPanel.add(txtNomJugador);
 		
 		rdLesion = new JRadioButton("Activa");
@@ -173,11 +174,11 @@ public class RegLesion extends JDialog {
 			}
 		});
 		rdLesion.setSelected(true);
-		rdLesion.setBounds(384, 12, 90, 25);
+		rdLesion.setBounds(396, 9, 90, 25);
 		contentPanel.add(rdLesion);
 		
 		JLabel lblEstado = new JLabel("Estado:");
-		lblEstado.setBounds(339, 16, 52, 16);
+		lblEstado.setBounds(351, 13, 52, 16);
 		contentPanel.add(lblEstado);
 		{
 			JPanel buttonPane = new JPanel();

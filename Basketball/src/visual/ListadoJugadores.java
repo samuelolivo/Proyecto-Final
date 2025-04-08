@@ -17,7 +17,7 @@ import logico.Equipo;
 import logico.Jugador;
 import logico.SerieNacional;
 
-public class ListadoJugadores extends JFrame {
+public class ListadoJugadores extends JDialog {
    
     private static final long serialVersionUID = 1L;
     private JTable table;
@@ -31,13 +31,17 @@ public class ListadoJugadores extends JFrame {
     private JPanel mainPanel;
     private JPanel searchPanel;
     private JScrollPane scrollPane;
+    private JButton consultarBtn;
 
     public ListadoJugadores(Equipo aux) {
+    	setModal(true);
         setResizable(false);
         setAlwaysOnTop(true);
         setTitle("Listado de Jugadores");
+        if (aux != null)
+        	setTitle("Listado de Jugadores" + " | " + aux.getNombre());
         setSize(800, 600);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
         mainPanel = new JPanel(new BorderLayout());
@@ -81,6 +85,7 @@ public class ListadoJugadores extends JFrame {
                     searchField.setEnabled(true);
                     searchField.setText("");
                     modificarBtn.setEnabled(false);
+                    consultarBtn.setEnabled(false);
                     jugadorSeleccionado = null;
                 }
             }
@@ -116,6 +121,7 @@ public class ListadoJugadores extends JFrame {
                     String jugadorId = table.getValueAt(index, 1).toString();
                     jugadorSeleccionado = SerieNacional.getInstance().searchJugadorById(jugadorId, SerieNacional.getInstance().getMisJugadores());
                     modificarBtn.setEnabled(true);
+                    consultarBtn.setEnabled(true);
                 }
             }
         });
@@ -140,11 +146,12 @@ public class ListadoJugadores extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 modificarBtn.setEnabled(false);
+                consultarBtn.setEnabled(false);
                 jugadorSeleccionado = null;
                 RegJugador regJugador = new RegJugador(null);
-                loadAll(aux, null);
                 regJugador.setVisible(true);
                 regJugador.setModal(true);                
+                loadAll(aux, null);
             }
         });
         
@@ -158,12 +165,38 @@ public class ListadoJugadores extends JFrame {
                     RegJugador regJugador = new RegJugador(jugadorSeleccionado);
                     regJugador.setVisible(true);
                     regJugador.setModal(true);
-                    loadAll(aux, null);
+                    modificarBtn.setEnabled(false);
+                    consultarBtn.setEnabled(false);
+                    jugadorSeleccionado = null;
+                    String text = searchField.getText();
+                    if(text.equals("Buscar...") || text.isEmpty()) {
+                        loadAll(aux, null);
+                    } else {
+                        loadAll(aux, text);
+                    }
                 }
             }
         });
         
-        JButton consultarBtn = new JButton("Consultar");
+        consultarBtn = new JButton("Consultar");
+        consultarBtn.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if(jugadorSeleccionado != null) {
+	        		ConsultaJugador conJugador = new ConsultaJugador(jugadorSeleccionado);
+	        		conJugador.setVisible(true);
+	        		conJugador.setModal(true);
+	        		modificarBtn.setEnabled(false);
+	                consultarBtn.setEnabled(false);
+	                jugadorSeleccionado = null;
+	                String text = searchField.getText();
+	                if(text.equals("Buscar...") || text.isEmpty()) {
+	                    loadAll(aux, null);
+	                } else {
+	                    loadAll(aux, text);
+	                }
+        		}
+        	}
+        });
         consultarBtn.setFont(boldFont);
         consultarBtn.setEnabled(false);
         buttonPanel.add(consultarBtn);

@@ -25,15 +25,11 @@ import javax.swing.border.EmptyBorder;
 import logico.Jugador;
 import logico.SerieNacional;
 
-public class ConsultarJugador extends JDialog {
+public class ConsultaJugador extends JDialog {
     private final JPanel contentPanel = new JPanel();
     private JTextField txtId;
     private JTextField txtNombre;
     private JTextField txtApellido;
-    private JComboBox<String> cmbxPosicion;
-    private JSpinner spnPeso;
-    private JSpinner spnAltura;
-    private JSpinner spnNumero;
     private JLabel lblId;
     private JLabel lblNombre;
     private JLabel lblApellido;
@@ -44,13 +40,19 @@ public class ConsultarJugador extends JDialog {
     private JPanel panel;
     private JButton cancelButton;
     private File selectedFile = null;
+    private JTextField txtEquipoNombre;
+    private JTextField txtIdEquipo;
+    private JTextField cmbxPosicion;
+    private JTextField spnPeso;
+    private JTextField spnAltura;
+    private JTextField spnNumero;
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
         try {
-            ConsultarJugador dialog = new ConsultarJugador(null);
+            ConsultaJugador dialog = new ConsultaJugador(null);
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             dialog.setVisible(true);
         } catch (Exception e) {
@@ -61,69 +63,63 @@ public class ConsultarJugador extends JDialog {
     /**
      * Create the dialog.
      */
-    public ConsultarJugador(Jugador aux) {
-        if (aux == null)
-            setTitle("Consultar Jugador");
-        else
-            setTitle("Modificar Jugador");
-        setBounds(100, 100, 521, 508);
+    public ConsultaJugador(Jugador aux) {
+    	setResizable(false);
+    	setModal(true);
+    	setAlwaysOnTop(true);
+        setTitle("Consultar Jugador");
+        setBounds(100, 100, 500, 510);
         getContentPane().setLayout(new BorderLayout());
+        contentPanel.setBackground(Color.WHITE);
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
+        setLocationRelativeTo(null);
 
         // ID Label and TextField
         lblId = new JLabel("Id:");
-        lblId.setBounds(59, 15, 16, 16);
+        lblId.setBounds(50, 17, 16, 16);
         txtId = new JTextField();
-        txtId.setBounds(84, 11, 394, 22);
+        txtId.setBounds(75, 13, 394, 22);
         txtId.setEditable(false);
-        SerieNacional.getInstance();
-        txtId.setText("PL-" + SerieNacional.getGeneradorJugador());
         txtId.setColumns(10);
 
         // Nombre Label and TextField
         lblNombre = new JLabel("Nombre:");
-        lblNombre.setBounds(25, 41, 50, 16);
+        lblNombre.setBounds(16, 43, 50, 16);
         txtNombre = new JTextField();
-        txtNombre.setBounds(84, 38, 154, 22);
+        txtNombre.setEditable(false);
+        txtNombre.setBounds(75, 40, 154, 22);
         txtNombre.setColumns(10);
 
         // Apellido Label and TextField
         lblApellido = new JLabel("Apellido:");
-        lblApellido.setBounds(250, 41, 50, 16);
+        lblApellido.setBounds(241, 43, 50, 16);
         txtApellido = new JTextField();
-        txtApellido.setBounds(305, 38, 173, 22);
+        txtApellido.setEditable(false);
+        txtApellido.setBounds(296, 40, 173, 22);
         txtApellido.setColumns(10);
 
         // Posición Label and ComboBox
         lblPosicion = new JLabel("Posición:");
-        lblPosicion.setBounds(25, 70, 59, 16);
-        cmbxPosicion = new JComboBox<String>();
-        cmbxPosicion.setBounds(83, 67, 395, 22);
+        lblPosicion.setBounds(16, 72, 59, 16);
 
         // Peso Label and Spinner
         lblPeso = new JLabel("Peso(kg):");
-        lblPeso.setBounds(21, 97, 59, 16);
-        spnPeso = new JSpinner();
-        spnPeso.setBounds(83, 94, 66, 22);
+        lblPeso.setBounds(12, 99, 59, 16);
 
         // Altura Label and Spinner
         lblAltura = new JLabel("Altura(cm):");
-        lblAltura.setBounds(178, 97, 66, 16);
-        spnAltura = new JSpinner();
-        spnAltura.setBounds(249, 94, 66, 22);
+        lblAltura.setBounds(169, 99, 66, 16);
 
         // Número Label and Spinner
         JLabel lblNumero = new JLabel("Número:");
-        lblNumero.setBounds(346, 97, 66, 16);
-        spnNumero = new JSpinner();
-        spnNumero.setBounds(403, 94, 75, 22);
+        lblNumero.setBounds(337, 99, 66, 16);
 
         // Foto del jugador Label and Panel
         lblFoto = new JLabel("Foto del jugador:");
-        lblFoto.setBounds(23, 127, 99, 16);
+        lblFoto.setBounds(16, 128, 99, 16);
         panel = new JPanel();
-        panel.setBounds(25, 159, 225, 223);
+        panel.setBounds(13, 149, 225, 223);
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
         panel.setLayout(null);
@@ -137,13 +133,9 @@ public class ConsultarJugador extends JDialog {
         contentPanel.add(lblApellido);
         contentPanel.add(txtApellido);
         contentPanel.add(lblPosicion);
-        contentPanel.add(cmbxPosicion);
         contentPanel.add(lblPeso);
-        contentPanel.add(spnPeso);
         contentPanel.add(lblAltura);
-        contentPanel.add(spnAltura);
         contentPanel.add(lblNumero);
-        contentPanel.add(spnNumero);
         contentPanel.add(panel);
         JLabel imageDisplayLabel = new JLabel("No hay imagen seleccionada", SwingConstants.CENTER);
         imageDisplayLabel.setBounds(0, 0, 220, 219);
@@ -153,18 +145,19 @@ public class ConsultarJugador extends JDialog {
 
         // Agregar botones para ver listado de lesiones y estadísticas
         JButton btnVerLesiones = new JButton("Ver Listado de Lesiones");
-        btnVerLesiones.setBounds(265, 159, 200, 89); // Posición y tamaño del botón
+        btnVerLesiones.setBounds(253, 149, 216, 105); // Posición y tamaño del botón
         btnVerLesiones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para mostrar el listado de lesiones
-                System.out.println("Botón 'Ver Listado de Lesiones' presionado.");
+            	ListadoLesiones listado = new ListadoLesiones(aux);
+                listado.setVisible(true);
+                listado.setModal(true);
             }
         });
         contentPanel.add(btnVerLesiones);
 
         JButton btnVerEstadisticas = new JButton("Ver Estadísticas");
-        btnVerEstadisticas.setBounds(265, 293, 200, 89); // Posición y tamaño del botón
+        btnVerEstadisticas.setBounds(253, 267, 216, 105); // Posición y tamaño del botón
         btnVerEstadisticas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -173,15 +166,52 @@ public class ConsultarJugador extends JDialog {
             }
         });
         contentPanel.add(btnVerEstadisticas);
+        
+        JLabel label = new JLabel("Equipo:");
+        label.setBounds(23, 390, 43, 16);
+        contentPanel.add(label);
+        
+        txtEquipoNombre = new JTextField();
+        txtEquipoNombre.setEditable(false);
+        txtEquipoNombre.setColumns(10);
+        txtEquipoNombre.setBounds(218, 387, 251, 22);
+        contentPanel.add(txtEquipoNombre);
+        
+        txtIdEquipo = new JTextField();
+        txtIdEquipo.setEditable(false);
+        txtIdEquipo.setColumns(10);
+        txtIdEquipo.setBounds(75, 387, 137, 22);
+        contentPanel.add(txtIdEquipo);
+        
+        cmbxPosicion = new JTextField();
+        cmbxPosicion.setEditable(false);
+        cmbxPosicion.setColumns(10);
+        cmbxPosicion.setBounds(75, 69, 394, 22);
+        contentPanel.add(cmbxPosicion);
+        
+        spnPeso = new JTextField();
+        spnPeso.setEditable(false);
+        spnPeso.setColumns(10);
+        spnPeso.setBounds(75, 96, 66, 22);
+        contentPanel.add(spnPeso);
+        
+        spnAltura = new JTextField();
+        spnAltura.setEditable(false);
+        spnAltura.setColumns(10);
+        spnAltura.setBounds(241, 96, 66, 22);
+        contentPanel.add(spnAltura);
+        
+        spnNumero = new JTextField();
+        spnNumero.setEditable(false);
+        spnNumero.setColumns(10);
+        spnNumero.setBounds(394, 96, 75, 22);
+        contentPanel.add(spnNumero);
 
         // Buttons Pane
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
-        AbstractButton okButton = null;
-		if (aux != null)
-            okButton.setText("Modificar");
-
+        
         // Cancelar Button
         cancelButton = new JButton("Volver");
         cancelButton.addActionListener(new ActionListener() {
@@ -200,36 +230,23 @@ public class ConsultarJugador extends JDialog {
             txtId.setText(aux.getId());
             txtNombre.setText(aux.getNombre());
             txtApellido.setText(aux.getApellido());
-            spnPeso.setValue(aux.getPesoKg());
-            spnAltura.setValue(aux.getAlturaCm());
-            spnNumero.setValue(aux.getNumero());
+            spnPeso.setText(Float.toString(aux.getPesoKg()));
+            spnAltura.setText(Float.toString(aux.getAlturaCm()));
+            spnNumero.setText(Integer.toString(aux.getNumero()));
+            cmbxPosicion.setText(aux.getPosicion());
+            txtIdEquipo.setText(aux.getEquipo() != null ? aux.getEquipo().getId() : "");
+	        txtEquipoNombre.setText(aux.getEquipo() != null ? aux.getEquipo().getNombre() : "");
             selectedFile = aux.getFoto();
             if (selectedFile != null) {
                 displayImage(selectedFile);
             } else {
                 panel.removeAll();
-                JLabel imageDisplayLabel = new JLabel("No hay imagen seleccionada", SwingConstants.CENTER);
+                JLabel imageDisplayLabel = new JLabel("No hay imagen disponible", SwingConstants.CENTER);
                 imageDisplayLabel.setBounds(10, 10, 205, 203);
                 imageDisplayLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 panel.add(imageDisplayLabel);
             }
         }
-    }
-
-    private void clean() {
-        SerieNacional.getInstance();
-        txtId.setText("PL-" + SerieNacional.getGeneradorJugador());
-        txtNombre.setText("");
-        txtApellido.setText("");
-        spnPeso.setValue(0f);
-        spnAltura.setValue(0f);
-        spnNumero.setValue(0);
-        selectedFile = null;
-        panel.removeAll();
-        JLabel imageDisplayLabel = new JLabel("No hay imagen seleccionada", SwingConstants.CENTER);
-        imageDisplayLabel.setBounds(10, 10, 205, 203);
-        imageDisplayLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(imageDisplayLabel);
     }
 
     private void displayImage(File file) {

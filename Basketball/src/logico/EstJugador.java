@@ -1,6 +1,8 @@
 package logico;
 
-public class EstJugador extends Estadistica {
+import java.io.Serializable;
+
+public class EstJugador extends Estadistica{
 	private int robos;
 	private int tapones;
 	private int asistencias;

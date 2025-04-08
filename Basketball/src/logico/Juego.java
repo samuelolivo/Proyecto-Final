@@ -1,8 +1,9 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Juego {
+public class Juego implements Serializable{
 	    private String id;
 	    private Equipo home;
 	    private Equipo away;
@@ -10,6 +11,8 @@ public class Juego {
 	    private int marcadorCasa;
 	    private int marcadorAway;
 	    private String ganador;
+	    private static final long serialVersionUID = 1L;
+	    
 
 	    public Juego(String id, Equipo home, Equipo away) {
 	        this.id = id;

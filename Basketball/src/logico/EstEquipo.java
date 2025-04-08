@@ -1,10 +1,11 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class EstEquipo extends Estadistica {
+public class EstEquipo extends Estadistica{
 
 	private int juegosGanados;
 	private int juegosPerdidos;
