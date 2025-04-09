@@ -161,8 +161,9 @@ public class ConsultaJugador extends JDialog {
         btnVerEstadisticas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para mostrar las estadísticas
-                System.out.println("Botón 'Ver Estadísticas' presionado.");
+                ConsultaEstJugador consulta = new ConsultaEstJugador(aux);
+                consulta.setVisible(true);
+                consulta.setModal(true);
             }
         });
         contentPanel.add(btnVerEstadisticas);
@@ -214,6 +215,7 @@ public class ConsultaJugador extends JDialog {
         
         // Cancelar Button
         cancelButton = new JButton("Volver");
+        cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();

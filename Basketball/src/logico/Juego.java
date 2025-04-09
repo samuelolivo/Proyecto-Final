@@ -7,7 +7,6 @@ public class Juego implements Serializable{
 	    private String id;
 	    private Equipo home;
 	    private Equipo away;
-	    private ArrayList<Estadistica> estadisticas;
 	    private int marcadorCasa;
 	    private int marcadorAway;
 	    private String ganador;
@@ -18,10 +17,9 @@ public class Juego implements Serializable{
 	        this.id = id;
 	        this.home = home;
 	        this.away = away;
-	        this.estadisticas = new ArrayList<Estadistica>();
 	        this.marcadorCasa = 0;
 	        this.marcadorAway = 0;
-	        this.ganador = null;
+	        this.ganador = "-";
 	    }
 
 	    public String getId() {
@@ -42,14 +40,6 @@ public class Juego implements Serializable{
 
 	    public void setAway(Equipo away) {
 	        this.away = away;
-	    }
-
-	    public ArrayList<Estadistica> getEstadisticas() {
-	        return estadisticas;
-	    }
-
-	    public void setEstadisticas(ArrayList<Estadistica> estadisticas) {
-	        this.estadisticas = estadisticas;
 	    }
 
 	    public int getMarcadorCasa() {
@@ -79,7 +69,6 @@ public class Juego implements Serializable{
 	    public void actualizarDatos(Juego aux) {
 	        this.home = aux.getHome();
 	        this.away = aux.getAway();
-	        this.estadisticas = aux.getEstadisticas();
 	        this.marcadorCasa = aux.getMarcadorCasa();
 	        this.marcadorAway = aux.getMarcadorAway();
 	        this.ganador = aux.getGanador();

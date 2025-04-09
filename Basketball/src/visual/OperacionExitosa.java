@@ -33,10 +33,14 @@ public class OperacionExitosa extends JDialog {
      * Create the dialog.
      */
     public OperacionExitosa() {
+    	setResizable(false);
+    	setModal(true);
+    	setAlwaysOnTop(true);
     	setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
     	setFont(new Font("Dialog", Font.PLAIN, 16));
         setTitle("Mensaje");
-        setBounds(100, 100, 329, 234);   
+        setBounds(100, 100, 329, 137); 
+        setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
 
         // Panel principal
@@ -52,7 +56,7 @@ public class OperacionExitosa extends JDialog {
         contentPanel.add(lblMensaje, BorderLayout.CENTER);
 
          JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
          JButton btnOK = new JButton("OK");

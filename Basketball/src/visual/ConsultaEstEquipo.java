@@ -9,6 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import logico.Equipo;
+import logico.EstEquipo;
+
+import java.awt.Color;
+import java.awt.Font;
+
 public class ConsultaEstEquipo extends JDialog {
     /**
 	 * 
@@ -29,7 +35,7 @@ public class ConsultaEstEquipo extends JDialog {
      */
     public static void main(String[] args) {
         try {
-            ConsultaEstEquipo dialog = new ConsultaEstEquipo();
+            ConsultaEstEquipo dialog = new ConsultaEstEquipo(null);
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             dialog.setVisible(true);
         } catch (Exception e) {
@@ -40,10 +46,15 @@ public class ConsultaEstEquipo extends JDialog {
     /**
      * Create the dialog.
      */
-    public ConsultaEstEquipo() {
-        setTitle("Consulta Estadísticas del Equipo");
-        setBounds(100, 100, 450, 450);  
+    public ConsultaEstEquipo(Equipo aux) {
+    	setResizable(false);
+    	setAlwaysOnTop(true);
+    	setModal(true);
+        setTitle("Estad\u00EDstica |");
+        setBounds(100, 100, 312, 351); 
+        setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
+        contentPanel.setBackground(Color.WHITE);
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
 
@@ -54,6 +65,7 @@ public class ConsultaEstEquipo extends JDialog {
         contentPanel.add(lblCantJuegos);
 
         txtCantJuegos = new JTextField();
+        txtCantJuegos.setEditable(false);
         txtCantJuegos.setBounds(180, 17, 100, 22);
         contentPanel.add(txtCantJuegos);
 
@@ -62,6 +74,7 @@ public class ConsultaEstEquipo extends JDialog {
         contentPanel.add(lblTriples);
 
         txtTriples = new JTextField();
+        txtTriples.setEditable(false);
         txtTriples.setBounds(180, 47, 100, 22);
         contentPanel.add(txtTriples);
 
@@ -70,6 +83,7 @@ public class ConsultaEstEquipo extends JDialog {
         contentPanel.add(lblDobles);
 
         txtDobles = new JTextField();
+        txtDobles.setEditable(false);
         txtDobles.setBounds(180, 77, 100, 22);
         contentPanel.add(txtDobles);
 
@@ -78,6 +92,7 @@ public class ConsultaEstEquipo extends JDialog {
         contentPanel.add(lblNormales);
 
         txtNormales = new JTextField();
+        txtNormales.setEditable(false);
         txtNormales.setBounds(180, 107, 100, 22);
         contentPanel.add(txtNormales);
 
@@ -86,6 +101,7 @@ public class ConsultaEstEquipo extends JDialog {
         contentPanel.add(lblPuntosTot);
 
         txtPuntosTot = new JTextField();
+        txtPuntosTot.setEditable(false);
         txtPuntosTot.setBounds(180, 137, 100, 22);
         contentPanel.add(txtPuntosTot);
 
@@ -94,6 +110,7 @@ public class ConsultaEstEquipo extends JDialog {
         contentPanel.add(lblJuegosGanados);
 
         txtJuegosGanados = new JTextField();
+        txtJuegosGanados.setEditable(false);
         txtJuegosGanados.setBounds(180, 167, 100, 22);
         contentPanel.add(txtJuegosGanados);
 
@@ -102,6 +119,7 @@ public class ConsultaEstEquipo extends JDialog {
         contentPanel.add(lblJuegosPerdidos);
 
         txtJuegosPerdidos = new JTextField();
+        txtJuegosPerdidos.setEditable(false);
         txtJuegosPerdidos.setBounds(180, 197, 100, 22);
         contentPanel.add(txtJuegosPerdidos);
 
@@ -110,6 +128,7 @@ public class ConsultaEstEquipo extends JDialog {
         contentPanel.add(lblTorneosGanados);
 
         txtTorneosGanados = new JTextField();
+        txtTorneosGanados.setEditable(false);
         txtTorneosGanados.setBounds(180, 227, 100, 22);
         contentPanel.add(txtTorneosGanados);
 
@@ -117,22 +136,29 @@ public class ConsultaEstEquipo extends JDialog {
         buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-         JButton saveButton = new JButton("Guardar");
-        saveButton.addActionListener(e -> {
-             System.out.println("Datos guardados:");
-            System.out.println("Cantidad de Juegos: " + txtCantJuegos.getText());
-            System.out.println("Triples: " + txtTriples.getText());
-            System.out.println("Dobles: " + txtDobles.getText());
-            System.out.println("Normales: " + txtNormales.getText());
-            System.out.println("Puntos Totales: " + txtPuntosTot.getText());
-            System.out.println("Juegos Ganados: " + txtJuegosGanados.getText());
-            System.out.println("Juegos Perdidos: " + txtJuegosPerdidos.getText());
-            System.out.println("Torneos Ganados: " + txtTorneosGanados.getText());
-        });
-        buttonPane.add(saveButton);
-
-         JButton cancelButton = new JButton("Cerrar");
+         JButton cancelButton = new JButton("Volver");
+         cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
         cancelButton.addActionListener(e -> dispose());
         buttonPane.add(cancelButton);
+        
+        loadEstadistica(aux);
+    }
+    
+    public void loadEstadistica(Equipo aux) {
+        if (aux == null || aux.getEstadistica() == null)
+            return;
+        
+        EstEquipo estadistica = aux.getEstadistica();
+        
+        setTitle("Estadística | " + aux.getNombre());
+   
+        txtCantJuegos.setText(Integer.toString(estadistica.getCantJuegos()));
+        txtTriples.setText(Integer.toString(estadistica.getTriples()));
+        txtDobles.setText(Integer.toString(estadistica.getDobles()));
+        txtNormales.setText(Integer.toString(estadistica.getNormales()));
+        txtPuntosTot.setText(Integer.toString(estadistica.getPuntosTot()));
+        txtJuegosGanados.setText(Integer.toString(estadistica.getJuegosGanados()));
+        txtJuegosPerdidos.setText(Integer.toString(estadistica.getJuegosPerdidos()));
+        txtTorneosGanados.setText(Integer.toString(estadistica.getTorneosGanados()));
     }
 }

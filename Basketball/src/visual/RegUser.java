@@ -17,13 +17,14 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Font;
 
 public class RegUser extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtUser;
+	private JTextField txtPass;
+	private JTextField txtPassConfirm;
 	private JComboBox comboBox;
 
 	/**
@@ -43,7 +44,11 @@ public class RegUser extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegUser() {
-		setBounds(100, 100, 374, 208);
+		setTitle("Registrar usuario");
+		setResizable(false);
+		setModal(true);
+		setAlwaysOnTop(true);
+		setBounds(100, 100, 358, 196);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -54,13 +59,13 @@ public class RegUser extends JDialog {
 		lblNombreUsuario.setBounds(12, 13, 97, 14);
 		contentPanel.add(lblNombreUsuario);
 		
-		textField = new JTextField();
-		textField.setBounds(12, 30, 127, 20);
-		contentPanel.add(textField);
-		textField.setColumns(10);
+		txtUser = new JTextField();
+		txtUser.setBounds(12, 30, 127, 20);
+		contentPanel.add(txtUser);
+		txtUser.setColumns(10);
 		
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Administrador", "Comercial"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar", "Administrador", "Anotador"}));
 		comboBox.setBounds(12, 80, 127, 20);
 		contentPanel.add(comboBox);
 		
@@ -68,10 +73,10 @@ public class RegUser extends JDialog {
 		lblTipo.setBounds(12, 63, 97, 14);
 		contentPanel.add(lblTipo);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(182, 30, 147, 20);
-		contentPanel.add(textField_1);
-		textField_1.setColumns(10);
+		txtPass = new JTextField();
+		txtPass.setBounds(182, 30, 147, 20);
+		contentPanel.add(txtPass);
+		txtPass.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setBounds(181, 13, 97, 14);
@@ -81,20 +86,45 @@ public class RegUser extends JDialog {
 		lblConfirmarPassword.setBounds(181, 63, 167, 14);
 		contentPanel.add(lblConfirmarPassword);
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(182, 80, 147, 20);
-		contentPanel.add(textField_2);
+		txtPassConfirm = new JTextField();
+		txtPassConfirm.setColumns(10);
+		txtPassConfirm.setBounds(182, 80, 147, 20);
+		contentPanel.add(txtPassConfirm);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				JButton okButton = new JButton("Registrar");
+				okButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						User user = new User(comboBox.getSelectedItem().toString(),textField.getText(),textField_1.getText());
-					    SerieNacional.getInstance().regUser(user);
+						User usuarioEncontrado = SerieNacional.getInstance().buscarUser(txtUser.getText());
+						
+						if (usuarioEncontrado == null)
+						{
+							if (datosCompletos())
+							{
+								User user = new User(comboBox.getSelectedItem().toString(),txtUser.getText(),txtPass.getText());
+							    SerieNacional.getInstance().regUser(user);
+							    OperacionExitosa operacion = new OperacionExitosa();
+							    operacion.setVisible(true);
+							    operacion.setModal(true);
+							    dispose();
+							}
+							else
+							{
+								OperacionFallida operacion = new OperacionFallida("Rellene todos los campos.");
+							    operacion.setVisible(true);
+							    operacion.setModal(true);
+							}
+						}
+						else
+						{
+							OperacionFallida operacion = new OperacionFallida("Nombre de usuario en uso");
+						    operacion.setVisible(true);
+						    operacion.setModal(true);
+						}
 					}
 				});
 				okButton.setActionCommand("Registrar");
@@ -102,7 +132,8 @@ public class RegUser extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
+				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
@@ -113,4 +144,15 @@ public class RegUser extends JDialog {
 			}
 		}
 	}
+	
+	private boolean datosCompletos() {
+	    return !txtUser.getText().trim().isEmpty()
+	        && !txtPass.getText().trim().isEmpty()
+	        && !txtPassConfirm.getText().trim().isEmpty()
+	        && comboBox.getSelectedItem() != null
+	        && !comboBox.getSelectedItem().toString().equals("Seleccione")
+	        && txtPass.getText().equals(txtPassConfirm.getText());
+	}
 }
+
+

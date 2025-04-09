@@ -24,7 +24,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import logico.Equipo;
-import logico.Jugador;
 import logico.SerieNacional;
 
 public class ConsultaEquipo extends JDialog {
@@ -36,14 +35,14 @@ public class ConsultaEquipo extends JDialog {
     private JLabel lblId;
     private JLabel lblNombre;
     private JLabel lblAnoFund;
-    private JLabel ldlCiudad;
+    private JLabel ldlPais;
     private JLabel lblEntrenador;
     private JLabel lblDueno;
     private JLabel lblFoto;
     private JPanel panel;
     private JButton cancelButton;
     private File selectedFile = null;
-    private JTextField cmbxCiudad;
+    private JTextField cmbxPais;
     private JTextField spnAnoFund;
     private JButton btnVerJugadores;
     private JButton btnVerEstadisticas;
@@ -82,8 +81,6 @@ public class ConsultaEquipo extends JDialog {
         txtId = new JTextField();
         txtId.setBounds(88, 13, 388, 22);
         txtId.setEditable(false);
-        SerieNacional.getInstance();
-        txtId.setText("EQ-" + SerieNacional.getGeneradorEquipo());
         txtId.setColumns(10);
 
         // Nombre Label and TextField
@@ -99,8 +96,8 @@ public class ConsultaEquipo extends JDialog {
         lblAnoFund.setBounds(277, 42, 105, 16);
 
         // Ciudad Label and ComboBox
-        ldlCiudad = new JLabel("Ciudad:");
-        ldlCiudad.setBounds(38, 69, 46, 16);
+        ldlPais = new JLabel("Pa\u00EDs:");
+        ldlPais.setBounds(54, 72, 28, 16);
 
         // Entrenador Label and TextField
         lblEntrenador = new JLabel("Entrenador:");
@@ -149,8 +146,9 @@ public class ConsultaEquipo extends JDialog {
         btnVerEstadisticas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para mostrar las estadísticas
-                System.out.println("Botón 'Ver Estadísticas' presionado.");
+            	ConsultaEstEquipo consulta = new ConsultaEstEquipo(aux);
+                consulta.setVisible(true);
+                consulta.setModal(true);
             }
         });
         contentPanel.add(btnVerEstadisticas);
@@ -162,7 +160,7 @@ public class ConsultaEquipo extends JDialog {
         contentPanel.add(lblNombre);
         contentPanel.add(txtNombre);
         contentPanel.add(lblAnoFund);
-        contentPanel.add(ldlCiudad);
+        contentPanel.add(ldlPais);
         contentPanel.add(lblEntrenador);
         contentPanel.add(txtEntrenador);
         contentPanel.add(lblDueno);
@@ -170,11 +168,11 @@ public class ConsultaEquipo extends JDialog {
         contentPanel.add(panel);
         contentPanel.add(lblFoto);
         
-        cmbxCiudad = new JTextField();
-        cmbxCiudad.setEditable(false);
-        cmbxCiudad.setColumns(10);
-        cmbxCiudad.setBounds(88, 66, 388, 22);
-        contentPanel.add(cmbxCiudad);
+        cmbxPais = new JTextField();
+        cmbxPais.setEditable(false);
+        cmbxPais.setColumns(10);
+        cmbxPais.setBounds(88, 66, 388, 22);
+        contentPanel.add(cmbxPais);
         
         spnAnoFund = new JTextField();
         spnAnoFund.setEditable(false);
@@ -189,6 +187,7 @@ public class ConsultaEquipo extends JDialog {
         
         // Cancelar Button
         cancelButton = new JButton("Volver");
+        cancelButton.setFont(new Font("Tahoma", Font.BOLD, 13));
         cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 dispose();
@@ -206,7 +205,7 @@ public class ConsultaEquipo extends JDialog {
             txtNombre.setText(aux.getNombre());
             txtEntrenador.setText(aux.getEntrenador());
             txtDueno.setText(aux.getDueno());
-            cmbxCiudad.setText(aux.getCiudad());
+            cmbxPais.setText(aux.getPais());
 			spnAnoFund.setText(Integer.toString(aux.getAnoFundacion()));
             selectedFile = aux.getFoto();
             if (selectedFile != null) {

@@ -39,6 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.ComponentOrientation;
 import java.util.Locale;
 import javax.swing.JRadioButton;
+import javax.swing.DefaultComboBoxModel;
 
 public class RegLesion extends JDialog {
 
@@ -98,7 +99,7 @@ public class RegLesion extends JDialog {
 		
 		txtId = new JTextField();
 		SerieNacional.getInstance();
-		txtId.setText("LE-"+SerieNacional.getGeneradorLesion());
+		txtId.setText("LE-"+SerieNacional.getInstance().getGeneradorLesion());
 		txtId.setEditable(false);
 		txtId.setColumns(10);
 		txtId.setBounds(113, 10, 226, 22);
@@ -109,6 +110,7 @@ public class RegLesion extends JDialog {
 		contentPanel.add(lblTipoDeLesion);
 		
 		cmbxTipoLesion = new JComboBox<String>();
+		cmbxTipoLesion.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar", "Esguince", "Fractura", "Lesi\u00F3n ligamentosa", "Desgarro muscular", "Contusi\u00F3n", "Luxaci\u00F3n", "Distensi\u00F3n", "Tensi\u00F3n muscular", "Lesi\u00F3n \u00F3sea", "Lesi\u00F3n articular", "Lesi\u00F3n tendinosa", "Otra"}));
 		cmbxTipoLesion.setBounds(113, 63, 373, 22);
 		contentPanel.add(cmbxTipoLesion);
 		
@@ -193,7 +195,7 @@ public class RegLesion extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						if (aux == null)
 						{
-							if (jug != null)
+							if (jug != null && datosCompletos())
 							{
 							    String tipoLesion = cmbxTipoLesion.getSelectedItem() != null ? cmbxTipoLesion.getSelectedItem().toString() : "Seleccionar";
 								Lesion les = new Lesion(txtId.getText(),
@@ -205,7 +207,16 @@ public class RegLesion extends JDialog {
 														rdLesion.isSelected());
 								SerieNacional.getInstance().searchJugadorById(jug.getId(), SerieNacional.getInstance().getMisJugadores()).getMisLesiones().add(les);
 								ListadoLesiones.loadAll(jug, null);
+								OperacionExitosa operacion = new OperacionExitosa();
+							    operacion.setVisible(true);
+							    operacion.setModal(true);
 								dispose();		
+							}
+							else
+							{
+								OperacionFallida operacion = new OperacionFallida("Rellene todos los campos.");
+							    operacion.setVisible(true);
+							    operacion.setModal(true);
 							}
 						}
 						else
@@ -216,6 +227,9 @@ public class RegLesion extends JDialog {
 							aux.setDescripcionCorta(txtDescripcion.getText());
 							aux.setEstado(rdLesion.isSelected());
 							SerieNacional.getInstance().modificarLesion(aux);
+							OperacionExitosa operacion = new OperacionExitosa();
+						    operacion.setVisible(true);
+						    operacion.setModal(true);
 							dispose();	
 						}
 					}
@@ -255,5 +269,13 @@ public class RegLesion extends JDialog {
 		spnDiasReposo.setValue(ChronoUnit.DAYS.between(today, recuperacion));
 		txtDescripcion.setText(aux.getDescripcionCorta());
 		rdLesion.setSelected(aux.isEstado());
+	}
+	
+	private boolean datosCompletos() {
+	    return cmbxTipoLesion.getSelectedItem() != null
+	        && !cmbxTipoLesion.getSelectedItem().toString().equals("Seleccionar")
+	        && ((int) spnDiasReposo.getValue()) > 0
+	        && txtDescripcion.getText() != null
+	        && !txtDescripcion.getText().trim().isEmpty();
 	}
 }

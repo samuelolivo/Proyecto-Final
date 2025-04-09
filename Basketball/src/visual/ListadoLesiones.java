@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import logico.Jugador;
 import logico.Lesion;
 import logico.SerieNacional;
+import logico.User;
 
 public class ListadoLesiones extends JDialog {
    
@@ -220,10 +221,30 @@ public class ListadoLesiones extends JDialog {
         getContentPane().add(mainPanel);
         
         loadAll(aux, null);
+        User miUser = SerieNacional.getLoginUser();
+        if (miUser != null)
+        {
+            if(!miUser.getTipo().equals("Administrador"))
+            {
+            	modificarBtn.setVisible(false);
+            	registrarBtn.setVisible(false);
+            }
+       }
     }
 
     public static void loadAll(Jugador aux, String filtro) {
-        model.setRowCount(0);
+    	if (model == null) {
+    		String[] columnNames = {"ID Lesión", "ID Jugador", "Tipo Lesión", "Fecha Lesión", "Fecha Recuperación", "Estado"};
+            model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            model.setColumnIdentifiers(columnNames);
+        }
+    	
+    	model.setRowCount(0);
         row = new Object[model.getColumnCount()];
         if (aux != null)
         {        

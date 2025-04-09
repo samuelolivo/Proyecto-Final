@@ -11,7 +11,12 @@ import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +39,7 @@ import logico.Juego;
 import logico.Jugador;
 import logico.Lesion;
 import logico.SerieNacional;
+import javax.swing.DefaultComboBoxModel;
 
 public class RegJugador extends JDialog {
 
@@ -103,8 +109,7 @@ public class RegJugador extends JDialog {
 			txtId = new JTextField();
 			txtId.setBounds(84, 11, 394, 22);
 			txtId.setEditable(false);
-			SerieNacional.getInstance();
-			txtId.setText("PL-"+SerieNacional.getGeneradorJugador());
+			txtId.setText("PL-" + SerieNacional.getInstance().getGeneradorJugador());
 			txtId.setColumns(10);
 		}
 		{
@@ -131,6 +136,7 @@ public class RegJugador extends JDialog {
 		}
 		{
 			cmbxPosicion = new JComboBox<String>();
+			cmbxPosicion.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar", "Point Guard", "Shooting Guard", "Small Forward", "Power Forward", "Center"}));
 			cmbxPosicion.setBounds(83, 67, 395, 22);
 		}
 		{
@@ -229,6 +235,14 @@ public class RegJugador extends JDialog {
 		}
 		{
 			btnSelJug = new JButton("Seleccionar");
+			btnSelJug.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					ListadoEquipos listado = new ListadoEquipos();
+					listado.seleccionarEquipoJug(RegJugador.this);
+					listado.setVisible(true);
+					listado.setModal(true);
+				}
+			});
 			btnSelJug.setFont(new Font("Tahoma", Font.ITALIC, 13));
 			btnSelJug.setBounds(61, 389, 107, 25);
 		}
@@ -287,30 +301,52 @@ public class RegJugador extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						if (aux == null)
 						{
-							String posicion = cmbxPosicion.getSelectedItem() != null ? 
-									cmbxPosicion.getSelectedItem().toString() :  "Seleccionar";
-							
-							ArrayList<Lesion> misLesiones = new ArrayList<Lesion>();
-							ArrayList<Juego> misJuegos = new ArrayList<Juego>();
-							Equipo equipo = SerieNacional.getInstance().searchEquipoById(txtIdEquipo.getText(),
-									   													 SerieNacional.getInstance().getMisEquipos());
-							
-					                Jugador jug = new Jugador(txtId.getText(), 
-					                						  txtNombre.getText(), 
-					                						  txtApellido.getText(),
-					                						  posicion,
-					                						  Float.parseFloat(spnPeso.getValue().toString()), 
-					                						  Float.parseFloat(spnAltura.getValue().toString()), 
-					                						  Integer.parseInt(spnNumero.getValue().toString()), 
-					                						  selectedFile, 
-					                						  equipo,
-					                						  misLesiones,
-					                						  misJuegos);				
-					        SerieNacional.getInstance().guardarJugador(jug);
-							clean();
+							if (datosCompletos())
+							{
+								String posicion = cmbxPosicion.getSelectedItem() != null ? 
+										cmbxPosicion.getSelectedItem().toString() :  "Seleccionar";
+								
+								ArrayList<Lesion> misLesiones = new ArrayList<Lesion>();
+								ArrayList<Juego> misJuegos = new ArrayList<Juego>();
+								Equipo equipo = SerieNacional.getInstance().searchEquipoById(txtIdEquipo.getText(),
+										   													 SerieNacional.getInstance().getMisEquipos());
+								
+								File fotoGuardada = null;
+					            if (selectedFile != null) {
+					                fotoGuardada = copiarImagenADirectorioApp(selectedFile, txtId.getText());
+					            }
+								
+						                Jugador jug = new Jugador(txtId.getText(), 
+						                						  txtNombre.getText(), 
+						                						  txtApellido.getText(),
+						                						  posicion,
+						                						  Float.parseFloat(spnPeso.getValue().toString()), 
+						                						  Float.parseFloat(spnAltura.getValue().toString()), 
+						                						  Integer.parseInt(spnNumero.getValue().toString()), 
+						                						  fotoGuardada, 
+						                						  equipo,
+						                						  misLesiones,
+						                						  misJuegos);				
+						        SerieNacional.getInstance().guardarJugador(jug);
+						        OperacionExitosa operacion = new OperacionExitosa();
+							    operacion.setVisible(true);
+							    operacion.setModal(true);
+								clean();
+							}
+							else
+							{
+								OperacionFallida operacion = new OperacionFallida("Rellene todos los campos.");
+							    operacion.setVisible(true);
+							    operacion.setModal(true);
+							}
 						}
 						else
 						{
+							if (selectedFile != null && !selectedFile.equals(aux.getFoto())) {
+				                File fotoGuardada = copiarImagenADirectorioApp(selectedFile, aux.getId());
+				                aux.setFoto(fotoGuardada);
+				            }
+							
 							aux.setNombre(txtNombre.getText());
 							aux.setApellido(txtApellido.getText());
 							aux.setPosicion(cmbxPosicion.getSelectedItem() != null ? 
@@ -318,10 +354,13 @@ public class RegJugador extends JDialog {
 							aux.setPesoKg(Float.parseFloat(spnPeso.getValue().toString()));
 							aux.setAlturaCm(Float.parseFloat(spnAltura.getValue().toString()));
 							aux.setNumero(Integer.parseInt(spnNumero.getValue().toString()));
-							aux.setFoto(selectedFile);
+							
 							aux.setEquipo(SerieNacional.getInstance().searchEquipoById(txtIdEquipo.getText(), 
 																					   SerieNacional.getInstance().getMisEquipos()));
 							SerieNacional.getInstance().modificarJugador(aux);
+							OperacionExitosa operacion = new OperacionExitosa();
+						    operacion.setVisible(true);
+						    operacion.setModal(true);
 						    dispose();
 						}
 					}
@@ -412,6 +451,38 @@ public class RegJugador extends JDialog {
 			   name.endsWith(".bmp");
 	}
 	
+	private File copiarImagenADirectorioApp(File archivoOriginal, String id) {
+	    if (archivoOriginal == null) {
+	        return null;
+	    }
+	    
+	    try {
+	        File dirImagenes = new File("rec/img/jugadores");
+	        if (!dirImagenes.exists()) {
+	            dirImagenes.mkdirs();
+	        }
+	        
+	        String nombreOriginal = archivoOriginal.getName();
+	        String extension = "";
+	        int i = nombreOriginal.lastIndexOf('.');
+	        if (i > 0) {
+	            extension = nombreOriginal.substring(i);
+	        }
+	        
+	        String nuevoNombre = id + extension;
+	        File destino = new File(dirImagenes, nuevoNombre);
+	        
+	        Files.copy(archivoOriginal.toPath(), destino.toPath(), 
+	                  StandardCopyOption.REPLACE_EXISTING);
+	                  
+	        return destino;
+	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	
 	private void loadJugador(Jugador aux) {
 	    if (aux != null) {
 	        txtId.setText(aux.getId());
@@ -441,7 +512,7 @@ public class RegJugador extends JDialog {
 
 	private void clean() {
 	    SerieNacional.getInstance();
-		txtId.setText("PL-"+SerieNacional.getGeneradorJugador());
+		txtId.setText("PL-"+SerieNacional.getInstance().getGeneradorJugador());
 	    txtNombre.setText("");
 	    txtApellido.setText("");
 	    spnPeso.setValue(0f);
@@ -454,5 +525,22 @@ public class RegJugador extends JDialog {
 	    txtIdEquipo.setText("");
 	    txtEquipoNombre.setText("");
 	    cmbxPosicion.setSelectedItem("Seleccionar");
+	}
+
+	public void setEquipoSeleccionado(Equipo equipoSeleccionado) {
+		if (equipoSeleccionado != null) {
+	        txtEquipoNombre.setText(equipoSeleccionado.getNombre());
+	        txtIdEquipo.setText(equipoSeleccionado.getId());
+	    }
+	}
+	
+	private boolean datosCompletos() {
+	    return !txtNombre.getText().trim().isEmpty()
+	        && !txtApellido.getText().trim().isEmpty()
+	        && cmbxPosicion.getSelectedItem() != null
+	        && !cmbxPosicion.getSelectedItem().toString().equals("Seleccionar")
+	        && ((int) spnPeso.getValue()) > 0
+	        && ((int) spnAltura.getValue()) > 0
+	        && !txtIdEquipo.getText().trim().isEmpty();
 	}
 }

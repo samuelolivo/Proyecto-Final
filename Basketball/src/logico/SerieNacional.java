@@ -14,15 +14,15 @@ public class SerieNacional implements Serializable{
 	private static User loginUser = null;
 	
 	private ArrayList<Equipo> misEquipos;
-	private static int generadorEquipo;
+	private int generadorEquipo;
 
 	private ArrayList<Jugador> misJugadores;
-	private static int generadorJugador;
+	private int generadorJugador;
 
 	private ArrayList<Juego> misJuegos;
-	private static int generadorJuego;
+	private int generadorJuego;
 	
-	private static int generadorLesion;
+	private int generadorLesion;
 		
 	private SerieNacional() {
 		super();
@@ -44,10 +44,6 @@ public class SerieNacional implements Serializable{
 		if (serie == null)
 			serie = new SerieNacional();
 		
-		return serie;
-	}
-	
-	public static SerieNacional getSerie() {
 		return serie;
 	}
 	
@@ -79,19 +75,19 @@ public class SerieNacional implements Serializable{
 		this.misJuegos = misJuegos;
 	}
 
-	public static int getGeneradorEquipo() {
+	public int getGeneradorEquipo() {
 		return generadorEquipo;
 	}
 
-	public static int getGeneradorJugador() {
+	public int getGeneradorJugador() {
 		return generadorJugador;
 	}
 
-	public static int getGeneradorJuego() {
+	public int getGeneradorJuego() {
 		return generadorJuego;
 	}
 
-	public static int getGeneradorLesion() {
+	public int getGeneradorLesion() {
 		return generadorLesion;
 	}
 	
@@ -152,8 +148,13 @@ public class SerieNacional implements Serializable{
 	}
 	
 	public void guardarJugador(Jugador aux){
-		misJugadores.add(aux);
-		generadorJugador++;
+		Equipo equipo = searchEquipoById(aux.getEquipo().getId(), misEquipos);
+		if (equipo != null)
+		{
+			misJugadores.add(aux);
+			equipo.getJugadores().add(aux);
+			generadorJugador++;
+		}
 	}
 	
 	public void guardarJuego(Juego aux){
@@ -179,7 +180,19 @@ public class SerieNacional implements Serializable{
 	public void modificarJugador(Jugador aux) {
 		Jugador update = searchJugadorById(aux.getId(), misJugadores);
 		if (update != null)
-			update.actualizarDatos(aux);
+		{
+			if(!update.getEquipo().getId().equals(aux.getEquipo().getId()))
+			{
+				Equipo equipoViejo = searchEquipoById(update.getEquipo().getId(), misEquipos);
+				Equipo equipoNuevo = searchEquipoById(aux.getEquipo().getId(), misEquipos);
+				
+				equipoViejo.getJugadores().remove(update);
+				update.actualizarDatos(aux);
+				equipoNuevo.getJugadores().add(update);
+			}
+			else
+				update.actualizarDatos(aux);
+		}
 		return;
 	}
 	
@@ -197,10 +210,6 @@ public class SerieNacional implements Serializable{
 		if (update != null && jug != null)
 			update.actualizarDatos(aux);
 		return;
-	}
-	
-	public void eliminarJugador(Jugador aux) {
-		misJugadores.remove(aux);
 	}
 	
 	public void eliminarLesion(Lesion aux) {
@@ -224,6 +233,20 @@ public class SerieNacional implements Serializable{
 		misUsers.add(user);	
 	}
 	
+	public void eliminarUser(User aux) {
+		misUsers.remove(aux);
+	}
+	
+	public User buscarUser(String user) {
+		for (User userI: misUsers)
+		{
+			if (userI.getUserName().equals(user))
+				return userI;
+		}
+		
+		return null;
+	}
+	
 	public static User getLoginUser() {
 		return loginUser;
 	}
@@ -241,5 +264,33 @@ public class SerieNacional implements Serializable{
 			}
 		}
 		return login;
+	}
+	
+	public void generarJuegos() {
+	    misJuegos.clear();
+	    generadorJuego = 1;
+	    
+	    if (misEquipos.size() < 5) {
+	        return; 
+	    }
+	    
+	    for (int i = 0; i < misEquipos.size(); i++) 
+	    {
+	        Equipo home = misEquipos.get(i);
+	        
+	        for (int j = 0; j < misEquipos.size(); j++) 
+	        {
+	            if (i != j) 
+	            {
+	                Equipo away = misEquipos.get(j);
+	                
+	                String idJuego = "JU-" + generadorJuego;
+	                Juego nuevoJuego = new Juego(idJuego, home, away);
+	                
+	                misJuegos.add(nuevoJuego);
+	                generadorJuego++;
+	            }
+	        }
+	    }
 	}
 }

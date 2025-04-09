@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import logico.Equipo;
 import logico.Jugador;
 import logico.SerieNacional;
+import logico.User;
 
 public class ListadoJugadores extends JDialog {
    
@@ -102,7 +103,7 @@ public class ListadoJugadores extends JDialog {
         searchPanel.add(new JLabel("Barra de búsqueda:   "), BorderLayout.WEST);
         searchPanel.add(searchField, BorderLayout.CENTER);
         
-        String[] columnNames = {"Equipo", "Id", "Jugador", "Posición", "Número", "Estado de salud"};
+        String[] columnNames = {"Equipo", "ID", "Jugador", "Posición", "Número", "Estado de salud"};
         model = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -215,10 +216,30 @@ public class ListadoJugadores extends JDialog {
         getContentPane().add(mainPanel);
         
         loadAll(aux, null);
+        User miUser = SerieNacional.getLoginUser();
+        if (miUser != null)
+        {
+            if(!miUser.getTipo().equals("Administrador"))
+            {
+            	modificarBtn.setVisible(false);
+            	registrarBtn.setVisible(false);
+            }
+       }
     }
 
     public static void loadAll(Equipo aux, String filtro) {
-        model.setRowCount(0);
+    	if (model == null) {
+    		String[] columnNames = {"Equipo", "ID", "Jugador", "Posición", "Número", "Estado de salud"};
+            model = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            model.setColumnIdentifiers(columnNames);
+        }
+    	
+    	model.setRowCount(0);
         row = new Object[model.getColumnCount()];
         ArrayList<Jugador> jugadores;
         if (aux == null)

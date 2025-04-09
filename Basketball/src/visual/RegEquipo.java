@@ -12,6 +12,9 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +40,7 @@ import logico.SerieNacional;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.DefaultComboBoxModel;
 
 public class RegEquipo extends JDialog {
 
@@ -50,8 +54,8 @@ public class RegEquipo extends JDialog {
 	private JLabel lblId;
 	private JLabel lblNombre;
 	private JLabel lblAnoFund;
-	private JLabel ldlCiudad;
-	private JComboBox<String> cmbxCiudad;
+	private JLabel ldlPais;
+	private JComboBox<String> cmbxPais;
 	private JLabel lblFoto;
 	private JPanel panel;
 	private JButton selectImageButton;
@@ -97,8 +101,7 @@ public class RegEquipo extends JDialog {
 			txtId = new JTextField();
 			txtId.setBounds(88, 13, 388, 22);
 			txtId.setEditable(false);
-			SerieNacional.getInstance();
-			txtId.setText("EQ-"+SerieNacional.getGeneradorEquipo());
+			txtId.setText("EQ-"+SerieNacional.getInstance().getGeneradorEquipo());
 			txtId.setColumns(10);
 		}
 		{
@@ -115,12 +118,13 @@ public class RegEquipo extends JDialog {
 			lblAnoFund.setBounds(277, 42, 105, 16);
 		}
 		{
-			ldlCiudad = new JLabel("Ciudad:");
-			ldlCiudad.setBounds(38, 69, 46, 16);
+			ldlPais = new JLabel("Pa\u00EDs:");
+			ldlPais.setBounds(56, 69, 28, 16);
 		}
 		{
-			cmbxCiudad = new JComboBox();
-			cmbxCiudad.setBounds(89, 66, 387, 22);
+			cmbxPais = new JComboBox();
+			cmbxPais.setModel(new DefaultComboBoxModel(new String[] {"Seleccionar", "Afganist\u00E1n", "Albania", "Alemania", "Andorra", "Angola", "Antigua y Barbuda", "Arabia Saudita", "Argelia", "Argentina", "Armenia", "Australia", "Austria", "Azerbaiy\u00E1n", "Bahamas", "Banglad\u00E9s", "Barbados", "Bar\u00E9in", "B\u00E9lgica", "Belice", "Ben\u00EDn", "Bielorrusia", "Birmania", "Bolivia", "Bosnia y Herzegovina", "Botsuana", "Brasil", "Brun\u00E9i", "Bulgaria", "Burkina Faso", "Burundi", "But\u00E1n", "Cabo Verde", "Camboya", "Camer\u00FAn", "Canad\u00E1", "Catar", "Chad", "Chile", "China", "Chipre", "Colombia", "Comoras", "Corea del Norte", "Corea del Sur", "Costa de Marfil", "Costa Rica", "Croacia", "Cuba", "Dinamarca", "Dominica", "Ecuador", "Egipto", "El Salvador", "Emiratos \u00C1rabes Unidos", "Eritrea", "Eslovaquia", "Eslovenia", "Espa\u00F1a", "Estados Unidos", "Estonia", "Esuatini", "Etiop\u00EDa", "Filipinas", "Finlandia", "Fiyi", "Francia", "Gab\u00F3n", "Gambia", "Georgia", "Ghana", "Granada", "Grecia", "Guatemala", "Guinea", "Guinea-Bis\u00E1u", "Guinea Ecuatorial", "Guyana", "Hait\u00ED", "Honduras", "Hungr\u00EDa", "India", "Indonesia", "Irak", "Ir\u00E1n", "Irlanda", "Islandia", "Islas Marshall", "Islas Salom\u00F3n", "Israel", "Italia", "Jamaica", "Jap\u00F3n", "Jordania", "Kazajist\u00E1n", "Kenia", "Kirguist\u00E1n", "Kiribati", "Kuwait", "Laos", "Lesoto", "Letonia", "L\u00EDbano", "Liberia", "Libia", "Liechtenstein", "Lituania", "Luxemburgo", "Macedonia del Norte", "Madagascar", "Malasia", "Malaui", "Maldivas", "Mal\u00ED", "Malta", "Marruecos", "Mauricio", "Mauritania", "M\u00E9xico", "Micronesia", "Moldavia", "M\u00F3naco", "Mongolia", "Montenegro", "Mozambique", "Namibia", "Nauru", "Nepal", "Nicaragua", "N\u00EDger", "Nigeria", "Noruega", "Nueva Zelanda", "Om\u00E1n", "Pa\u00EDses Bajos", "Pakist\u00E1n", "Palaos", "Palestina", "Panam\u00E1", "Pap\u00FAa Nueva Guinea", "Paraguay", "Per\u00FA", "Polonia", "Portugal", "Reino Unido", "Rep\u00FAblica Centroafricana", "Rep\u00FAblica Checa", "Rep\u00FAblica del Congo", "Rep\u00FAblica Democr\u00E1tica del Congo", "Rep\u00FAblica Dominicana", "Ruanda", "Rumania", "Rusia", "Samoa", "San Crist\u00F3bal y Nieves", "San Marino", "San Vicente y las Granadinas", "Santa Luc\u00EDa", "Santo Tom\u00E9 y Pr\u00EDncipe", "Senegal", "Serbia", "Seychelles", "Sierra Leona", "Singapur", "Siria", "Somalia", "Sri Lanka", "Sud\u00E1frica", "Sud\u00E1n", "Sud\u00E1n del Sur", "Suecia", "Suiza", "Surinam", "Tailandia", "Tanzania", "Tayikist\u00E1n", "Timor Oriental", "Togo", "Tonga", "Trinidad y Tobago", "T\u00FAnez", "Turkmenist\u00E1n", "Turqu\u00EDa", "Tuvalu", "Ucrania", "Uganda", "Uruguay", "Uzbekist\u00E1n", "Vanuatu", "Vaticano", "Venezuela", "Vietnam", "Yemen", "Yibuti", "Zambia", "Zimbabue"}));
+			cmbxPais.setBounds(89, 66, 387, 22);
 		}
 
 		photoPanel = new JPanel();
@@ -220,8 +224,8 @@ public class RegEquipo extends JDialog {
 		contentPanel.add(lblNombre);
 		contentPanel.add(txtNombre);
 		contentPanel.add(lblAnoFund);
-		contentPanel.add(ldlCiudad);
-		contentPanel.add(cmbxCiudad);
+		contentPanel.add(ldlPais);
+		contentPanel.add(cmbxPais);
 		contentPanel.add(panel);
 		contentPanel.add(photoPanel);
 		contentPanel.add(lblFoto);
@@ -242,36 +246,61 @@ public class RegEquipo extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if (aux == null) {
-						    String ciudad = cmbxCiudad.getSelectedItem() != null ? 
-						        cmbxCiudad.getSelectedItem().toString() : "Seleccionar";
-						    
-						    ArrayList<Juego> misJuegos = new ArrayList<Juego>();
-						    ArrayList<Jugador> misJugadores = new ArrayList<Jugador>();
-						    
-						    Equipo equipo = new Equipo(txtId.getText(),
-						                             txtNombre.getText(),
-						                             txtEntrenador.getText(),
-						                             ciudad,
-						                             Integer.parseInt(spnAnoFund.getValue().toString()),
-						                             txtDueno.getText(),
-						                             selectedFile,
-						                             misJuegos,
-						                             misJugadores);
-						    
-						    SerieNacional.getInstance().guardarEquipo(equipo);
-						    ListadoEquipos.loadAll(null);
-						    clean();
+							if (datosCompletos())
+							{
+							    String pais = cmbxPais.getSelectedItem() != null ? 
+							        cmbxPais.getSelectedItem().toString() : "Seleccionar";
+							    
+							    ArrayList<Juego> misJuegos = new ArrayList<Juego>();
+							    ArrayList<Jugador> misJugadores = new ArrayList<Jugador>();
+							    
+							    File fotoGuardada = null;
+					            if (selectedFile != null) {
+					                fotoGuardada = copiarImagenADirectorioApp(selectedFile, txtId.getText());
+					            }
+							    
+							    Equipo equipo = new Equipo(txtId.getText(),
+							                             txtNombre.getText(),
+							                             txtEntrenador.getText(),
+							                             pais,
+							                             Integer.parseInt(spnAnoFund.getValue().toString()),
+							                             txtDueno.getText(),
+							                             fotoGuardada,
+							                             misJuegos,
+							                             misJugadores);
+							    
+							    SerieNacional.getInstance().guardarEquipo(equipo);
+							    ListadoEquipos.loadAll(null);
+							    OperacionExitosa operacion = new OperacionExitosa();
+							    operacion.setVisible(true);
+							    operacion.setModal(true);
+							    clean();
+							}
+							else
+							{
+								OperacionFallida operacion = new OperacionFallida("Rellene todos los campos.");
+							    operacion.setVisible(true);
+							    operacion.setModal(true);
+							}
 						} else {
+							
+							if (selectedFile != null && !selectedFile.equals(aux.getFoto())) {
+				                File fotoGuardada = copiarImagenADirectorioApp(selectedFile, aux.getId());
+				                aux.setFoto(fotoGuardada);
+				            }
+							
 						    aux.setNombre(txtNombre.getText());
 						    aux.setEntrenador(txtEntrenador.getText());
-						    aux.setCiudad(cmbxCiudad.getSelectedItem() != null ? 
-						        cmbxCiudad.getSelectedItem().toString() : "Seleccionar");
+						    aux.setPais(cmbxPais.getSelectedItem() != null ? 
+						        cmbxPais.getSelectedItem().toString() : "Seleccionar");
 						    aux.setAnoFundacion(Integer.parseInt(spnAnoFund.getValue().toString()));
 						    aux.setDueno(txtDueno.getText());
-						    aux.setFoto(selectedFile);
 						    
 						    SerieNacional.getInstance().modificarEquipo(aux);
 						    ListadoEquipos.loadAll(null);
+						    OperacionExitosa operacion = new OperacionExitosa();
+						    operacion.setVisible(true);
+						    operacion.setModal(true);
 						    dispose();
 						}
 					}
@@ -360,13 +389,45 @@ public class RegEquipo extends JDialog {
 			   name.endsWith(".bmp");
 	}
 	
+	private File copiarImagenADirectorioApp(File archivoOriginal, String id) {
+	    if (archivoOriginal == null) {
+	        return null;
+	    }
+	    
+	    try {
+	        File dirImagenes = new File("rec/img/equipos");
+	        if (!dirImagenes.exists()) {
+	            dirImagenes.mkdirs();
+	        }
+	        
+	        String nombreOriginal = archivoOriginal.getName();
+	        String extension = "";
+	        int i = nombreOriginal.lastIndexOf('.');
+	        if (i > 0) {
+	            extension = nombreOriginal.substring(i);
+	        }
+	        
+	        String nuevoNombre = id + extension;
+	        File destino = new File(dirImagenes, nuevoNombre);
+	        
+	        Files.copy(archivoOriginal.toPath(), destino.toPath(), 
+	                  StandardCopyOption.REPLACE_EXISTING);
+	                  
+	        return destino;
+	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	
 	private void loadEquipo(Equipo aux) {
 	    if (aux != null) {
 	        txtId.setText(aux.getId());
 	        txtNombre.setText(aux.getNombre());
 	        txtEntrenador.setText(aux.getEntrenador());	        
 	        txtDueno.setText(aux.getDueno());
-		    cmbxCiudad.setSelectedItem(aux.getCiudad());
+		    cmbxPais.setSelectedItem(aux.getPais());
 		    spnAnoFund.setValue(aux.getAnoFundacion());
 		    selectedFile = aux.getFoto();
 		    
@@ -386,15 +447,23 @@ public class RegEquipo extends JDialog {
 	
 	private void clean() {
 	    SerieNacional.getInstance();
-		txtId.setText("EQ-"+SerieNacional.getGeneradorEquipo());
+		txtId.setText("EQ-"+SerieNacional.getInstance().getGeneradorEquipo());
 	    txtNombre.setText("");
 	    txtEntrenador.setText("");
 	    txtDueno.setText("");
-	    cmbxCiudad.setSelectedItem("Seleccionar");
+	    cmbxPais.setSelectedItem("Seleccionar");
 	    spnAnoFund.setValue(2000);
 	    selectedFile = null;
 	    imageDisplayLabel.setIcon(null);
 	    imageDisplayLabel.setText("No hay imagen seleccionada");
 	    updateButtonText();
+	}
+	
+	private boolean datosCompletos() {
+	    return !txtNombre.getText().trim().isEmpty()
+	        && cmbxPais.getSelectedItem() != null
+	        && !cmbxPais.getSelectedItem().toString().equals("Seleccionar")
+	        && !txtEntrenador.getText().trim().isEmpty()
+	        && !txtDueno.getText().trim().isEmpty();
 	}
 }

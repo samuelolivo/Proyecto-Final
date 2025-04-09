@@ -15,13 +15,14 @@ public class OperacionFallida extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+    private JLabel lblMensaje;
 
 	/**
      * Launch the application.
      */
     public static void main(String[] args) {
         try {
-            OperacionFallida dialog = new OperacionFallida();
+            OperacionFallida dialog = new OperacionFallida("");
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             dialog.setVisible(true);
         } catch (Exception e) {
@@ -32,9 +33,13 @@ public class OperacionFallida extends JDialog {
     /**
      * Create the dialog.
      */
-    public OperacionFallida() {
+    public OperacionFallida(String str) {
+    	setAlwaysOnTop(true);
+    	setModal(true);
+    	setResizable(false);
         setTitle("Mensaje");
-        setBounds(100, 100, 329, 234); 
+        setBounds(100, 100, 329, 137);
+        setLocationRelativeTo(null);
         getContentPane().setLayout(new BorderLayout());
 
          JPanel contentPanel = new JPanel();
@@ -42,13 +47,13 @@ public class OperacionFallida extends JDialog {
         contentPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
         getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-         JLabel lblMensaje = new JLabel("Operación Fallida", JLabel.CENTER);
+        lblMensaje = new JLabel(str, JLabel.CENTER);
         lblMensaje.setFont(new Font("Arial", Font.BOLD, 13));
         lblMensaje.setForeground(Color.DARK_GRAY);
         contentPanel.add(lblMensaje, BorderLayout.CENTER);
 
          JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER));
         getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
          JButton btnOK = new JButton("OK");

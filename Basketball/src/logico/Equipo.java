@@ -8,7 +8,7 @@ public class Equipo implements Serializable{
 	    private String id;
 	    private String nombre;
 	    private String entrenador;
-	    private String ciudad;
+	    private String pais;
 	    private int anoFundacion;
 	    private String dueno;
 	    private File foto;
@@ -17,12 +17,12 @@ public class Equipo implements Serializable{
 	    private EstEquipo estadistica;
 	    private static final long serialVersionUID = 1L;
 
-	    public Equipo(String id, String nombre, String entrenador, String ciudad, int anoFundacion, 
+	    public Equipo(String id, String nombre, String entrenador, String pais, int anoFundacion, 
 	    			  String dueno, File foto, ArrayList<Juego> juegos, ArrayList<Jugador> jugadores) {
 	        this.id = id;
 	        this.nombre = nombre;
 	        this.entrenador = entrenador;
-	        this.ciudad = ciudad;
+	        this.pais = pais;
 	        this.anoFundacion = anoFundacion;
 	        this.dueno = dueno;
 	        this.foto = foto;
@@ -47,12 +47,12 @@ public class Equipo implements Serializable{
 			this.entrenador = entrenador;
 		}
 
-		public String getCiudad() {
-			return ciudad;
+		public String getPais() {
+			return pais;
 		}
 
-		public void setCiudad(String ciudad) {
-			this.ciudad = ciudad;
+		public void setPais(String pais) {
+			this.pais = pais;
 		}
 
 		public int getAnoFundacion() {
@@ -110,7 +110,7 @@ public class Equipo implements Serializable{
 		public void actualizarDatos(Equipo aux) { 
 			this.nombre = aux.getNombre();
 			this.entrenador = aux.getEntrenador();
-			this.ciudad = aux.getCiudad();
+			this.pais = aux.getPais();
 			this.anoFundacion = aux.getAnoFundacion();
 			this.foto = aux.getFoto();
 			this.dueno = aux.getDueno();
