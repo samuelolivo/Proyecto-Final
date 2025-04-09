@@ -32,6 +32,7 @@ public class PsimulacionJuego extends JDialog {
 	private JButton InicioPausaBoton;
 	private JLabel TiempoLabel;
 	private JLabel PeriodoLabel;
+	private JTextField textField;
 
 	public static void main(String[] args) {
 		try {
@@ -44,6 +45,9 @@ public class PsimulacionJuego extends JDialog {
 	}
 
 	public PsimulacionJuego() {
+		setResizable(false);
+		setAlwaysOnTop(true);
+		setModal(true);
 		setBounds(100, 100, 1137, 819);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -138,12 +142,8 @@ public class PsimulacionJuego extends JDialog {
 		PeriodoLabel.setBounds(578, 260, 34, 43);
 		contentPanel.add(PeriodoLabel);
 		
-		JButton btnNewButton = new JButton("Selecionar");
-		btnNewButton.setBounds(430, 102, 89, 23);
-		contentPanel.add(btnNewButton);
-		
 		JButton btnNewButton_1 = new JButton("Selecionar");
-		btnNewButton_1.setBounds(651, 102, 89, 23);
+		btnNewButton_1.setBounds(12, 13, 102, 23);
 		contentPanel.add(btnNewButton_1);
 		
 		JButton btnNewButton_2 = new JButton("1");
@@ -177,6 +177,11 @@ public class PsimulacionJuego extends JDialog {
 		JButton btnNewButton_3 = new JButton("Running");
 		btnNewButton_3.setBounds(51, 345, 89, 23);
 		contentPanel.add(btnNewButton_3);
+		
+		textField = new JTextField();
+		textField.setBounds(126, 13, 138, 22);
+		contentPanel.add(textField);
+		textField.setColumns(10);
 	}
 
 	private void iniciarTemporizaor() {
@@ -231,6 +236,4 @@ public class PsimulacionJuego extends JDialog {
 			InicioPausaBoton.setText("Iniciar");
 		}
 	}
-
-	
 }
