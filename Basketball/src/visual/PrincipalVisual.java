@@ -7,17 +7,21 @@ import javax.swing.border.EmptyBorder;
 import java.awt.EventQueue;
 import logico.Jugador;
 import logico.SerieNacional;
-import logico.User;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JMenu;
@@ -45,11 +49,15 @@ public class PrincipalVisual extends JFrame {
     private JMenuItem mntmRegEquipo;
     private JMenuItem mntmListadoJugador;
     private JMenuItem mntmRegJugador;
-    private JMenuItem mntmListadoJuegos;
+    private JMenuItem mntmVerCalendario;
+    private JMenuItem mntmNewMenuItem;
     private JMenuItem mntmIniciarSimulacion;
-    private JMenu mnUsuario;
-    private JMenuItem mntmRegUsuario;
-    private JMenuItem mntmListadoUsuario;
+    private JMenu MenuRespaldo;
+    private JMenuItem itemRespaldo;
+    //sockest
+	static Socket sfd = null;
+    static DataInputStream EntradaSocket;
+	static DataOutputStream SalidaSocket;
 
     /**
      * Launch the application.
@@ -71,21 +79,14 @@ public class PrincipalVisual extends JFrame {
      * Create the frame.
      */
     public PrincipalVisual() {
-    	setAlwaysOnTop(true);
     	
     	addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				FileOutputStream serieOut;
 				ObjectOutputStream serieWrite;
-				
-				File directory = new File("rec/data");
-	            if (!directory.exists()) {
-	                directory.mkdirs();
-	            }
-				
-				try {			
-					serieOut = new FileOutputStream("rec/data/serie.dat");
+				try {
+					serieOut = new FileOutputStream("serie.dat");
 					serieWrite = new ObjectOutputStream(serieOut);
 					serieWrite.writeObject(SerieNacional.getInstance());
 				} catch (FileNotFoundException e1) {
@@ -156,15 +157,11 @@ public class PrincipalVisual extends JFrame {
         mnCalendario = new JMenu("  Calendario de Juegos  ");
         menuBar.add(mnCalendario);
         
-        mntmListadoJuegos = new JMenuItem("Listado");
-        mntmListadoJuegos.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		ListadoJuegos listado = new ListadoJuegos();
-        		listado.setVisible(true);
-        		listado.setModal(true);
-        	}
-        });
-        mnCalendario.add(mntmListadoJuegos);
+        mntmVerCalendario = new JMenuItem("Abrir");
+        mnCalendario.add(mntmVerCalendario);
+        
+        mntmNewMenuItem = new JMenuItem("Listado de Juegos");
+        mnCalendario.add(mntmNewMenuItem);
         
         mnSimulacion = new JMenu("  Simulacion de Juego  ");
         menuBar.add(mnSimulacion);
@@ -179,28 +176,44 @@ public class PrincipalVisual extends JFrame {
         });
         mnSimulacion.add(mntmIniciarSimulacion);
         
-        mnUsuario = new JMenu("  Usuarios  ");
-        menuBar.add(mnUsuario);
+        MenuRespaldo = new JMenu("Respaldo");
+        menuBar.add(MenuRespaldo);
         
-        mntmRegUsuario = new JMenuItem("Registrar");
-        mntmRegUsuario.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg0) {
-        		RegUser usuario = new RegUser();
-        		usuario.setVisible(true);
-        		usuario.setModal(true);
-        	}
-        });
-        
-        mntmListadoUsuario = new JMenuItem("Listado");
-        mntmListadoUsuario.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg0) {
-        		ListadoUsuarios listado = new ListadoUsuarios();
-        		listado.setVisible(true);
-        		listado.setModal(true);
-        	}
-        });
-        mnUsuario.add(mntmListadoUsuario);
-        mnUsuario.add(mntmRegUsuario);
+        //respaldo
+        itemRespaldo = new JMenuItem("Respaldo");
+        itemRespaldo.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		try
+			    {
+			      sfd = new Socket("127.0.0.1",9001);
+			      DataInputStream aux = new DataInputStream(new FileInputStream(new File("serie.dat")))	;
+			      SalidaSocket = new DataOutputStream((sfd.getOutputStream()));
+			      int unByte;
+			      try
+			      {
+			    	while ((unByte = aux.read()) != -1){
+			    		SalidaSocket.write(unByte);
+						SalidaSocket.flush();
+			    	}
+			      }
+			      catch (IOException ioe)
+			      {
+			        System.out.println("Error: "+ioe);
+			      }
+			    }
+			    catch (UnknownHostException uhe)
+			    {
+			      System.out.println("No se puede acceder al servidor.");
+			      System.exit(1);
+			    }
+			    catch (IOException ioe)
+			    {
+			      System.out.println("Comunicación rechazada.");
+			      System.exit(1);
+			    }
+			}
+		});
+        MenuRespaldo.add(itemRespaldo);
 
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -226,18 +239,6 @@ public class PrincipalVisual extends JFrame {
              ge.setBounds(702, 13, 538, 429);
              panel.add(ge);
         
-             User miUser = SerieNacional.getLoginUser();
-             if (miUser != null)
-             {
-	             if(!miUser.getTipo().equals("Administrador"))
-	             {
-	            	 mnUsuario.setVisible(false);
-	            	 mntmRegJugador.setVisible(false);
-	            	 mntmRegEquipo.setVisible(false);
-	            	 mntmRegUsuario.setVisible(false);
-	            	 mntmListadoUsuario.setVisible(false);
-	             }
-            }
     }
 }
 
