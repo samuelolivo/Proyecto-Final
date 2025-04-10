@@ -29,12 +29,15 @@ import logico.Jugador;
 import logico.SerieNacional;
 import java.util.ArrayList;
 import javax.swing.ScrollPaneConstants;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class PsimulacionJuego extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 
 	private int tiempoR;
+	private int tiempoP = 15*60;
 	private int periodo = 1;
 	private Timer temporizador;
 	private boolean TemporizadorEjecucion = false;
@@ -88,6 +91,62 @@ public class PsimulacionJuego extends JDialog {
 	}
 
 	public PsimulacionJuego() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				if (juegoSeleccionado != null && (puntajeEquipo1 > 0 || puntajeEquipo2 > 0)) {
+					String ganador;
+					
+					juegoSeleccionado.setMarcadorCasa(puntajeEquipo1);
+					juegoSeleccionado.setMarcadorAway(puntajeEquipo2);
+					
+					if (juegoSeleccionado.getMarcadorCasa() > juegoSeleccionado.getMarcadorAway())
+					{
+						ganador = juegoSeleccionado.getHome().getId();
+					}
+					else
+					{
+						if (juegoSeleccionado.getMarcadorCasa() > juegoSeleccionado.getMarcadorCasa())
+						{
+							ganador = juegoSeleccionado.getAway().getId();
+						}
+						else
+						{
+							ganador = "Empate";
+						}
+					}
+					
+					juegoSeleccionado.setGanador(ganador);
+					SerieNacional.getInstance().modificarJuego(juegoSeleccionado);
+					
+					Juego jue = SerieNacional.getInstance().searchJuegoById(juegoSeleccionado.getId(),
+																		    SerieNacional.getInstance().getMisJuegos());
+					OperacionEspecifica operacion = new OperacionEspecifica("Juego guardado.");
+					Equipo equ1 = SerieNacional.getInstance().searchEquipoById(juegoSeleccionado.getHome().getId(), SerieNacional.getInstance().getMisEquipos());
+					Equipo equ2 = SerieNacional.getInstance().searchEquipoById(juegoSeleccionado.getAway().getId(), SerieNacional.getInstance().getMisEquipos());
+					
+					equ1.getJuegos().add(jue);
+					for (Jugador jugI: equ1.getJugadores())
+					{
+						jugI.getJuegos().add(jue);
+						SerieNacional.getInstance().modificarJugador(jugI);
+					}
+					
+					equ2.getJuegos().add(jue);
+					for (Jugador jugI: equ2.getJugadores())
+					{
+						jugI.getJuegos().add(jue);
+						SerieNacional.getInstance().modificarJugador(jugI);
+					}
+					
+					SerieNacional.getInstance().modificarEquipo(equ1);
+					SerieNacional.getInstance().modificarEquipo(equ2);		
+					
+					operacion.setVisible(true);
+					operacion.setModal(true);
+				}
+			}
+		});
 		setTitle("Simulaci\u00F3n de juego");
 		setResizable(false);
 		setModal(true);
@@ -127,7 +186,7 @@ public class PsimulacionJuego extends JDialog {
 		lblPuntuacion1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 15));
 		contentPanel.add(lblPuntuacion1);
 
-		TiempoLabel = new JLabel("15:00");
+		TiempoLabel = new JLabel("--:--");
 		TiempoLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		TiempoLabel.setBounds(386, 407, 194, 62);
 		TiempoLabel.setFont(new Font("Tahoma", Font.BOLD, 55));
@@ -149,13 +208,13 @@ public class PsimulacionJuego extends JDialog {
 		contentPanel.add(lblNewLabel_4);
 
 		InicioPausaBtn = new JButton("Iniciar");
+		InicioPausaBtn.setEnabled(false);
 		InicioPausaBtn.setBounds(401, 508, 168, 38);
 		InicioPausaBtn.setFont(new Font("Tahoma", Font.BOLD, 19));
 		InicioPausaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (InicioPausaBtn.getText().equals("Finalizar"))
 				{	
-					
 					String ganador;
 					
 					juegoSeleccionado.setMarcadorCasa(puntajeEquipo1);
@@ -179,13 +238,38 @@ public class PsimulacionJuego extends JDialog {
 					
 					juegoSeleccionado.setGanador(ganador);
 					SerieNacional.getInstance().modificarJuego(juegoSeleccionado);
+					
+					Juego jue = SerieNacional.getInstance().searchJuegoById(juegoSeleccionado.getId(),
+																		    SerieNacional.getInstance().getMisJuegos());
 					OperacionEspecifica operacion = new OperacionEspecifica("Juego guardado.");
+					Equipo equ1 = SerieNacional.getInstance().searchEquipoById(juegoSeleccionado.getHome().getId(), SerieNacional.getInstance().getMisEquipos());
+					Equipo equ2 = SerieNacional.getInstance().searchEquipoById(juegoSeleccionado.getAway().getId(), SerieNacional.getInstance().getMisEquipos());
+					
+					equ1.getJuegos().add(jue);
+					for (Jugador jugI: equ1.getJugadores())
+					{
+						jugI.getJuegos().add(jue);
+						SerieNacional.getInstance().modificarJugador(jugI);
+					}
+					
+					equ2.getJuegos().add(jue);
+					for (Jugador jugI: equ2.getJugadores())
+					{
+						jugI.getJuegos().add(jue);
+						SerieNacional.getInstance().modificarJugador(jugI);
+					}
+					
+					SerieNacional.getInstance().modificarEquipo(equ1);
+					SerieNacional.getInstance().modificarEquipo(equ2);		
+					
 					operacion.setVisible(true);
 					operacion.setModal(true);
 					dispose();
 				}
 				else
 				{
+					btnSeleccionar.setVisible(false);
+					cargarJugadores(juegoSeleccionado.getHome(), juegoSeleccionado.getAway(), true);
 					if (!TemporizadorEjecucion) {
 						iniciarTemporizador();
 					} else {
@@ -199,13 +283,16 @@ public class PsimulacionJuego extends JDialog {
 		btnSeleccionar = new JButton("Selecionar juego");
 		btnSeleccionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ListadoJuegos listado = new ListadoJuegos();
+				
+				ListadoJuegos listado = new ListadoJuegos(null);
 				listado.seleccionarJuego(PsimulacionJuego.this);
 				listado.setVisible(true);
 				listado.setModal(true);
 				
 				if (juegoSeleccionado != null)
-					cargarJugadores(juegoSeleccionado.getHome(), juegoSeleccionado.getAway());
+					cargarJugadores(juegoSeleccionado.getHome(), juegoSeleccionado.getAway(), false);
+				
+				InicioPausaBtn.setEnabled(true);
 			}
 		});
 		btnSeleccionar.setBounds(414, 41, 130, 23);
@@ -303,36 +390,150 @@ public class PsimulacionJuego extends JDialog {
 		});
 		
 		Btn3pts = new JButton("3pts");
+		Btn3pts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (jugadorSeleccionado != null)		
+				{				
+					jugadorSeleccionado.getEstadisticas().setTriples(jugadorSeleccionado.getEstadisticas().getTriples() + 1);
+					Equipo equ = SerieNacional.getInstance().searchEquipoById(jugadorSeleccionado.getEquipo().getId(),
+																			  SerieNacional.getInstance().getMisEquipos());
+					
+					equ.getEstadistica().setTriples(equ.getEstadistica().getTriples() + 1);
+					
+					SerieNacional.getInstance().modificarEquipo(equ);
+					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+					
+					if (equ.getId().equals(equipo1.getId()))
+					{
+						puntajeEquipo1 += 3;
+					}
+					else
+					{
+						if (equ.getId().equals(equipo2.getId()))
+							puntajeEquipo2 += 3;
+					}
+					actualizarMarcadorLabel();
+				}
+			}
+		});
 		Btn3pts.setEnabled(false);
 		Btn3pts.setBounds(371, 66, 105, 23);
 		panel_2.add(Btn3pts);
 		
 		btnTapon = new JButton("Tap\u00F3n");
+		btnTapon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (jugadorSeleccionado != null)		
+				{				
+					jugadorSeleccionado.getEstadisticas().setTapones(jugadorSeleccionado.getEstadisticas().getTapones() + 1);
+					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+				}
+			}
+		});
 		btnTapon.setEnabled(false);
 		btnTapon.setBounds(488, 38, 108, 23);
 		panel_2.add(btnTapon);
 		
 		Btn2pts = new JButton("2pts");
+		Btn2pts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (jugadorSeleccionado != null)		
+				{				
+					jugadorSeleccionado.getEstadisticas().setDobles(jugadorSeleccionado.getEstadisticas().getDobles() + 1);
+					Equipo equ = SerieNacional.getInstance().searchEquipoById(jugadorSeleccionado.getEquipo().getId(),
+																			  SerieNacional.getInstance().getMisEquipos());
+					
+					equ.getEstadistica().setDobles(equ.getEstadistica().getDobles() + 1);
+					
+					SerieNacional.getInstance().modificarEquipo(equ);
+					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+					
+					if (equ.getId().equals(equipo1.getId()))
+					{
+						puntajeEquipo1 += 2;
+					}
+					else
+					{
+						if (equ.getId().equals(equipo2.getId()))
+							puntajeEquipo2 += 2;
+					}
+					actualizarMarcadorLabel();
+				}
+			}
+		});
 		Btn2pts.setEnabled(false);
 		Btn2pts.setBounds(371, 93, 105, 23);
 		panel_2.add(Btn2pts);
 		
 		btnAsistencia = new JButton("Asistencia");
+		btnAsistencia.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (jugadorSeleccionado != null)		
+				{				
+					jugadorSeleccionado.getEstadisticas().setAsistencias(jugadorSeleccionado.getEstadisticas().getAsistencias() + 1);
+					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+				}
+			}
+		});
 		btnAsistencia.setEnabled(false);
 		btnAsistencia.setBounds(488, 65, 108, 23);
 		panel_2.add(btnAsistencia);
 		
 		Btn1pts = new JButton("1pts");
+		Btn1pts.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (jugadorSeleccionado != null)		
+				{				
+					jugadorSeleccionado.getEstadisticas().setNormales(jugadorSeleccionado.getEstadisticas().getNormales() + 1);
+					Equipo equ = SerieNacional.getInstance().searchEquipoById(jugadorSeleccionado.getEquipo().getId(),
+																			  SerieNacional.getInstance().getMisEquipos());
+					
+					equ.getEstadistica().setNormales(equ.getEstadistica().getNormales() + 1);
+					
+					SerieNacional.getInstance().modificarEquipo(equ);
+					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+					
+					if (equ.getId().equals(equipo1.getId()))
+					{
+						puntajeEquipo1++;
+					}
+					else
+					{
+						if (equ.getId().equals(equipo2.getId()))
+							puntajeEquipo2++;
+					}
+					actualizarMarcadorLabel();
+				}
+			}
+		});
 		Btn1pts.setEnabled(false);
 		Btn1pts.setBounds(371, 120, 105, 23);
 		panel_2.add(Btn1pts);
 		
 		btnFalta = new JButton("Falta");
+		btnFalta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (jugadorSeleccionado != null)		
+				{				
+					jugadorSeleccionado.getEstadisticas().setFaltas(jugadorSeleccionado.getEstadisticas().getFaltas() + 1);
+					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+				}
+			}
+		});
 		btnFalta.setEnabled(false);
 		btnFalta.setBounds(488, 92, 108, 23);
 		panel_2.add(btnFalta);
 		
 		btnRobo = new JButton("Robo");
+		btnRobo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (jugadorSeleccionado != null)		
+				{				
+					jugadorSeleccionado.getEstadisticas().setRobos(jugadorSeleccionado.getEstadisticas().getRobos() + 1);
+					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+				}
+			}
+		});
 		btnRobo.setEnabled(false);
 		btnRobo.setBounds(371, 38, 105, 23);
 		panel_2.add(btnRobo);
@@ -347,6 +548,14 @@ public class PsimulacionJuego extends JDialog {
 		btnLesion = new JButton("Lesi\u00F3n");
 		btnLesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Jugador jug = SerieNacional.getInstance().searchJugadorById(jugadorSeleccionado.getId(),
+						  												   	SerieNacional.getInstance().getMisJugadores());
+				RegLesion lesion = new RegLesion(jug, null);
+				lesion.setVisible(true);
+				lesion.setModal(true);
+				
+				SerieNacional.getInstance().modificarJugador(jug);
+				cargarJugadores(equipo1, equipo2, true);
 			}
 		});
 		btnLesion.setEnabled(false);
@@ -401,11 +610,12 @@ public class PsimulacionJuego extends JDialog {
 		Btn3pts.setEnabled(habilitar);
 		Btn2pts.setEnabled(habilitar);
 		Btn1pts.setEnabled(habilitar);
+		btnLesion.setEnabled(habilitar);
 	}
 		
 	private void iniciarTemporizador() {
 		if (InicioPausaBtn.getText().equals("Iniciar"))
-			tiempoR = 5;//tiempoR = 15 * 60;
+			tiempoR = tiempoP;
 		
 		TemporizadorEjecucion = true;
 		InicioPausaBtn.setText("Pausar");
@@ -438,6 +648,10 @@ public class PsimulacionJuego extends JDialog {
 		int segundos = tiempoR % 60;
 		TiempoLabel.setText(String.format("%02d:%02d", minutos, segundos));
 	}
+	
+	private void actualizarMarcadorLabel() {
+		lblMarcador.setText(String.format("%02d:%02d", puntajeEquipo1, puntajeEquipo2));
+	}
 
 	private void verificarPeriodo() {
 		if (tiempoR == 0 && periodo <= 4) {
@@ -448,7 +662,7 @@ public class PsimulacionJuego extends JDialog {
 	private void mostrarMensajePeriodo() {
 		periodo++;
 		if (periodo <= 4) {
-			tiempoR = 5;
+			tiempoR = tiempoP;
 			lblPeriodo.setText("Periodo: " + String.valueOf(periodo));
 		} else {
 			temporizador.stop();
@@ -457,9 +671,9 @@ public class PsimulacionJuego extends JDialog {
 		}
 	}
 
-	public void cargarJugadores(Equipo home, Equipo away) {
+	public void cargarJugadores(Equipo home, Equipo away, boolean habilitado) {
 		this.equipo1 = SerieNacional.getInstance().searchEquipoById(home.getId(), SerieNacional.getInstance().getMisEquipos());
-		this.equipo2 = SerieNacional.getInstance().searchEquipoById(away.getId(), SerieNacional.getInstance().getMisEquipos());;
+		this.equipo2 = SerieNacional.getInstance().searchEquipoById(away.getId(), SerieNacional.getInstance().getMisEquipos());
 		
 		if (home != null) {
 			labelEquipo.setText(home.getNombre());
@@ -495,10 +709,12 @@ public class PsimulacionJuego extends JDialog {
 		tableE1 = new JTable(modelE1);
 		tableE1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneE1.setViewportView(tableE1);
+		tableE1.setEnabled(habilitado);
 		
 		tableE2 = new JTable(modelE2);
 		tableE2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPaneE2.setViewportView(tableE2);
+		tableE2.setEnabled(habilitado);
 		
 		tableE1.addMouseListener(new MouseAdapter() {
 	        @Override
@@ -552,7 +768,7 @@ public class PsimulacionJuego extends JDialog {
 		if (juegoSeleccionado != null)
 		{
 			txtIdJuego.setText(juegoSeleccionado.getId());
-			cargarJugadores(juegoSeleccionado.getHome(), juegoSeleccionado.getAway());
+			cargarJugadores(juegoSeleccionado.getHome(), juegoSeleccionado.getAway(), false);
 		}
 	}
 	

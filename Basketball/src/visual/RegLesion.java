@@ -154,12 +154,14 @@ public class RegLesion extends JDialog {
 		
 		txtIdJugador = new JTextField();
 		txtIdJugador.setEditable(false);
+		txtIdJugador.setText(jug.getId());
 		txtIdJugador.setColumns(10);
 		txtIdJugador.setBounds(113, 36, 122, 22);
 		contentPanel.add(txtIdJugador);
 		
 		txtNomJugador = new JTextField();
 		txtNomJugador.setEditable(false);
+		txtNomJugador.setText(jug.getNombre() + jug.getApellido());
 		txtNomJugador.setColumns(10);
 		txtNomJugador.setBounds(239, 36, 247, 22);
 		contentPanel.add(txtNomJugador);
@@ -273,7 +275,7 @@ public class RegLesion extends JDialog {
 	private boolean datosCompletos() {
 	    return cmbxTipoLesion.getSelectedItem() != null
 	        && !cmbxTipoLesion.getSelectedItem().toString().equals("Seleccionar")
-	        && ((int) spnDiasReposo.getValue()) > 0
+	        && Integer.parseInt(spnDiasReposo.getValue().toString()) > 0
 	        && txtDescripcion.getText() != null
 	        && !txtDescripcion.getText().trim().isEmpty();
 	}

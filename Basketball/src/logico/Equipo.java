@@ -116,5 +116,6 @@ public class Equipo implements Serializable{
 			this.dueno = aux.getDueno();
 			this.juegos = aux.getJuegos();
 			this.jugadores = aux.getJugadores();
+			this.estadistica = aux.getEstadistica();
 		}
 	}

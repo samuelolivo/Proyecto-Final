@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import logico.Equipo;
 import logico.Juego;
+import logico.Jugador;
 import logico.SerieNacional;
 
 public class ListadoJuegos extends JDialog {
@@ -45,7 +46,7 @@ public class ListadoJuegos extends JDialog {
      */
     public static void main(String[] args) {
         try {
-            ListadoJuegos dialog = new ListadoJuegos();
+            ListadoJuegos dialog = new ListadoJuegos(null);
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             dialog.setVisible(true);
         } catch (Exception e) {
@@ -56,7 +57,7 @@ public class ListadoJuegos extends JDialog {
     /**
      * Create the dialog.
      */
-    public ListadoJuegos() {
+    public ListadoJuegos(String filtro) {
     	setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setResizable(false);
         setModal(true);
@@ -145,13 +146,29 @@ public class ListadoJuegos extends JDialog {
             	if(SerieNacional.getInstance().getMisEquipos().size() >= 5)
             	{
             		SerieNacional.getInstance().generarJuegos();
-            		loadAll(null);
+            		loadAll(filtro);
             		btnConsultar.setVisible(true);
             		btnGenerar.setVisible(false);
             	}
             }
         });
-        btnGenerar.setVisible(false);
+        
+        if (filtro != null)
+        {
+        	String str = "";
+        	btnGenerar.setVisible(false);
+        	setTitle("Listado de Juegos");
+        	Equipo equ = SerieNacional.getInstance().searchEquipoById(filtro, SerieNacional.getInstance().getMisEquipos());
+            Jugador jug = SerieNacional.getInstance().searchJugadorById(filtro, SerieNacional.getInstance().getMisJugadores());
+
+             if (equ != null)
+            	 str = equ.getNombre();
+             
+             if (jug != null)
+            	 str = jug.getNombre()+jug.getApellido();
+             
+             setTitle("Listado de Juegos | " + str);
+        }
         
         btnVolver = new JButton("Volver");
         btnVolver.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -168,7 +185,7 @@ public class ListadoJuegos extends JDialog {
         if (SerieNacional.getInstance().getMisEquipos().size() >= 5)
         	btnGenerar.setVisible(true);
 
-        loadAll(null);
+        loadAll(filtro);
     }
 
     public static void loadAll(String filtro) {
@@ -184,34 +201,55 @@ public class ListadoJuegos extends JDialog {
         
         modeloTabla.setRowCount(0);
         row = new Object[modeloTabla.getColumnCount()];
-        ArrayList<Juego> juegos = SerieNacional.getInstance().getMisJuegos();
+        ArrayList<Juego> juegos = SerieNacional.getInstance().getMisJuegos();;
+        Equipo equ = SerieNacional.getInstance().searchEquipoById(filtro, SerieNacional.getInstance().getMisEquipos());
+        Jugador jug = SerieNacional.getInstance().searchJugadorById(filtro, SerieNacional.getInstance().getMisJugadores());
+
+        if (equ != null)
+        	juegos = equ.getJuegos();
+        
+        if (jug != null)
+        	juegos = jug.getJuegos();
         
         for (Juego juego : juegos) {
-            if (filtro == null) {
                 row[0] = juego.getId();
                 row[1] = juego.getHome().getNombre();
                 row[2] = juego.getAway().getNombre();
                 row[3] = juego.getGanador();
                 modeloTabla.addRow(row);
-            } else {
-                if (juego.getId().toLowerCase().contains(filtro.toLowerCase()) ||
-                    juego.getHome().getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
-                    juego.getAway().getNombre().toLowerCase().contains(filtro.toLowerCase()) ||
-                    juego.getGanador().toLowerCase().contains(filtro.toLowerCase())) {
-                    
-                    row[0] = juego.getId();
-                    row[1] = juego.getHome().getNombre();
-                    row[2] = juego.getAway().getNombre();
-                    row[3] = juego.getGanador();
-                    modeloTabla.addRow(row);
-                }
             }
         }
-    }
-    
+
+	public static void loadFew() {
+	    if (modeloTabla == null) {
+	        String[] columnas = {"ID", "Equipo de Casa", "Equipo de Visita", "Ganador"};
+	        modeloTabla = new DefaultTableModel(columnas, 0) {
+	            @Override
+	            public boolean isCellEditable(int row, int column) {
+	                return false;
+	            }
+	        };
+	    }
+	    
+	    modeloTabla.setRowCount(0);
+	    row = new Object[modeloTabla.getColumnCount()];
+	    ArrayList<Juego> juegos = SerieNacional.getInstance().getMisJuegos();	    
+	    for (Juego juego : juegos) {
+	    	if (juego.getGanador() == null)
+	    	{
+	            row[0] = juego.getId();
+	            row[1] = juego.getHome().getNombre();
+	            row[2] = juego.getAway().getNombre();
+	            row[3] = juego.getGanador();
+	            modeloTabla.addRow(row);
+	    	}
+	    }
+	}
+
     public void seleccionarJuego(PsimulacionJuego ventana) {
 		btnConsultar.setVisible(false);
 		setTitle("Seleccionar Juego");
+		loadFew();
 	    table.addMouseListener(new MouseAdapter() {
 	        @Override
 	        public void mouseClicked(MouseEvent e) {

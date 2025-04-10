@@ -149,6 +149,7 @@ public class Jugador implements Serializable{
 	    this.misLesiones = aux.getMisLesiones();
 	    this.juegos = aux.getJuegos();
 	    this.numero = aux.getNumero();
+	    this.estadisticas = aux.getEstadisticas();
 	}
 }
 

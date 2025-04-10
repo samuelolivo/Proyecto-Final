@@ -13,11 +13,16 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JMenu;
@@ -32,6 +37,7 @@ import java.awt.BorderLayout;
 import javax.swing.JTree;
 import java.awt.FlowLayout;
 import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class PrincipalVisual extends JFrame {
 
@@ -50,6 +56,10 @@ public class PrincipalVisual extends JFrame {
     private JMenu mnUsuario;
     private JMenuItem mntmRegUsuario;
     private JMenuItem mntmListadoUsuario;
+    private JMenuItem mntmRespaldo;
+    static Socket sfd = null;
+	static DataInputStream EntradaSocket;
+	static DataOutputStream SalidaSocket;
 
     /**
      * Launch the application.
@@ -157,7 +167,7 @@ public class PrincipalVisual extends JFrame {
         mntmListadoJuegos = new JMenuItem("Listado");
         mntmListadoJuegos.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		ListadoJuegos listado = new ListadoJuegos();
+        		ListadoJuegos listado = new ListadoJuegos(null);
         		listado.setVisible(true);
         		listado.setModal(true);
         	}
@@ -199,6 +209,50 @@ public class PrincipalVisual extends JFrame {
         });
         mnUsuario.add(mntmListadoUsuario);
         mnUsuario.add(mntmRegUsuario);
+        
+        mntmRespaldo = new JMenuItem("Respaldo");
+        mntmRespaldo.setIgnoreRepaint(true);
+        mntmRespaldo.setAlignmentX(Component.LEFT_ALIGNMENT);
+        mntmRespaldo.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		try
+			    {
+				      sfd = new Socket("127.0.0.1",9000);
+				      
+				      File directory = new File("rec/data");
+			            if (!directory.exists()) {
+			                directory.mkdirs();
+			            }
+			            
+				      DataInputStream aux = new DataInputStream(new FileInputStream(new File("rec/data/serie.dat")));
+				      SalidaSocket = new DataOutputStream((sfd.getOutputStream()));
+				      int unByte;
+				      try
+				      {
+				    	while ((unByte = aux.read()) != -1){
+				    		SalidaSocket.write(unByte);
+							SalidaSocket.flush();
+				    	}
+				      }
+				      catch (IOException ioe)
+				      {
+				        System.out.println("Error: "+ioe);
+				      }
+				    }
+				    catch (UnknownHostException uhe)
+				    {
+				      System.out.println("No se puede acceder al servidor.");
+				      System.exit(1);
+				    }
+				    catch (IOException ioe)
+				    {
+				      System.out.println("Comunicación rechazada.");
+				      System.exit(1);
+				    }
+				}
+        });
+        mntmRespaldo.setHorizontalAlignment(SwingConstants.LEFT);
+        menuBar.add(mntmRespaldo);
 
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

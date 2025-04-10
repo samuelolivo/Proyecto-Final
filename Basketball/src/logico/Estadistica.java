@@ -53,11 +53,8 @@ public abstract class Estadistica implements Serializable{
 	}
 
 	public int getPuntosTot() {
+		puntosTot = triples*3 + dobles*2 + normales;
 		return puntosTot;
-	}
-
-	public void setPuntosTot(int puntosTot) {
-		this.puntosTot = puntosTot;
 	}
 	
 	public abstract float efectividad();
