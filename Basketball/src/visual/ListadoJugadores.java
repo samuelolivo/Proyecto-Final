@@ -33,11 +33,11 @@ public class ListadoJugadores extends JDialog {
     private JPanel searchPanel;
     private JScrollPane scrollPane;
     private JButton consultarBtn;
+    private JPanel buttonPanel;
 
     public ListadoJugadores(Equipo aux) {
     	setModal(true);
         setResizable(false);
-        setAlwaysOnTop(true);
         setTitle("Listado de Jugadores");
         if (aux != null)
         	setTitle("Listado de Jugadores" + " | " + aux.getNombre());
@@ -129,7 +129,7 @@ public class ListadoJugadores extends JDialog {
         
         scrollPane = new JScrollPane(table);
 
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
          
         JLabel label = new JLabel("");
@@ -225,6 +225,7 @@ public class ListadoJugadores extends JDialog {
             	registrarBtn.setVisible(false);
             }
        }
+        
     }
 
     public static void loadAll(Equipo aux, String filtro) {
@@ -280,4 +281,12 @@ public class ListadoJugadores extends JDialog {
             new ListadoJugadores(null).setVisible(true);
         });
     }
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
+	}
 }

@@ -72,7 +72,6 @@ public class ConsultaLesion extends JDialog {
 	public ConsultaLesion(Jugador jug, Lesion aux) {
 		setResizable(false);
 		setModal(true);
-		setAlwaysOnTop(true);
 		today = LocalDate.now();
 		recuperacion = today;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

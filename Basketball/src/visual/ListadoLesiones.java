@@ -37,7 +37,6 @@ public class ListadoLesiones extends JDialog {
     public ListadoLesiones(Jugador aux) {
     	setModal(true);
         setResizable(false);
-        setAlwaysOnTop(true);
         setTitle("Listado de Lesiones");
         setSize(800, 500);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

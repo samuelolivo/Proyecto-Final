@@ -77,7 +77,6 @@ public class RegLesion extends JDialog {
 	public RegLesion(Jugador jug, Lesion aux) {
 		setResizable(false);
 		setModal(true);
-		setAlwaysOnTop(true);
 		today = LocalDate.now();
 		recuperacion = today;
 		

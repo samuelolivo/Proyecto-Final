@@ -36,7 +36,6 @@ public class ListadoEquipos extends JDialog {
     public ListadoEquipos() {
     	setModal(true);
         setResizable(false);
-        setAlwaysOnTop(true);
         setTitle("Listado de Equipos");
         setSize(800, 600);
         setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

@@ -22,12 +22,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class Login extends JDialog {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtUser;
+	private JPasswordField txtContra;
 	private JButton btnLogin;
 
 	/**
@@ -89,6 +90,7 @@ public class Login extends JDialog {
 	 * Create the frame.
 	 */
 	public Login() {
+		setAlwaysOnTop(true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 249, 217);
 		setLocationRelativeTo(null);
@@ -109,20 +111,20 @@ public class Login extends JDialog {
 		lblContrasea.setBounds(14, 63, 105, 14);
 		panel.add(lblContrasea);
 		
-		textField = new JTextField();
-		textField.setBounds(14, 31, 191, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtUser = new JTextField();
+		txtUser.setBounds(14, 31, 191, 20);
+		panel.add(txtUser);
+		txtUser.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(14, 81, 191, 20);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
+		txtContra = new JPasswordField();
+		txtContra.setBounds(14, 81, 191, 20);
+		panel.add(txtContra);
+		txtContra.setColumns(10);
 		
 		btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(SerieNacional.getInstance().confirmLogin(textField.getText(),textField_1.getText())){
+				if(SerieNacional.getInstance().confirmLogin(txtUser.getText(),txtContra.getText())){
 					PrincipalVisual frame = new PrincipalVisual();
 					dispose();
 					frame.setVisible(true);

@@ -19,7 +19,7 @@ public class Juego implements Serializable{
 	        this.away = away;
 	        this.marcadorCasa = 0;
 	        this.marcadorAway = 0;
-	        this.ganador = "-";
+	        this.ganador = null;
 	    }
 
 	    public String getId() {

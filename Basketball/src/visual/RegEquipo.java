@@ -86,7 +86,6 @@ public class RegEquipo extends JDialog {
 	public RegEquipo(Equipo aux) {
 		setResizable(false);
 		setModal(true);
-		setAlwaysOnTop(true);
 		setTitle("Registrar Equipo");
 		setBounds(100, 100, 504, 460);
 		getContentPane().setLayout(new BorderLayout());

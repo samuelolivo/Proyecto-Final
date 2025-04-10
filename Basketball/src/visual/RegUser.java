@@ -47,7 +47,6 @@ public class RegUser extends JDialog {
 		setTitle("Registrar usuario");
 		setResizable(false);
 		setModal(true);
-		setAlwaysOnTop(true);
 		setBounds(100, 100, 358, 196);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

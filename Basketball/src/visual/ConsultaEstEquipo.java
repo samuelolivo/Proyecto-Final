@@ -48,7 +48,6 @@ public class ConsultaEstEquipo extends JDialog {
      */
     public ConsultaEstEquipo(Equipo aux) {
     	setResizable(false);
-    	setAlwaysOnTop(true);
     	setModal(true);
         setTitle("Estad\u00EDstica |");
         setBounds(100, 100, 312, 351); 

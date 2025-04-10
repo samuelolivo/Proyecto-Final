@@ -90,7 +90,6 @@ public class RegJugador extends JDialog {
 	public RegJugador(Jugador aux) {
 		setResizable(false);
 		setModal(true);
-		setAlwaysOnTop(true);
 		if (aux == null)
 			setTitle("Registrar Jugador");
 		else

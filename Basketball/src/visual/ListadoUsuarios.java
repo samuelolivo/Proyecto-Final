@@ -61,9 +61,9 @@ public class ListadoUsuarios extends JDialog {
 
     
     public ListadoUsuarios() {
+    	setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setResizable(false);
         setModal(true);
-        setAlwaysOnTop(true);
         setTitle("Listado de Usuarios");
         setBounds(100, 100, 611, 324); 
         setLocationRelativeTo(null);

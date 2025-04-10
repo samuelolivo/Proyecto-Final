@@ -66,7 +66,6 @@ public class ConsultaJugador extends JDialog {
     public ConsultaJugador(Jugador aux) {
     	setResizable(false);
     	setModal(true);
-    	setAlwaysOnTop(true);
         setTitle("Consultar Jugador");
         setBounds(100, 100, 500, 510);
         getContentPane().setLayout(new BorderLayout());

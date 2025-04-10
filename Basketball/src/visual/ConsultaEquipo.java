@@ -65,7 +65,6 @@ public class ConsultaEquipo extends JDialog {
      */
     public ConsultaEquipo(Equipo aux) {
     	setResizable(false);
-    	setAlwaysOnTop(true);
     	setModal(true);
         setTitle("Consultar Equipo");
         setBounds(100, 100, 502, 461);

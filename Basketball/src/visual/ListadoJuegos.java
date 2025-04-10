@@ -20,6 +20,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import logico.Equipo;
 import logico.Juego;
 import logico.SerieNacional;
 
@@ -29,7 +30,7 @@ public class ListadoJuegos extends JDialog {
      */
     private static final long serialVersionUID = 1L;
     private final JPanel contentPanel = new JPanel();
-    private JTable tablaJuegos;
+    private JTable table;
     private static DefaultTableModel modeloTabla;
     private static Object[] row;
     private Juego juegoSeleccionado = null;
@@ -56,8 +57,8 @@ public class ListadoJuegos extends JDialog {
      * Create the dialog.
      */
     public ListadoJuegos() {
+    	setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         setResizable(false);
-        setAlwaysOnTop(true);
         setModal(true);
         setTitle("Listado de Juegos");
         setBounds(100, 100, 800, 500);  
@@ -103,20 +104,20 @@ public class ListadoJuegos extends JDialog {
             }
         };
          
-        tablaJuegos = new JTable(modeloTabla);
-        tablaJuegos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tablaJuegos.addMouseListener(new MouseAdapter() {
+        table = new JTable(modeloTabla);
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int index = tablaJuegos.getSelectedRow();
+                int index = table.getSelectedRow();
                 if(index != -1) {
-                    String juegoId = tablaJuegos.getValueAt(index, 0).toString();
+                    String juegoId = table.getValueAt(index, 0).toString();
                     juegoSeleccionado = SerieNacional.getInstance().searchJuegoById(juegoId, SerieNacional.getInstance().getMisJuegos());
                 }
             }
         });
         
-        JScrollPane scrollPane = new JScrollPane(tablaJuegos);
+        JScrollPane scrollPane = new JScrollPane(table);
         contentPanel.add(scrollPane, BorderLayout.CENTER);
          
         JPanel buttonPane = new JPanel();
@@ -128,12 +129,13 @@ public class ListadoJuegos extends JDialog {
         btnConsultar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (juegoSeleccionado != null) {
-                	// ConsultaJuego consultaJuego = new ConsultaJuego(juegoSeleccionado);
-                    // consultaJuego.setVisible(true);
-                	// consultaJuego.setModal(true);
+                	ConsultaJuego consultaJuego = new ConsultaJuego(juegoSeleccionado);
+                    consultaJuego.setVisible(true);
+                	consultaJuego.setModal(true);
                 }
             }
         });
+        btnConsultar.setVisible(false);
         
         btnGenerar = new JButton("Generar");
         btnGenerar.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -149,6 +151,7 @@ public class ListadoJuegos extends JDialog {
             	}
             }
         });
+        btnGenerar.setVisible(false);
         
         btnVolver = new JButton("Volver");
         btnVolver.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -162,6 +165,9 @@ public class ListadoJuegos extends JDialog {
         buttonPane.add(btnGenerar);
         buttonPane.add(btnVolver);
         
+        if (SerieNacional.getInstance().getMisEquipos().size() >= 5)
+        	btnGenerar.setVisible(true);
+
         loadAll(null);
     }
 
@@ -202,4 +208,22 @@ public class ListadoJuegos extends JDialog {
             }
         }
     }
+    
+    public void seleccionarJuego(PsimulacionJuego ventana) {
+		btnConsultar.setVisible(false);
+		setTitle("Seleccionar Juego");
+	    table.addMouseListener(new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	                int index = table.getSelectedRow();
+	                if(index != -1) {
+	                    String juegoId = table.getValueAt(index, 0).toString();
+	                    Juego juegoSeleccionado = SerieNacional.getInstance().searchJuegoById(juegoId, 
+	                                               SerieNacional.getInstance().getMisJuegos());
+	                    ventana.setJuegoSeleccionado(juegoSeleccionado);
+	                    dispose();
+	                }
+	        }
+	    });
+	}
 }

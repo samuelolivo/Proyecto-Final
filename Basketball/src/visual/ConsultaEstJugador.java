@@ -50,7 +50,6 @@ public class ConsultaEstJugador extends JDialog {
      */
     public ConsultaEstJugador(Jugador aux) {
     	setResizable(false);
-    	setAlwaysOnTop(true);
     	setModal(true);
         setTitle("Estadistica | ");
         setBounds(100, 100, 317, 409); 
