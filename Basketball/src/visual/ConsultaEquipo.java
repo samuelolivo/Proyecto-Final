@@ -129,7 +129,7 @@ public class ConsultaEquipo extends JDialog {
         
         // Agregar botones para ver listado de lesiones y estadísticas
         btnVerJugadores = new JButton("Ver Listado de Jugadores");
-        btnVerJugadores.setBounds(259, 141, 216, 105); // Posición y tamaño del botón
+        btnVerJugadores.setBounds(259, 141, 216, 70); // Posición y tamaño del botón
         btnVerJugadores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -141,7 +141,7 @@ public class ConsultaEquipo extends JDialog {
         contentPanel.add(btnVerJugadores);
 
         btnVerEstadisticas = new JButton("Ver Estadísticas");
-        btnVerEstadisticas.setBounds(259, 259, 216, 105); // Posición y tamaño del botón
+        btnVerEstadisticas.setBounds(259, 294, 216, 70); // Posición y tamaño del botón
         btnVerEstadisticas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -178,6 +178,17 @@ public class ConsultaEquipo extends JDialog {
         spnAnoFund.setColumns(10);
         spnAnoFund.setBounds(385, 40, 90, 22);
         contentPanel.add(spnAnoFund);
+        
+        JButton btnVerListadoDe = new JButton("Ver Listado de juego");
+        btnVerListadoDe.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		ListadoJuegos listado = new ListadoJuegos(aux.getId());
+        		listado.setVisible(true);
+        		listado.setModal(true);
+        	}
+        });
+        btnVerListadoDe.setBounds(259, 219, 216, 70);
+        contentPanel.add(btnVerListadoDe);
 
         // Buttons Pane
         JPanel buttonPane = new JPanel();

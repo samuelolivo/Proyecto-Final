@@ -46,6 +46,7 @@ public class ConsultaJugador extends JDialog {
     private JTextField spnPeso;
     private JTextField spnAltura;
     private JTextField spnNumero;
+    private JButton button;
 
     /**
      * Launch the application.
@@ -144,7 +145,7 @@ public class ConsultaJugador extends JDialog {
 
         // Agregar botones para ver listado de lesiones y estadísticas
         JButton btnVerLesiones = new JButton("Ver Listado de Lesiones");
-        btnVerLesiones.setBounds(253, 149, 216, 105); // Posición y tamaño del botón
+        btnVerLesiones.setBounds(253, 149, 216, 71); // Posición y tamaño del botón
         btnVerLesiones.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -156,7 +157,7 @@ public class ConsultaJugador extends JDialog {
         contentPanel.add(btnVerLesiones);
 
         JButton btnVerEstadisticas = new JButton("Ver Estadísticas");
-        btnVerEstadisticas.setBounds(253, 267, 216, 105); // Posición y tamaño del botón
+        btnVerEstadisticas.setBounds(253, 309, 216, 63); // Posición y tamaño del botón
         btnVerEstadisticas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -206,6 +207,17 @@ public class ConsultaJugador extends JDialog {
         spnNumero.setColumns(10);
         spnNumero.setBounds(394, 96, 75, 22);
         contentPanel.add(spnNumero);
+        
+        button = new JButton("Ver Listado de Juegos");
+        button.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		ListadoJuegos listado = new ListadoJuegos(aux.getId());
+        		listado.setVisible(true);
+        		listado.setModal(true);
+        	}
+        });
+        button.setBounds(253, 230, 216, 63);
+        contentPanel.add(button);
 
         // Buttons Pane
         JPanel buttonPane = new JPanel();
