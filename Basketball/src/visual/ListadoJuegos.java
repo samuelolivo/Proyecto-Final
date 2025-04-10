@@ -145,10 +145,10 @@ public class ListadoJuegos extends JDialog {
 	            
             	if(SerieNacional.getInstance().getMisEquipos().size() >= 5)
             	{
-            		SerieNacional.getInstance().generarJuegos();
-            		loadAll(filtro);
-            		btnConsultar.setVisible(true);
-            		btnGenerar.setVisible(false);
+	            		SerieNacional.getInstance().generarJuegos();
+	            		loadAll(filtro);
+	            		btnConsultar.setVisible(true);
+	            		btnGenerar.setVisible(false);
             	}
             }
         });
@@ -183,9 +183,17 @@ public class ListadoJuegos extends JDialog {
         buttonPane.add(btnVolver);
         
         if (SerieNacional.getInstance().getMisEquipos().size() >= 5)
+        {
         	btnGenerar.setVisible(true);
+        }
 
         loadAll(filtro);
+        
+        if (SerieNacional.getInstance().getMisJuegos().size() > 0)
+        {
+        	btnGenerar.setVisible(false);
+        	btnConsultar.setVisible(true);
+        }
     }
 
     public static void loadAll(String filtro) {

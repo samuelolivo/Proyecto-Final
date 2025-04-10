@@ -139,8 +139,8 @@ public class ConsultaJuego extends JDialog {
             return;
             
         txtId.setText(aux.getId());
-        txtEquipoCasa.setText(aux.getHome().getNombre());
-        txtEquipoVisita.setText(aux.getAway().getNombre());
+        txtEquipoCasa.setText(aux.getHome().getId() + " " + aux.getHome().getNombre());
+        txtEquipoVisita.setText(aux.getAway().getId() + " " + aux.getAway().getNombre());
         txtMarcadorCasa.setText(Integer.toString(aux.getMarcadorCasa()));
         txtMarcadorVisita.setText(Integer.toString(aux.getMarcadorAway()));
         txtGanador.setText(aux.getGanador());
