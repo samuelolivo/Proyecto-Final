@@ -97,7 +97,7 @@ public class ListadoJuegos extends JDialog {
         searchPanel.add(searchField, BorderLayout.CENTER);
         contentPanel.add(searchPanel, BorderLayout.NORTH);
         
-        String[] columnas = {"ID", "Equipo de Casa", "Equipo de Visita", "Marcador", "Ganador"};
+        String[] columnas = {"ID", "Equipo de Casa", "Equipo de Visita", "Ganador"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {

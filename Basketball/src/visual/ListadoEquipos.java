@@ -222,10 +222,7 @@ public class ListadoEquipos extends JDialog {
        }
         
         if(SerieNacional.getInstance().getMisJuegos().size() > 0)
-        {
         	registrarBtn.setVisible(false);
-        	modificarBtn.setVisible(false);
-        }
     }
 
     public static void loadAll(String filtro) {
