@@ -200,7 +200,7 @@ public class RegEquipo extends JDialog {
 		photoPanel.add(lblOHazClic);
 		{
 			spnAnoFund = new JSpinner();
-			spnAnoFund.setModel(new SpinnerNumberModel(new Integer(2000), null, null, new Integer(1)));
+			spnAnoFund.setModel(new SpinnerNumberModel(new Integer(2000), new Integer(0), null, new Integer(1)));
 			spnAnoFund.setBounds(386, 40, 90, 22);
 		}
 		
@@ -277,7 +277,7 @@ public class RegEquipo extends JDialog {
 							}
 							else
 							{
-								OperacionFallida operacion = new OperacionFallida("Rellene todos los campos.");
+								OperacionEspecifica operacion = new OperacionEspecifica("Rellene todos los campos.");
 							    operacion.setVisible(true);
 							    operacion.setModal(true);
 							}

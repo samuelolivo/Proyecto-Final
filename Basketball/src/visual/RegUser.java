@@ -113,14 +113,14 @@ public class RegUser extends JDialog {
 							}
 							else
 							{
-								OperacionFallida operacion = new OperacionFallida("Rellene todos los campos.");
+								OperacionEspecifica operacion = new OperacionEspecifica("Rellene todos los campos.");
 							    operacion.setVisible(true);
 							    operacion.setModal(true);
 							}
 						}
 						else
 						{
-							OperacionFallida operacion = new OperacionFallida("Nombre de usuario en uso");
+							OperacionEspecifica operacion = new OperacionEspecifica("Nombre de usuario en uso");
 						    operacion.setVisible(true);
 						    operacion.setModal(true);
 						}

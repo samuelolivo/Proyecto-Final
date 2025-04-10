@@ -71,7 +71,6 @@ public class PrincipalVisual extends JFrame {
      * Create the frame.
      */
     public PrincipalVisual() {
-    	setAlwaysOnTop(true);
     	
     	addWindowListener(new WindowAdapter() {
 			@Override

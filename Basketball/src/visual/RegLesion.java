@@ -118,7 +118,7 @@ public class RegLesion extends JDialog {
 		contentPanel.add(lblDasDeReposo);
 		
 		spnDiasReposo = new JSpinner();
-		spnDiasReposo.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spnDiasReposo.setModel(new SpinnerNumberModel(new Long(0), new Long(0), null, new Long(1)));
 		spnDiasReposo.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				recuperacion = today.plusDays((long) Integer.parseInt(spnDiasReposo.getValue().toString()));
@@ -213,7 +213,7 @@ public class RegLesion extends JDialog {
 							}
 							else
 							{
-								OperacionFallida operacion = new OperacionFallida("Rellene todos los campos.");
+								OperacionEspecifica operacion = new OperacionEspecifica("Rellene todos los campos.");
 							    operacion.setVisible(true);
 							    operacion.setModal(true);
 							}

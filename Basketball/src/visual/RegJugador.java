@@ -40,6 +40,7 @@ import logico.Jugador;
 import logico.Lesion;
 import logico.SerieNacional;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SpinnerNumberModel;
 
 public class RegJugador extends JDialog {
 
@@ -144,6 +145,7 @@ public class RegJugador extends JDialog {
 		}
 		{
 			spnPeso = new JSpinner();
+			spnPeso.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 			spnPeso.setBounds(83, 94, 66, 22);
 		}
 		
@@ -173,6 +175,7 @@ public class RegJugador extends JDialog {
 		}
 		{
 			spnAltura = new JSpinner();
+			spnAltura.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 			spnAltura.setBounds(249, 94, 66, 22);
 		}
 		{
@@ -277,6 +280,7 @@ public class RegJugador extends JDialog {
 		}
 		
 		spnNumero = new JSpinner();
+		spnNumero.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnNumero.setBounds(403, 94, 75, 22);
 		contentPanel.add(spnNumero);
 		{
@@ -334,7 +338,7 @@ public class RegJugador extends JDialog {
 							}
 							else
 							{
-								OperacionFallida operacion = new OperacionFallida("Rellene todos los campos.");
+								OperacionEspecifica operacion = new OperacionEspecifica("Rellene todos los campos.");
 							    operacion.setVisible(true);
 							    operacion.setModal(true);
 							}

@@ -9,7 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class OperacionFallida extends JDialog {
+public class OperacionEspecifica extends JDialog {
 
     /**
 	 * 
@@ -22,7 +22,7 @@ public class OperacionFallida extends JDialog {
      */
     public static void main(String[] args) {
         try {
-            OperacionFallida dialog = new OperacionFallida("");
+            OperacionEspecifica dialog = new OperacionEspecifica("");
             dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             dialog.setVisible(true);
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class OperacionFallida extends JDialog {
     /**
      * Create the dialog.
      */
-    public OperacionFallida(String str) {
+    public OperacionEspecifica(String str) {
     	setAlwaysOnTop(true);
     	setModal(true);
     	setResizable(false);

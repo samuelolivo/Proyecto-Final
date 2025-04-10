@@ -153,10 +153,44 @@ public class PsimulacionJuego extends JDialog {
 		InicioPausaBtn.setFont(new Font("Tahoma", Font.BOLD, 19));
 		InicioPausaBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (!TemporizadorEjecucion) {
-					iniciarTemporizador();
-				} else {
-					pausarTemporizador();
+				if (InicioPausaBtn.getText().equals("Finalizar"))
+				{	
+					
+					String ganador;
+					
+					juegoSeleccionado.setMarcadorCasa(puntajeEquipo1);
+					juegoSeleccionado.setMarcadorAway(puntajeEquipo2);
+					
+					if (juegoSeleccionado.getMarcadorCasa() > juegoSeleccionado.getMarcadorAway())
+					{
+						ganador = juegoSeleccionado.getHome().getId();
+					}
+					else
+					{
+						if (juegoSeleccionado.getMarcadorCasa() > juegoSeleccionado.getMarcadorCasa())
+						{
+							ganador = juegoSeleccionado.getAway().getId();
+						}
+						else
+						{
+							ganador = "Empate";
+						}
+					}
+					
+					juegoSeleccionado.setGanador(ganador);
+					SerieNacional.getInstance().modificarJuego(juegoSeleccionado);
+					OperacionEspecifica operacion = new OperacionEspecifica("Juego guardado.");
+					operacion.setVisible(true);
+					operacion.setModal(true);
+					dispose();
+				}
+				else
+				{
+					if (!TemporizadorEjecucion) {
+						iniciarTemporizador();
+					} else {
+						pausarTemporizador();
+					}
 				}
 			}
 		});
