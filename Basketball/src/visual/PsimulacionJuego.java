@@ -413,6 +413,9 @@ public class PsimulacionJuego extends JDialog {
 							puntajeEquipo2 += 3;
 					}
 					actualizarMarcadorLabel();
+					habilitarBotones(false);
+					tableE2.clearSelection();
+					tableE1.clearSelection();
 				}
 			}
 		});
@@ -427,6 +430,9 @@ public class PsimulacionJuego extends JDialog {
 				{				
 					jugadorSeleccionado.getEstadisticas().setTapones(jugadorSeleccionado.getEstadisticas().getTapones() + 1);
 					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+					habilitarBotones(false);
+					tableE2.clearSelection();
+					tableE1.clearSelection();
 				}
 			}
 		});
@@ -458,6 +464,9 @@ public class PsimulacionJuego extends JDialog {
 							puntajeEquipo2 += 2;
 					}
 					actualizarMarcadorLabel();
+					habilitarBotones(false);
+					tableE2.clearSelection();
+					tableE1.clearSelection();
 				}
 			}
 		});
@@ -472,6 +481,9 @@ public class PsimulacionJuego extends JDialog {
 				{				
 					jugadorSeleccionado.getEstadisticas().setAsistencias(jugadorSeleccionado.getEstadisticas().getAsistencias() + 1);
 					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+					habilitarBotones(false);
+					tableE2.clearSelection();
+					tableE1.clearSelection();
 				}
 			}
 		});
@@ -503,6 +515,9 @@ public class PsimulacionJuego extends JDialog {
 							puntajeEquipo2++;
 					}
 					actualizarMarcadorLabel();
+					habilitarBotones(false);
+					tableE2.clearSelection();
+					tableE1.clearSelection();
 				}
 			}
 		});
@@ -517,6 +532,9 @@ public class PsimulacionJuego extends JDialog {
 				{				
 					jugadorSeleccionado.getEstadisticas().setFaltas(jugadorSeleccionado.getEstadisticas().getFaltas() + 1);
 					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+					habilitarBotones(false);
+					tableE2.clearSelection();
+					tableE1.clearSelection();
 				}
 			}
 		});
@@ -531,6 +549,9 @@ public class PsimulacionJuego extends JDialog {
 				{				
 					jugadorSeleccionado.getEstadisticas().setRobos(jugadorSeleccionado.getEstadisticas().getRobos() + 1);
 					SerieNacional.getInstance().modificarJugador(jugadorSeleccionado);
+					habilitarBotones(false);
+					tableE2.clearSelection();
+					tableE1.clearSelection();
 				}
 			}
 		});
@@ -556,6 +577,7 @@ public class PsimulacionJuego extends JDialog {
 				
 				SerieNacional.getInstance().modificarJugador(jug);
 				cargarJugadores(equipo1, equipo2, true);
+				habilitarBotones(false);
 			}
 		});
 		btnLesion.setEnabled(false);
